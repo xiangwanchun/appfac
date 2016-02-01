@@ -4,8 +4,9 @@ import 'antd/style/index.less'
 /*import 'antd/style/themes/default/custom.less'*/
 import '../css/base.less'
 import '../css/index.less'
-import { Row, Col } from 'antd'
+import { Row, Col} from 'antd'
 import { Menu, Icon } from 'antd';
+import MainNav from './components/mainNav';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -18,44 +19,12 @@ const App = React.createClass({
     };
   },
   handleClick(e) {
-    console.log('click ', e.key);
-    this.setState({
-      current: e.key
-    });
+   
   },
   render() {
     return (
       <div>
-        <header id="topHeader">
-          <nav  className="mainNav">         
-            <Row>
-                <Col span="4">
-                    <div id="mainlogo">
-                        
-                    </div>
-                </Col>
-                <Col span="20">
-                    <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} theme={this.state.theme} mode="horizontal">
-                        <Menu.Item key="index">
-                          首页
-                        </Menu.Item>
-                        <Menu.Item key="clientManagement">
-                          客服端管理
-                        </Menu.Item>
-                        <Menu.Item key="content">
-                          内容
-                        </Menu.Item>
-                        <Menu.Item key="interactive">
-                          互动
-                        </Menu.Item>
-                        <Menu.Item key="statistics">
-                          统计
-                        </Menu.Item>         
-                  </Menu>
-                </Col>
-            </Row>
-          </nav>
-        </header>
+        <MainNav></MainNav>
         <div className="appcenter mt_30">
           <Row>
             <Col span="4">
@@ -74,11 +43,11 @@ const App = React.createClass({
                       <h3>下载</h3>
                       <img src="images/login-title.png" title="新媒体头条"/>
                     </section>
-                  </div>
+                </div>
             </Col>
             <Col span="20">
                 <div id="mainCon">
-2222
+
                 </div>
             </Col>
           </Row>
