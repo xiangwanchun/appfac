@@ -7,10 +7,7 @@ import '../css/index.less'
 import { Row, Col} from 'antd'
 import { Menu, Icon,Button} from 'antd'
 import MainNav from './components/mainNav'
-import ActivationVolume from './components/index/activationVolume'
-import UpdataTip from './components/index/updataTip'
-import IndexLeft from './components/index/indexLeft'
-import QuickEntry from './components/index/QuickEntry'
+import LeftNav from './components/LeftNav'
 
 import {Tabs} from 'antd';
 const TabPane = Tabs.TabPane;
@@ -18,7 +15,7 @@ const SubMenu = Menu.SubMenu;
 
 const MenuItemGroup = Menu.ItemGroup;
 
-const App = React.createClass({
+const App1 = React.createClass({
 
   getInitialState() {
     return {
@@ -34,14 +31,12 @@ const App = React.createClass({
         <MainNav></MainNav>
         <div className="appcenter mt_30">
           <Row>
-            <Col span="5">
-                <IndexLeft></IndexLeft>
+            <Col span="4">
+                <LeftNav />
             </Col>
-            <Col span="19">
+            <Col span="20">
                 <div id="mainCon">
-                    <UpdataTip></UpdataTip>
-                    <ActivationVolume></ActivationVolume>
-                    <QuickEntry></QuickEntry>   
+                    
                 </div>
             </Col>
           </Row>
@@ -52,4 +47,4 @@ const App = React.createClass({
 
 });
 
-export default  App;
+export default  App1;

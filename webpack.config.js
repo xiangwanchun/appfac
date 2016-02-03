@@ -5,8 +5,13 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var entry = {};
 entry['app'] = [
       'webpack-hot-middleware/client',
-      './index.js'
+      './index.js',
+      './configuration.js'
       ]
+entry['configuration'] = [
+      'webpack-hot-middleware/client',
+      './configuration.js'
+     ]
 
 module.exports = {
   // devtool: 'source-map',
