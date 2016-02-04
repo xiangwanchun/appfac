@@ -11,7 +11,7 @@ require('es6-promise');
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App1 from './public/js/configuration'
+import App1 from './public/js/clientManagement'
 
 ReactDOM.render(
 	<App1/>

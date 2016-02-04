@@ -5,12 +5,11 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var entry = {};
 entry['app'] = [
       'webpack-hot-middleware/client',
-      './index.js',
-      './configuration.js'
+      './index.js'
       ]
-entry['configuration'] = [
+entry['clientManagement'] = [
       'webpack-hot-middleware/client',
-      './configuration.js'
+      './clientManagement.js'
      ]
 
 module.exports = {

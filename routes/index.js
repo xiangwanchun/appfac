@@ -10,8 +10,8 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'login' });
 });
 
-router.get('/configuration', function(req, res, next) {
-  res.render('configuration', { title: '配置管理' });
+router.get('/clientManagement', function(req, res, next) {
+  res.render('clientManagement', { title: '配置管理' });
 });
 
 router.get('/wechat', function(req, res, next) {

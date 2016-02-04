@@ -33,7 +33,7 @@ const App1 = React.createClass({
         <div className="appcenter mt_30">
           <Row>
             <Col span="4">
-                <LeftNav />
+                <LeftNav link="{..demo}"/>
             </Col>
             <Col span="20">
                 <div id="mainCon">
