@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import 'antd/style/index.less'
-import '../../../css/base.less'
-import '../../../css/index.less'
+import '../../css/base.less'
+import '../../css/index.less'
 import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
