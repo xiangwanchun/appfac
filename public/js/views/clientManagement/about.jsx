@@ -8,13 +8,7 @@ const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-
-
-
-
-
-
-const VersionHistory = React.createClass({
+const About = React.createClass({
   getInitialState() {
     return {
       current: 'base'
@@ -40,4 +34,4 @@ const VersionHistory = React.createClass({
   }
 });
 
-export default  VersionHistory;
+export default  About;

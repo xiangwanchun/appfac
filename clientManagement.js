@@ -13,6 +13,6 @@ import ReactDOM from 'react-dom'
 
 import App1 from './public/js/clientManagement'
 
-ReactDOM.render(
+/*ReactDOM.render(
 	<App1/>
-, document.getElementById('root') );
+, document.getElementById('root') );*/
