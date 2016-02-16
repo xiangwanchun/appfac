@@ -7,10 +7,10 @@ entry['app'] = [
       'webpack-hot-middleware/client',
       './index.js'
       ]
-entry['clientManagement'] = [
+/*entry['clientManagement'] = [
       'webpack-hot-middleware/client',
       './clientManagement.js'
-     ]
+     ]*/
 
 module.exports = {
   // devtool: 'source-map',

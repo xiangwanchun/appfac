@@ -11,9 +11,8 @@ require('es6-promise');
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './public/js/app'
-
+import  MainRouter from './public/js/app'
 
 ReactDOM.render(
-	<App/>
+	<MainRouter/>
 , document.getElementById('root') );

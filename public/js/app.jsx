@@ -1,55 +1,93 @@
 import React, { Component } from 'react'
+import { render } from 'react-dom'
 
 import 'antd/style/index.less'
 /*import 'antd/style/themes/default/custom.less'*/
 import '../css/base.less'
-import '../css/index.less'
+import '../css/clientManagement.less'
 import { Row, Col} from 'antd'
-import { Menu, Icon,Button} from 'antd'
+import { Menu, Icon , Button } from 'antd'
 import MainNav from './components/mainNav'
-import ActivationVolume from './components/index/activationVolume'
-import UpdataTip from './components/index/updataTip'
-import IndexLeft from './components/index/indexLeft'
-import QuickEntry from './components/index/QuickEntry'
+import LeftNav from './components/leftNav'
+import VersionHistory from './views/clientManagement/VersionHistory'
+import { Router, Route, Link, browserHistory,RouteHandler,IndexRoute} from 'react-router'
+import Index from './index';
+import About from './views/clientManagement/about';
+import clientManagement from './views/clientManagement/index';
 
-import {Tabs} from 'antd';
-const TabPane = Tabs.TabPane;
-const SubMenu = Menu.SubMenu;
+// etc.
+const Main = React.createClass({
+   render(){
+      return (
+        <div className="main">
+            <MainNav></MainNav>
+             {this.props.children}
+        </div>
+      )
+  }
+})
 
-const MenuItemGroup = Menu.ItemGroup;
+const MainRouter = React.createClass({
 
-const App = React.createClass({
-
-  getInitialState() {
-    return {
-      current: 'index'
-    };
-  },
-  handleClick(e) {
-   
-  },
   render() {
     return (
       <div>
-        <MainNav></MainNav>
-        <div className="appcenter mt_30">
-          <Row>
-            <Col span="5">
-                <IndexLeft></IndexLeft>
-            </Col>
-            <Col span="19">
-                <div id="mainCon">
-                    <UpdataTip></UpdataTip>
-                    <ActivationVolume></ActivationVolume>
-                    <QuickEntry></QuickEntry>   
-                </div>
-            </Col>
-          </Row>
-        </div>
+         <Router history={browserHistory}>
+            <Route path="/" component={Main}>
+              <IndexRoute name="index" component={Index}/>
+              <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
+                  <Route path=":name" component={clientManagement}/>
+              </Route>          
+            </Route>
+        </Router>
       </div>
-    );
+    )
   }
+})
 
-});
+  /*
+  <Route path="/base" name="base" component={clientManagementBase}/>
+  <Route path="/style" name="style" component={clientManagementStyle}/>
+  <Route path="/menu" name="menu" component={clientManagementMenu}/>*/
 
-export default  App;
+/*<Menu onClick={this.handleClick}
+        style={{ width: 170 ,marginTop : 30,paddingBottom:9999999999,marginBottom:-9999999999,overflow:'hidden'}}
+        selectedKeys={[this.state.current]}
+        mode="inline">
+        <Menu.Item key="base">
+          <Link to="clientManagement/base">基础配置</Link>
+        </Menu.Item>
+        <Menu.Item key="style">
+          <Link to="clientManagement/style">风格配置</Link>
+        </Menu.Item>
+        <Menu.Item key="menu">
+          <Link to="clientManagement/menu">菜单配置</Link>
+        </Menu.Item>
+        <Menu.Item key="about">
+          <Link to="clientManagement/about">关于</Link>
+        </Menu.Item>
+        <Menu.Item key="version">
+          <Link to="clientManagement/version">版本管理</Link>
+        </Menu.Item>
+      </Menu>*/
+
+  /*<Route path="content" name="content" component={Content}/>
+            <Route path="interactive" name="interactive" component={interactive}/>
+            <Route path="statistics" name="statistics" component={statistics}/>*/
+
+// Declarative route configuration (could also load this config lazily
+// instead, all you really need is a single root route, you don't need to
+// colocate the entire config).
+/*render((
+    <Router history={browserHistory}>
+        <Route path="/" component={Main}>
+          <Route path="index" name="index" component={App}/>
+          <Route path="clientManagement" name="clientManagement" component={ClientManagement}/>
+          <Route path="content" name="content" component={Content}/></Route>
+          <Route path="interactive" name="interactive" component={Content}/>
+          <Route path="statistics" name="statistics" component={Content}/>
+        </Route>
+    </Router>
+), document.getElementById('root'))*/
+
+export default  MainRouter;

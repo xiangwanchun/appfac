@@ -60,10 +60,12 @@ const VersionHistory = React.createClass({
     };
   },
   handleClick(e) {
-
- clientManagement
+     
+      clientManagement
   },
   render() {
+    console.log('111111111111111111111');
+     console.log(this.props.params);
     return (
       <div className="contentBlocks mt_30">
           <Tabs  defaultActiveKey="1" onChange={this.callback}>

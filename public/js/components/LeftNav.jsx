@@ -4,6 +4,7 @@ import 'antd/style/index.less'
 import '../../css/base.less'
 import '../../css/index.less'
 import { Menu, Icon } from 'antd';
+import { Router, Route, Link, browserHistory,RouteHandler} from 'react-router'
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -25,21 +26,23 @@ const LeftNav = React.createClass({
         style={{ width: 170 ,marginTop : 30,paddingBottom:9999999999,marginBottom:-9999999999,overflow:'hidden'}}
         selectedKeys={[this.state.current]}
         mode="inline">
+
         <Menu.Item key="base">
-          基础配置
+          <Link to="/clientmanagement/base">基础配置</Link>
         </Menu.Item>
         <Menu.Item key="style">
-          风格配置
+          <Link to="/clientmanagement/style">风格配置</Link>
         </Menu.Item>
         <Menu.Item key="menu">
-          菜单配置
+          <Link to="/clientmanagement/menu">菜单配置</Link>
         </Menu.Item>
         <Menu.Item key="about">
-          关于
+          <Link to="/clientmanagement/about">关于</Link>
         </Menu.Item>
         <Menu.Item key="version">
-          版本管理
+          <Link to="/clientmanagement/version">版本管理</Link>
         </Menu.Item>
+
       </Menu>
     );
   }

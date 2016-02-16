@@ -5,6 +5,7 @@ import '../../css/base.less'
 import '../../css/index.less'
 import { Row, Col } from 'antd'
 import { Menu, Icon } from 'antd';
+import { Router, Route, Link, browserHistory,RouteHandler} from 'react-router'
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -33,21 +34,21 @@ const MainNav = React.createClass({
                     </div>
                 </Col>
                 <Col span="20">
-                    <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} theme={this.state.theme} mode="horizontal">
-                        <Menu.Item key="index">
-                          首页
+                  <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} theme={this.state.theme} mode="horizontal">
+                        <Menu.Item key="index">                          
+                          <Link to="/">首页</Link>
                         </Menu.Item>
                         <Menu.Item key="clientManagement">
-                          客服端管理
+                          <Link to="clientManagement">客服端管理</Link>
                         </Menu.Item>
                         <Menu.Item key="content">
-                          内容
+                          <Link to="content">内容</Link>
                         </Menu.Item>
                         <Menu.Item key="interactive">
-                          互动
+                          <Link to="interactive">互动</Link>
                         </Menu.Item>
                         <Menu.Item key="statistics">
-                          统计
+                          <Link to="statistics">统计</Link>
                         </Menu.Item>         
                   </Menu>
                 </Col>
