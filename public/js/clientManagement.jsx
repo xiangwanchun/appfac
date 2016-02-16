@@ -19,7 +19,7 @@ const App = React.createClass({
         <div className="main">
           <nav>
             <Link to="about">图书</Link>
-            <Link to="user1">电影</Link>
+            <Link to="users/1">电影</Link>
           </nav>
              {this.props.children}
         </div>
