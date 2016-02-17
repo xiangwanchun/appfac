@@ -8,7 +8,7 @@ const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-const Style = React.createClass({
+const ClientManagementMenu = React.createClass({
   getInitialState() {
     return {
       current: 'base'
@@ -23,22 +23,7 @@ const Style = React.createClass({
 
       <div className="contentBlocks mt_30">
           <Tabs  defaultActiveKey="1" onChange={this.callback}>
-              <TabPane tab="开机画面"  key="1">
-                 
-              </TabPane>
-              <TabPane tab="引导图组"  key="2">
-                 
-              </TabPane>
-              <TabPane tab="总体样式"  key="3">
-                 
-              </TabPane>
-              <TabPane tab="列表样式"  key="4">
-                 
-              </TabPane>
-              <TabPane tab="模型配置"  key="5">
-                 
-              </TabPane>
-              <TabPane tab="内容查看页"  key="6">
+              <TabPane tab="菜单配置"  key="1">
                  
               </TabPane>
           </Tabs>
@@ -47,4 +32,4 @@ const Style = React.createClass({
   }
 });
 
-export default  Style;
+export default  ClientManagementMenu;

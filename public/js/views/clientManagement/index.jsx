@@ -10,7 +10,10 @@ import LeftNav from '../../components/leftNav'
 import VersionHistory from './VersionHistory'
 import About from './about'
 import { Router, Route, Link, browserHistory,RouteHandler} from 'react-router'
-import Index from './index';
+import Index from './index'
+import Base from './base'
+import Style from './style'
+import ClientManagementMenu from './clientManagementMenu';
 
 // etc.
 const clientManagement = React.createClass({
@@ -35,9 +38,9 @@ const clientManagement = React.createClass({
                         }else if( name == 'style'){
                             return <Style/>
                         }else if( name == 'menu'){
-                            return <Menu/>
+                            return <ClientManagementMenu/>
                         }else{
-                          return <VersionHistory/>
+                          return <Base/>
                         }
                     })(this)}
                 </div>
