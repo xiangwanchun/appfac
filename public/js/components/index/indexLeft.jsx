@@ -14,7 +14,7 @@ const IndexLeft = React.createClass({
   render() {
     return (
         <div id="mainleft">
-          <section className="ml_headlines">
+          <section className="ml_headlines mt_30">
             <h2 className="t_center">新媒体头条</h2>
             <img src="images/ml_headlines.png" title="新媒体头条"/>
             <p>上线时间:<span>2015-1-29</span></p>
