@@ -14,6 +14,7 @@ import { Router, Route, Link, browserHistory,RouteHandler,IndexRoute} from 'reac
 import Index from './index';
 import About from './views/clientManagement/about';
 import clientManagement from './views/clientManagement/index';
+import Interactive from './views/interactive/index';
 
 // etc.
 const Main = React.createClass({
@@ -28,7 +29,6 @@ const Main = React.createClass({
 })
 
 const MainRouter = React.createClass({
-
   render() {
     return (
       <div>
@@ -37,7 +37,10 @@ const MainRouter = React.createClass({
               <IndexRoute name="index" component={Index}/>
               <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
                   <Route path=":name" component={clientManagement}/>
-              </Route>          
+              </Route>
+              <Route path="interactive" name="interactive" component={Interactive}>
+                  <Route path=":name" component={Interactive}/>
+              </Route>       
             </Route>
         </Router>
       </div>
@@ -72,7 +75,7 @@ const MainRouter = React.createClass({
       </Menu>*/
 
   /*<Route path="content" name="content" component={Content}/>
-            <Route path="interactive" name="interactive" component={interactive}/>
+            
             <Route path="statistics" name="statistics" component={statistics}/>*/
 
 // Declarative route configuration (could also load this config lazily

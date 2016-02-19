@@ -52,7 +52,7 @@ h4{
 }
 
 .contentBlocks{
-	width:950px;
+	width:1000px;
 	border-color:@border-color-base;
 	border-width:1px;
 	border-style:solid;
@@ -146,4 +146,88 @@ ul.block_nav{
 	color:#666;
 	font-size:12px;
 	padding-left:5px;
+}
+
+
+//缩短表单下边距
+.shorten-form-item {
+	position: relative;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    height: auto;
+  font-size: @font-size-base;
+  margin-bottom:15px;
+  color: #666;
+
+  .shorten-form-item-with-help {
+    margin-bottom: @form-item-margin-bottom - @font-size-base * @line-height-base;
+  }
+
+  > label {
+    color: @label-color;
+    text-align: right;
+    vertical-align: middle;
+
+    &:lang(en) {
+      padding-right: 8px;
+    }
+  }
+  &:after{
+  	content:'';
+  	clear: both;
+  	display: table;
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+  }
+}
+
+.ant-form-horizontal {
+
+  .shorten-form-item-compact {
+    label,
+    .shorten-form-text,
+    .shorten-form-split {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .shorten-radio-inline,
+  .shorten-checkbox-inline {
+    vertical-align: top;
+  }
+}
+
+//表格中按钮
+.tableBtn{
+	a{
+		margin-right:5px;
+		
+	}
+	i{
+		font-size:20px;
+		line-height:20px;
+		color:@primary-color;
+	}
+	i.anticon-apple{
+		margin-top:-2px;
+	}
+}
+
+//表格中按钮
+.IconBtn{
+	a{
+		margin-right:5px;
+		
+	}
+	i{
+		font-size:20px;
+		line-height:20px;
+		vertical-align: middle;
+	}
+	i.anticon-apple{
+		margin-top:-2px;
+	}
 }

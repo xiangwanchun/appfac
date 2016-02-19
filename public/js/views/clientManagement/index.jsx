@@ -21,10 +21,10 @@ const clientManagement = React.createClass({
       return (
         <div className="appcenter mt_30">
           <Row>
-            <Col span="5">
+            <Col span="4">
                 <LeftNav/>
             </Col>
-            <Col span="19">
+            <Col span="20">
                 <div id="mainCon">
                     {(function (obj) {
                       var name = obj.props.params ? obj.props.params.name : '';

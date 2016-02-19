@@ -63,7 +63,9 @@ let Base = React.createClass({
                           <FormItem
                             label="APP图标："
                             labelCol={{ span: 4}}
-                            wrapperCol={{ span: 18 }}>
+                            wrapperCol={{ span: 18 }}
+                            prefixCls="shorten-form"
+                            >
                             <div className="AppInformation_upload_l">
                               <img src="images/ml_headlines.png"/>
                             </div>
@@ -85,15 +87,19 @@ let Base = React.createClass({
                           <FormItem
                             label="IOS上架配置："
                             labelCol={{ span: 4 }}
-                            wrapperCol={{ span: 20 }}>
+                            wrapperCol={{ span: 20 }}
+                            prefixCls="shorten-form"
+                            >
                             <p className="ant-form-text" id="userName" name="userName">若未设置，则无法在APPSTORE上架。 <Tooltip placement="top" title={text}>
-                                <a href="#aaa" className="primary-color">说明</a>
+                                <a href="javascript:;" className="primary-color">说明</a>
                             </Tooltip></p>
                           </FormItem>
                           <FormItem
                             label="IOS上架证书上传："
                             labelCol={{ span: 5}}
-                            wrapperCol={{ span: 18 }}>
+                            wrapperCol={{ span: 18 }}
+                            prefixCls="shorten-form"
+                            >
                               <Row>
                                 <Col span="5">
                                     <Upload name="ios_1" action="/upload.do" listType="picture1" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
@@ -116,7 +122,9 @@ let Base = React.createClass({
                           <FormItem
                             label="IOS上架证书上传："
                             labelCol={{ span: 5}}
-                            wrapperCol={{ span: 18 }}>
+                            wrapperCol={{ span: 18 }} 
+                            prefixCls="shorten-form"
+                            >
                               <Row>
                                 <Col span="5">
                                     <Upload name="ios_1" action="/upload.do" listType="picture2" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
