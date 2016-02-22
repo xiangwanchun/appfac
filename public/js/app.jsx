@@ -15,6 +15,7 @@ import Index from './index';
 import About from './views/clientManagement/about';
 import clientManagement from './views/clientManagement/index';
 import Interactive from './views/interactive/index';
+import Content from './views/content/index';
 
 // etc.
 const Main = React.createClass({
@@ -40,7 +41,10 @@ const MainRouter = React.createClass({
               </Route>
               <Route path="interactive" name="interactive" component={Interactive}>
                   <Route path=":name" component={Interactive}/>
-              </Route>       
+              </Route>
+              <Route path="content" name="content" component={Content}>
+                  <Route path=":name" component={Content}/>
+              </Route>          
             </Route>
         </Router>
       </div>

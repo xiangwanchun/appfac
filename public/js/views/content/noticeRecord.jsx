@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/push.less'
-import {Table,Button, Row, Col, Icon,DatePicker,Select} from 'antd';
-const RangePicker = DatePicker.RangePicker;
+import {Table,Button, Row, Col, Icon} from 'antd';
 const columns = [{
   title: '推送内容',
   dataIndex: 'name',
@@ -27,6 +26,8 @@ const columns = [{
   render(text, record) {
     return (
       <span>
+        <a href="javascript:;">编辑</a>
+        <span className="ant-divider"></span>
         <a href="javascript:;">删除</a>
       </span>
     );
@@ -57,19 +58,13 @@ const data = [{
 }];
 
 
-let Feedback = React.createClass({
+let NoticeRecord = React.createClass({
 
   handleSelectChange(value) {
     console.log('selected ' + value);
   },
   handleUpload(){
     console.log('111111');
-  },
-  handleChange(val){
-    console.log(val);
-  },
-  dataOnChange(value) {
-    console.log('From: ', value[0], ', to: ', value[1]);
   },
   normFile(e) {
       if (Array.isArray(e)) {
@@ -80,34 +75,15 @@ let Feedback = React.createClass({
 
   render() {
     return (
-      <div className="contentBlocks mt_30">
-        <Row style={{ marginTop: 24 }}>
-          <Col span="6">
-            <RangePicker style={{ width:220}} onChange={this.dataOnChange} />
-          </Col>
-          <Col span="3">
-            <Select defaultValue="lucy" style={{ width: 100 }} onChange={this.handleChange} size="large">
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>Disabled</Option>
-              <Option value="yiminghe">yiminghe</Option>
-            </Select>
-          </Col>
-          <Col span="3">
-            <Select defaultValue="lucy" style={{ width: 100 }} onChange={this.handleChange} size="large">
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>Disabled</Option>
-              <Option value="yiminghe">yiminghe</Option>
-            </Select>
-          </Col>
-        </Row>
-          <Table columns={columns} dataSource={data} className="mt_20"/>
+      <div className="mt_30">
+          <Table columns={columns} dataSource={data} />
       </div>
 
     );
   }
 });
 
-export default  Feedback;
+export default  NoticeRecord;
+
+
 
