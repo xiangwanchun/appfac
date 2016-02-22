@@ -11,8 +11,9 @@ const MenuItemGroup = Menu.ItemGroup;
 const InteractiveLeftNav = React.createClass({
   getInitialState() {
     return {
-      current: 'base'
+      current:'push'
     };
+
   },
   handleClick(e) {
     console.log('click ', e);
@@ -24,16 +25,16 @@ const InteractiveLeftNav = React.createClass({
     return (
       <Menu onClick={this.handleClick}
         style={{ width: 170 ,marginTop : 30,paddingBottom:9999999999,marginBottom:-9999999999,overflow:'hidden'}}
-        selectedKeys={[this.state.current]}
+        selectedKeys={[this.props.cur || this.state.current]}
         mode="inline">
 
-        <Menu.Item key="base">
+        <Menu.Item key="push">
           <Link to="/Interactive/push">推送</Link>
         </Menu.Item>
-        <Menu.Item key="style">
+        <Menu.Item key="notice">
           <Link to="/Interactive/notice">公告</Link>
         </Menu.Item>
-        <Menu.Item key="menu">
+        <Menu.Item key="feedback">
           <Link to="/Interactive/feedback">意见反馈</Link>
         </Menu.Item>
       </Menu>

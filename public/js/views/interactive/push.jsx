@@ -5,6 +5,7 @@ import '../../../css/base.less'
 import '../../../css/clientManagement.less'
 import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs} from 'antd';
 import AddPush from './addPush'
+import PushRecord from './PushRecord'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
@@ -33,7 +34,7 @@ let Push = React.createClass({
                 <AddPush/>
               </TabPane>
               <TabPane tab="推送记录"  key="2">
-                 
+                <PushRecord/>
               </TabPane>
           </Tabs>
       </div>

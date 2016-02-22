@@ -58,7 +58,7 @@ const data = [{
 }];
 
 
-let Feedback = React.createClass({
+let NoticeRecord = React.createClass({
 
   handleSelectChange(value) {
     console.log('selected ' + value);
@@ -75,12 +75,15 @@ let Feedback = React.createClass({
 
   render() {
     return (
-      <div className="contentBlocks">
-          <Table columns={columns} dataSource={data} className="mt_30"/>
+      <div className="mt_30">
+          <Table columns={columns} dataSource={data} />
       </div>
 
     );
   }
 });
 
-export default  Feedback;
+export default  NoticeRecord;
+
+
+

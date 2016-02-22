@@ -26,9 +26,9 @@ const columns = [{
   render(text, record) {
     return (
       <span>
-        <a href="javascript:;">编辑</a>
+        <a href="javascript:;">操作一</a>
         <span className="ant-divider"></span>
-        <a href="javascript:;">删除</a>
+        <a href="javascript:;">操作二</a>
       </span>
     );
   }
@@ -58,7 +58,7 @@ const data = [{
 }];
 
 
-let Feedback = React.createClass({
+let PushRecord = React.createClass({
 
   handleSelectChange(value) {
     console.log('selected ' + value);
@@ -75,12 +75,15 @@ let Feedback = React.createClass({
 
   render() {
     return (
-      <div className="contentBlocks">
-          <Table columns={columns} dataSource={data} className="mt_30"/>
+      <div className="mt_30">
+          <Table columns={columns} dataSource={data} />
       </div>
 
     );
   }
 });
 
-export default  Feedback;
+export default  PushRecord;
+
+
+

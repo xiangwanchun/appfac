@@ -14,16 +14,17 @@ import Feedback from './feedback'
 // etc.
 const Interactive = React.createClass({
    render(){
+      var name = this.props.params ? this.props.params.name : '';
       return (
         <div className="appcenter mt_30">
           <Row>
             <Col span="4">
-                <InteractiveLeftNav/>
+                <InteractiveLeftNav cur={name}/>
             </Col>
             <Col span="20">
                 <div id="mainCon">
                     {(function (obj) {
-                      var name = obj.props.params ? obj.props.params.name : '';
+                      
                         if( name == 'notice' ){
                           return <Notice/>
                         }else if( name == 'feedback'){
