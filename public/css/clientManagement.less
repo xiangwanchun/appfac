@@ -82,6 +82,92 @@
 
 /* 开机画面 */
 #bootScreenmain{
-	width:50%;
+	width:70%;
 	margin:0 auto;
+	.bootScreen_l{
+		height:460px;
+		background:url(../images/phone_1.png) no-repeat;
+	}
+	.bootScreen_r{
+		text-align:center;
+		p{
+			text-align:center;
+			font-size:12px;
+			label{font-size:14px}
+		}
+
+	}
 }
+
+.guide_l{
+	height:500px;
+	background:url(../images/phone_1.png) no-repeat center center;
+	position:relative;
+	border:1px solid transparent;
+	.carouselWrap{
+		height:355px;
+		width:200px;
+		margin:75px auto 0 auto;
+	}
+	.CarouselList{
+		background:url(../images/phone_1.png) no-repeat center center;	
+		background-size:100% 100%; 
+		height:355px;
+		width:200px;
+	}
+	.slick-dots{
+		bottom:50px;
+	}
+}
+.guide_r{
+	line-height:35px;
+	.guide_r_con{
+		background:#eee;
+		height:400px;
+		width:460px;
+		padding:0px 0 15px 16px;
+	}
+	.guide_r_list{
+		float:left;
+		margin-right:18px;
+		height:168px;
+		margin-top:15px;
+		img{
+			width:100%;
+			height:100%;
+		}
+	}
+	.guide_r_list.last_list{																																		
+		border:2px solid @primary-color;
+		font-size:20px;
+		line-height:20px;
+		color:@primary-color;
+		text-align:center;
+		line-height:168px;
+		cursor:pointer;
+		i{
+			font-size:30px;
+			font-weight:bold;
+		}
+		.ant-upload{
+			width:100%;
+			height:100%;
+		}
+	}
+}
+
+
+
+/*  焦点图 */
+.focusBox { position: relative; width:800px; height:280px; overflow: hidden; }
+.focusBox .pic img { width:800px; height:280px; display: block; }
+.focusBox .hd { overflow:hidden; zoom:1; position:absolute; bottom:5px; right:10px; z-index:3}
+.focusBox .hd li{float:left; line-height:15px; text-align:center; font-size:12px; width:25px; height:10px; cursor:pointer; overflow:hidden; background:#919191; margin-left:4px; filter:alpha(opacity=80); opacity:.8; -webkit-transition:All .5s ease;-moz-transition:All .5s ease;-o-transition:All .5s ease }
+.focusBox .hd .on{ background:#fff; filter:alpha(opacity=100);opacity:1;   }
+
+.focusBox .prev,
+.focusBox .next { width:45px; height:99px; position:absolute; top:91px; z-index:3; filter:alpha(opacity=20); -moz-opacity:.2; opacity:.2; -webkit-transition:All .5s ease;-moz-transition:All .5s ease;-o-transition:All .5s ease}
+.focusBox .prev { /* background-image:url(images/index.png); */ background-position:-112px 0; left:0 }
+.focusBox .next { /* background-image:url(images/index.png); */ background-position:-158px 0; right:0 }
+.focusBox .prev:hover,
+.focusBox .next:hover { filter:alpha(opacity=60); -moz-opacity:.6; opacity:.6 }

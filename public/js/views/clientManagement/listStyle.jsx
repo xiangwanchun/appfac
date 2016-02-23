@@ -22,7 +22,7 @@ const props = {
   }
 };
 
-const BootScreen = React.createClass({
+const ListStyle = React.createClass({
   getInitialState() {
     return {
       current: 'base'
@@ -34,8 +34,8 @@ const BootScreen = React.createClass({
   render() {
 
     return (
-      <div className="mt_30" id="bootScreenmain" >
-        <Row type="flex" justify="space-around" align="middle">
+      <div className="mt_30" id="bootScreenmain">
+        <Row >
           <Col span="9">
             <div className="bootScreen_l">
 
@@ -57,16 +57,9 @@ const BootScreen = React.createClass({
             </div>  
           </Col>
         </Row>
-        <Row type="flex" justify="center" style={{marginTop:15}}>
-          <Col span="5">
-            <div className="">
-                <Button type="primary" size="large">确认并发布</Button>
-            </div>
-          </Col>
-        </Row>
       </div>
     );
   }
 });
 
-export default  BootScreen;
+export default  ListStyle;
