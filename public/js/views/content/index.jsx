@@ -3,15 +3,11 @@ import 'antd/style/index.less'
 /*import 'antd/style/themes/default/custom.less'*/
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Row, Col} from 'antd'
-import { Menu, Icon , Button } from 'antd'
+import { Row, Col,Menu, Icon , Button } from 'antd'
 import MainNav from '../../components/mainNav'
 import ContentLeftNav from '../../components/contentLeftNav'
-import Push from './push'
-import Notice from './notice'
-import { Router, Route, Link, browserHistory,RouteHandler} from 'react-router'
-import Feedback from './feedback'
-// etc.
+import ConTable from './conTable'
+import { Router, Route, Link, browserHistory,RouteHandler} from 'react-router'// etc.
 const Content = React.createClass({
    render(){
       var name = this.props.params ? this.props.params.name : '';
@@ -26,11 +22,11 @@ const Content = React.createClass({
                     {(function (obj) {
                       
                         if( name == 'notice' ){
-                          return <Notice/>
+                          
                         }else if( name == 'feedback'){
-                            return <Feedback/>
+                           
                         }else{
-                          return <Push/>
+                          return <ConTable/>
                         }
                     })(this)}
                 </div>

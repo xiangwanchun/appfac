@@ -39,7 +39,7 @@ const MainNav = React.createClass({
                           <Link to="/">首页</Link>
                         </Menu.Item>
                         <Menu.Item key="clientManagement">
-                          <Link to="clientManagement">客服端管理</Link>
+                          <Link to="clientManagement">客户端管理</Link>
                         </Menu.Item>
                         <Menu.Item key="content">
                           <Link to="content">内容</Link>
