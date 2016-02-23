@@ -4,6 +4,7 @@ import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table} from 'antd';
+import BootScreen from './bootScreen';
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -24,7 +25,7 @@ const Style = React.createClass({
       <div className="contentBlocks mt_30">
           <Tabs  defaultActiveKey="1" onChange={this.callback}>
               <TabPane tab="开机画面"  key="1">
-                 
+                  <BootScreen/>
               </TabPane>
               <TabPane tab="引导图组"  key="2">
                  
