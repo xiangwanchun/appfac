@@ -159,15 +159,158 @@
 
 
 /*  焦点图 */
-.focusBox { position: relative; width:800px; height:280px; overflow: hidden; }
-.focusBox .pic img { width:800px; height:280px; display: block; }
+.focusBox { position: relative; width:840px; height:495px; overflow: hidden;margin:0 auto;}
+.focusBox .pic li { width:840px; height:495px; display: block; }
 .focusBox .hd { overflow:hidden; zoom:1; position:absolute; bottom:5px; right:10px; z-index:3}
 .focusBox .hd li{float:left; line-height:15px; text-align:center; font-size:12px; width:25px; height:10px; cursor:pointer; overflow:hidden; background:#919191; margin-left:4px; filter:alpha(opacity=80); opacity:.8; -webkit-transition:All .5s ease;-moz-transition:All .5s ease;-o-transition:All .5s ease }
-.focusBox .hd .on{ background:#fff; filter:alpha(opacity=100);opacity:1;   }
+.focusBox .hd .on{ background:#fff; filter:alpha(opacity=100);opacity:1;}
 
 .focusBox .prev,
-.focusBox .next { width:45px; height:99px; position:absolute; top:91px; z-index:3; filter:alpha(opacity=20); -moz-opacity:.2; opacity:.2; -webkit-transition:All .5s ease;-moz-transition:All .5s ease;-o-transition:All .5s ease}
-.focusBox .prev { /* background-image:url(images/index.png); */ background-position:-112px 0; left:0 }
-.focusBox .next { /* background-image:url(images/index.png); */ background-position:-158px 0; right:0 }
+.focusBox .next { background-color:@primary-color;width:40px; height:85px; position:absolute; top:50%; z-index:3; -webkit-transition:All .5s ease;-moz-transition:All .5s ease;-o-transition:All .5s ease;margin-top:-43px;
+				  text-align:center;
+				  i{
+						font-size:30px;
+						font-weight:bold;
+						color:#fff;
+						line-height:85px;
+				  }
+				}
+.focusBox .prev { left:0 }
+.focusBox .next {  background-position:-158px 0; right:0 }
 .focusBox .prev:hover,
 .focusBox .next:hover { filter:alpha(opacity=60); -moz-opacity:.6; opacity:.6 }
+
+/* 上下抽屉样式 */
+#leftDrawer{
+	position:relative;
+	>div{
+		position:absolute;
+	}
+	.leftDrawer_l{
+		width:225px;
+		height:460px;
+		left:160px;
+		top:0;
+		background:url(../images/phone_1.png) no-repeat;
+		background-size:100% 100%;
+		div.leftDrawer_l_con{
+			background:url(../images/style_1.png) no-repeat red;
+			background-size:102% 100%;
+			position:absolute;
+			top:54px;
+			left:14px;
+			width:200px;
+			height:352px;
+			border:1px solid @border-color-base;
+		}
+	}
+	.leftDrawer_r{
+		width:200px;
+		height:352px;
+		left:370px;
+		top:54px;
+		background:url(../images/style_6.png) no-repeat red;
+		background-size:100% 100%;
+		border:1px solid @border-color-base;
+	}
+}
+
+/* 上下抽屉样式 */
+#upDownColumn{
+	position:relative;
+	>div{
+		position:absolute;
+	}
+	.upDownColumn_r{
+		width:225px;
+		height:460px;
+		left:290px;
+		top:0;
+		background:url(../images/phone_1.png) no-repeat;
+		background-size:100% 100%;
+		div.upDownColumn_r_con{
+			background:url(../images/style_4.png) no-repeat red;
+			background-size:102% 100%;
+			position:absolute;
+			top:54px;
+			left:14px;
+			width:200px;
+			height:352px;
+			border:1px solid @border-color-base;
+		}
+	}
+	.upDownColumn_l{
+		width:135px;
+		height:352px;
+		left:170px;
+		top:54px;
+		z-index:99;
+		background:url(../images/style_2.png) no-repeat red;
+		background-size:100% 100%;
+		border:1px solid @border-color-base;
+	}
+}
+
+/* 双侧抽屉样式 */
+#doubleSideDrawer{
+	position:relative;
+	>div{
+		position:absolute;
+
+	}
+	.doubleSideDrawer_l{
+		width:135px;
+		height:352px;
+		left:140px;
+		top:54px;
+		background:url(../images/style_3.png) no-repeat red;
+		background-size:100% 100%;
+		z-index:99;
+		border:1px solid @border-color-base;
+	}
+	.doubleSideDrawer_m{
+		width:225px;
+		height:460px;
+		left:260px;
+		top:0;
+		background:url(../images/phone_1.png) no-repeat;
+		background-size:100% 100%;
+		div.doubleSideDrawer_m_con{
+			background:url(../images/style_7.png) no-repeat red;
+			background-size:102% 100%;
+			position:absolute;
+			top:54px;
+			left:14px;
+			width:200px;
+			height:352px;
+			border:1px solid @border-color-base;
+		}
+	}
+	.doubleSideDrawer_r{
+		width:135px;
+		height:352px;
+		left:470px;
+		top:54px;
+		background:url(../images/style_5.png) no-repeat red;
+		background-size:100% 100%;
+		border:1px solid @border-color-base;
+	}
+}
+
+.defColor{
+	.defColor_choose{
+		display:inline-block;
+		width:35px;
+		height:25px;
+		background:red;
+		cursor:pointer;
+	}
+}
+.styleName{
+	padding-left:50px;
+	font-size:16px;
+	span{
+		font-size:14px;
+		color:#333;
+	}
+}
