@@ -42,14 +42,18 @@ const UpDownColumn = React.createClass({
     $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300});
   },
   render() {
+    var _this = this;
+    var bgColor = {
+      backgroundColor:_this.props.bgColor
+    }
     var name = "focusBox focusBox_"+this.state.index;
     return (
       <div className="mt_30 allStyle" id="upDownColumn">
-          <div className="upDownColumn_l">
+          <div className="upDownColumn_l" style={bgColor}>
 
           </div>
           <div className="upDownColumn_r">
-              <div className="upDownColumn_r_con">
+              <div className="upDownColumn_r_con" style={bgColor} >
               </div>
           </div>
           

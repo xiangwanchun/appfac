@@ -31,12 +31,16 @@ const AllStyle = React.createClass({
     return {
       current: 'base',
       index : 0,
-      color :['#4546cd','#21ae37','#e60111','#000','#8a8a8a']
+      colors :['#4546cd','#21ae37','#e60111','#000','#8a8a8a'],
+      bgColor : '#4546cd'
     };
   },
   handleClick(event) {
-    console.log(event.target.style.backgroundColor);
-    console.log(event.target.key);
+
+    this.setState({
+      bgColor : event.target.style.backgroundColor
+    })
+    
   },
   componentWillMount(){
     this.setState({
@@ -49,9 +53,10 @@ const AllStyle = React.createClass({
   render() {
     var name = "focusBox focusBox_"+this.state.index;
      var options = [];
-          for (var option in this.state.names) {
+          for (var option in this.state.colors) {
+            console.log(option)
               options.push(
-                <Col span="4"><span className="defColor_choose"  style={{backgroundColor:option}}  onClick={this.handleClick}></span></Col>
+                <Col span="4"><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
                 )
           };
     return (
@@ -61,25 +66,20 @@ const AllStyle = React.createClass({
           <Col span="14"><p className="styleName"> 左抽屉<span>1/3</span></p></Col>
           <Col span="10">
             <Row style={{width:220}} className="defColor" type="flex" justify="space-around">
-
-              
-              <Col span="4"><span className="defColor_choose"></span></Col>
-              <Col span="4"><span className="defColor_choose"></span></Col>
-              <Col span="4"><span className="defColor_choose"></span></Col>
-              <Col span="4"><span className="defColor_choose"></span></Col>
+              {options}
             </Row>
           </Col>
         </Row>
         <div className={name}>
             <ul className="pic">
                 <li>
-                  <LeftDrawer/>
+                  <LeftDrawer bgColor={this.state.bgColor} />
                 </li>
                 <li>
-                  <UpDownColumn/>
+                  <UpDownColumn bgColor={this.state.bgColor}/>
                 </li>
                 <li>
-                  <DoubleSideDrawer/>
+                  <DoubleSideDrawer bgColor={this.state.bgColor} />
                 </li>
             </ul>
             <a className="prev" href="javascript:void(0)"><Icon type="left"/></a>
@@ -91,3 +91,10 @@ const AllStyle = React.createClass({
 });
 
 export default  AllStyle;
+
+
+
+     /*         <Col span="4"><span className="defColor_choose"></span></Col>
+              <Col span="4"><span className="defColor_choose"></span></Col>
+              <Col span="4"><span className="defColor_choose"></span></Col>
+              <Col span="4"><span className="defColor_choose"></span></Col>*/

@@ -42,14 +42,18 @@ const LeftDrawer = React.createClass({
     $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300});
   },
   render() {
+    var _this = this;
+    var bgColor = {
+      backgroundColor:_this.props.bgColor
+    }
     var name = "focusBox focusBox_"+this.state.index;
     return (
       <div className="mt_30 allStyle" id="leftDrawer">
           <div className="leftDrawer_l">
-              <div className="leftDrawer_l_con">
+              <div className="leftDrawer_l_con" style={bgColor}>
               </div>
           </div>
-          <div className="leftDrawer_r">
+          <div className="leftDrawer_r" style={bgColor}>
 
           </div>
       </div>
