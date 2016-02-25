@@ -54,9 +54,8 @@ const AllStyle = React.createClass({
     var name = "focusBox focusBox_"+this.state.index;
      var options = [];
           for (var option in this.state.colors) {
-            console.log(option)
               options.push(
-                <Col span="4"><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
+                <Col span="4"><span className="defColor_choose" key={option} style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
                 )
           };
     return (
