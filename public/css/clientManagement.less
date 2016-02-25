@@ -213,6 +213,26 @@
 		background-size:100% 100%;
 		border:1px solid @border-color-base;
 	}
+	.pointTo_1{
+		position:absolute;
+		left:85px;
+		top:25px;
+	}
+	.pointTo_2{
+		position:absolute;
+		left:55px;
+		top:205px;
+	}
+	.pointTo_3{
+		position:absolute;
+		left:469px;
+		top:140px;
+	}
+	.pointTo_4{
+		position:absolute;
+		left:360px;
+		top:290px;
+	}
 }
 
 /* 上下抽屉样式 */
@@ -312,5 +332,35 @@
 	span{
 		font-size:14px;
 		color:#333;
+	}
+}
+
+/* 箭头指向 */
+.pointToWrap{
+	/* border:1px solid red; */
+	position:absolute;
+	z-index:999999;
+	.pointToControl{
+		opacity:0;
+		transition:all 0.3s;
+		padding:0 5px;
+		height:30px;
+		line-height:30px;
+		a{
+			height:30px;
+			line-height:30px;
+		}
+	}
+	.pointToline{
+		position:absolute;
+		width:100px;
+		border-top:2px solid @primary-color;
+		transition:all 0.3s;
+	}
+	.pointToline_hypotenuse{
+		position:absolute;
+		bottom:0;
+		border-top:2px solid @primary-color;
+		transition:all 0.3s;
 	}
 }

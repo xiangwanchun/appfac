@@ -39,14 +39,13 @@ const DoubleSideDrawer = React.createClass({
     })
   },
   componentDidMount(){
-    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300});
+    
   },
   render() {
     var _this = this;
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
-    var name = "focusBox focusBox_"+this.state.index;
     return (
       <div className="mt_30 allStyle" id="doubleSideDrawer">
           <div className="doubleSideDrawer_l" style={bgColor}>
