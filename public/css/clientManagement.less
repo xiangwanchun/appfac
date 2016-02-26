@@ -181,20 +181,21 @@
 .focusBox .next:hover { filter:alpha(opacity=60); -moz-opacity:.6; opacity:.6 }
 
 /* 上下抽屉样式 */
-#leftDrawer{
+
+#upDownColumn{
 	position:relative;
 	>div{
 		position:absolute;
 	}
-	.leftDrawer_l{
+	.upDownColumn_l{
 		width:225px;
 		height:460px;
 		left:160px;
 		top:0;
 		background:url(../images/phone_1.png) no-repeat;
 		background-size:100% 100%;
-		div.leftDrawer_l_con{
-			background:url(../images/style_1.png) no-repeat red;
+		div.upDownColumn_l_con{
+			background:url(../images/style_1.png) no-repeat;
 			background-size:102% 100%;
 			position:absolute;
 			top:54px;
@@ -204,19 +205,19 @@
 			border:1px solid @border-color-base;
 		}
 	}
-	.leftDrawer_r{
+	.upDownColumn_r{
 		width:200px;
 		height:352px;
-		left:370px;
+		left:373px;
 		top:54px;
-		background:url(../images/style_6.png) no-repeat red;
+		background:url(../images/style_6.png) no-repeat;
 		background-size:100% 100%;
 		border:1px solid @border-color-base;
 	}
 	.pointTo_1{
 		position:absolute;
-		left:85px;
-		top:25px;
+		left:105px;
+		top:0;
 	}
 	.pointTo_2{
 		position:absolute;
@@ -226,30 +227,30 @@
 	.pointTo_3{
 		position:absolute;
 		left:469px;
-		top:140px;
+		top:75px;
 	}
 	.pointTo_4{
 		position:absolute;
 		left:360px;
-		top:290px;
+		top:190px;
 	}
 }
 
 /* 上下抽屉样式 */
-#upDownColumn{
+#leftDrawer{
 	position:relative;
 	>div{
 		position:absolute;
 	}
-	.upDownColumn_r{
+	.leftDrawer_r{
 		width:225px;
 		height:460px;
 		left:290px;
 		top:0;
 		background:url(../images/phone_1.png) no-repeat;
 		background-size:100% 100%;
-		div.upDownColumn_r_con{
-			background:url(../images/style_4.png) no-repeat red;
+		div.leftDrawer_r_con{
+			background:url(../images/style_4.png) no-repeat;
 			background-size:102% 100%;
 			position:absolute;
 			top:54px;
@@ -259,15 +260,30 @@
 			border:1px solid @border-color-base;
 		}
 	}
-	.upDownColumn_l{
+	.leftDrawer_l{
 		width:135px;
 		height:352px;
 		left:170px;
 		top:54px;
 		z-index:99;
-		background:url(../images/style_2.png) no-repeat red;
+		background:url(../images/style_2.png) no-repeat;
 		background-size:100% 100%;
 		border:1px solid @border-color-base;
+	}
+	.pointTo_1{
+		position:absolute;
+		left:90px;
+		top:50px;
+	}
+	.pointTo_2{
+		position:absolute;
+		left:365px;
+		top:100px;
+	}
+	.pointTo_3{
+		position:absolute;
+		left:495px;
+		top:165px;
 	}
 }
 
@@ -283,7 +299,7 @@
 		height:352px;
 		left:140px;
 		top:54px;
-		background:url(../images/style_3.png) no-repeat red;
+		background:url(../images/style_3.png) no-repeat;
 		background-size:100% 100%;
 		z-index:99;
 		border:1px solid @border-color-base;
@@ -296,7 +312,7 @@
 		background:url(../images/phone_1.png) no-repeat;
 		background-size:100% 100%;
 		div.doubleSideDrawer_m_con{
-			background:url(../images/style_7.png) no-repeat red;
+			background:url(../images/style_7.png) no-repeat;
 			background-size:102% 100%;
 			position:absolute;
 			top:54px;
@@ -309,11 +325,26 @@
 	.doubleSideDrawer_r{
 		width:135px;
 		height:352px;
-		left:470px;
+		left:473px;
 		top:54px;
-		background:url(../images/style_5.png) no-repeat red;
+		background:url(../images/style_5.png) no-repeat;
 		background-size:100% 100%;
 		border:1px solid @border-color-base;
+	}
+	.pointTo_1{
+		position:absolute;
+		left:35px;
+		top:110px;
+	}
+	.pointTo_2{
+		position:absolute;
+		left:535px;
+		top:30px;
+	}
+	.pointTo_3{
+		position:absolute;
+		left:465px;
+		top:120px;
 	}
 }
 
@@ -335,11 +366,84 @@
 	}
 }
 
+/*列表样式 */
+#listStyle{
+	width:100%;
+	height:495px;
+	position:relative;
+	>div{
+		position:absolute;
+	}
+	.listStyle_r{
+		width:225px;
+		height:460px;
+		left:290px;
+		top:0;
+		background:url(../images/phone_1.png) no-repeat;
+		background-size:100% 100%;
+		div.listStyle_r_con{
+			background:url(../images/list_1.png) no-repeat;
+			background-size:102% 100%;
+			position:absolute;
+			top:54px;
+			left:14px;
+			width:200px;
+			height:352px;
+			border:1px solid @border-color-base;
+		}
+	}
+	.pointTo_1{
+		position:absolute;
+		left:495px;
+		top:110px;
+	}
+	.pointTo_2{
+		position:absolute;
+		left:490px;
+		top:210px;
+	}
+}
+
+/*详情页样式 */
+#detailPage{
+	width:100%;
+	height:495px;
+	position:relative;
+	>div{
+		position:absolute;
+	}
+	.detailPage_r{
+		width:225px;
+		height:460px;
+		left:290px;
+		top:0;
+		background:url(../images/phone_1.png) no-repeat;
+		background-size:100% 100%;
+		div.detailPage_r_con{
+			background:url(../images/page.png) no-repeat;
+			background-size:102% 100%;
+			position:absolute;
+			top:54px;
+			left:14px;
+			width:200px;
+			height:352px;
+			border:1px solid @border-color-base;
+		}
+	}
+	.pointTo_1{
+		position:absolute;
+		left:490px;
+		top:210px;
+	}
+}
+
+
+
+
 /* 箭头指向 */
 .pointToWrap{
-	/* border:1px solid red; */
 	position:absolute;
-	z-index:999999;
+	z-index:999;
 	.pointToControl{
 		opacity:0;
 		transition:all 0.3s;
@@ -353,7 +457,7 @@
 	}
 	.pointToline{
 		position:absolute;
-		width:100px;
+		width:0;
 		border-top:2px solid @primary-color;
 		transition:all 0.3s;
 	}
@@ -362,5 +466,19 @@
 		bottom:0;
 		border-top:2px solid @primary-color;
 		transition:all 0.3s;
+	}
+}
+
+
+/* 个人中心选择 */
+.userChoose_1,.userChoose_1{
+	h2{
+		height:30px;
+		line-height:30px;
+		text-align:center;
+	}
+	img{
+		height:375px;
+		width:215px;
 	}
 }

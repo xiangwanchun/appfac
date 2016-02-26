@@ -32,7 +32,10 @@ const PointTo = React.createClass({
     this.setState({
       Switch : checked
     })
-    this.props.fun('switch',checked);
+    this.props.fun(this.props.name,{'type':'Switch','val':checked});
+  },
+  controlOnClick(){
+    this.props.fun(this.props.name);
   },
   render() {
     let _this = this;
@@ -40,8 +43,7 @@ const PointTo = React.createClass({
     let hypotenuseWidth = Math.sqrt(squareEdgeWidth*squareEdgeWidth + squareEdgeWidth*squareEdgeWidth);
     let name = "focusBox focusBox_"+this.state.index;
     let pos =  this.props.pos || 'left';//斜线是在左边还是在右边
-let leftPosition = pos != 'left'? this.props.lineWidth : 0;//相对于左边的位置
-
+    let leftPosition = pos != 'left'? this.props.lineWidth : 0;//相对于左边的位置
 
     let hypotenuseStyle_L = {
             'width':hypotenuseWidth+'px',
@@ -64,7 +66,7 @@ let leftPosition = pos != 'left'? this.props.lineWidth : 0;//相对于左边的�
         return (
            <div className="pointToWrap" style={{height:squareEdgeWidth+32+'px',width:this.props.allWidth+'px'}}>
               <div className="pointToControl" style={{'opacity':opacity,textAlign:'right'}}>{this.props.type == 'switch' ? 
-<Switch checked={this.state.Switch} onChange={this.onChange} /> : <a href="javascript:;">{this.props.button}</a>}</div>
+<Switch checked={this.state.Switch} onChange={this.onChange} /> : <a href="javascript:;" onClick={this.controlOnClick}>{this.props.button}</a>}</div>
               <div className="pointToline" style={{'left': squareEdgeWidth-1+'px','width' : this.props.lineWidth+'px'}}>
               </div>
               <div className="pointToline_hypotenuse" style={ hypotenuseStyle_L}>
@@ -75,7 +77,7 @@ let leftPosition = pos != 'left'? this.props.lineWidth : 0;//相对于左边的�
         return (
             <div className="pointToWrap" style={{height:squareEdgeWidth+32+'px',width:this.props.allWidth+'px'}}>
                 <div className="pointToControl" style={{'opacity':opacity}}>{this.props.type == 'switch' ? 
-<Switch checked={this.state.Switch} onChange={this.onChange} /> : <a href="javascript:;">{this.props.button}</a>}</div>
+<Switch checked={this.state.Switch} onChange={this.onChange} /> : <a href="javascript:;" onClick={this.controlOnClick}>{this.props.button}</a>}</div>
                 <div className="pointToline" style={{'left':0,'width' : this.props.lineWidth+'px'}}>
                 </div>
                 <div className="pointToline_hypotenuse" style={hypotenuseStyle_R}>

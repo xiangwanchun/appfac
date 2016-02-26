@@ -51,13 +51,11 @@ const Guide = React.createClass({
        slidesToScroll: 1,
        slickGoTo: 3,
        beforeChange(to,form){
-        console.log('---------------------');
-        console.log(_this.state.slickGoTo)
+  
           _this.setState({
             slickGoTo: 3
           });
-          console.log(_this.state.slickGoTo)
-       
+
         }
      };
 

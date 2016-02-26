@@ -17,7 +17,8 @@ const MenuItemGroup = Menu.ItemGroup;
 const Style = React.createClass({
   getInitialState() {
     return {
-      current: 'base'
+      current: 'base',
+      bgColor : 'red',
     };
   },
   handleClick(e) {
@@ -36,16 +37,16 @@ const Style = React.createClass({
                 <Guide/>
               </TabPane>
               <TabPane tab="总体样式"  key="3">
-                <AllStyle/>
+                <AllStyle bgColor={this.state.bgColor}/>
               </TabPane>
               <TabPane tab="列表样式"  key="4">
-                 <ListStyle/>
+                 <ListStyle bgColor={this.state.bgColor} />
               </TabPane>
               <TabPane tab="模型配置"  key="5">
-                <Model />
+                <Model bgColor={this.state.bgColor} />
               </TabPane>
               <TabPane tab="内容查看页"  key="6">
-                <DetailPage/>
+                <DetailPage bgColor={this.state.bgColor} />
               </TabPane>
           </Tabs>
       </div>

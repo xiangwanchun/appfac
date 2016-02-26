@@ -3,60 +3,56 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd';
-const TabPane = Tabs.TabPane;
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-const props = {
-  name: 'file',
-  action: '/upload.do',
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} 上传成功。`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 上传失败。`);
-    }
-  }
-};
+import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd'
+import PointTo from './pointTo'
 
 const ListStyle = React.createClass({
   getInitialState() {
     return {
-      current: 'base'
+      current: 'base',
+      index : 0,
+      pointToLineWidth:{'user':0,'defPic':0,'comments':0},
+      pointToAllWidth: {'user':0,'defPic':0,'comments':0}
     };
   },
   handleClick(e) {
         clientManagement
   },
+  pointToFun(type,val){
+      if(type == 'Switch'){
+
+      }else{
+
+      }
+  },
+  componentDidMount() {
+     setTimeout(function(){
+        this.setState({
+          pointToLineWidth: {'sliderNum':100,'listType':105},
+          pointToAllWidth:  {'sliderNum':135,'listType':130}
+        })
+      }.bind(this),1000)
+  },
   render() {
-
+    var _this = this;
+    var bgColor = {
+      backgroundColor:_this.props.bgColor
+    }
     return (
-      <div className="mt_30" id="bootScreenmain">
-        <Row >
-          <Col span="9">
-            <div className="bootScreen_l">
+      <div className="mt_30 allStyle" id="listStyle">
 
-            </div>
-          </Col>
-          <Col span="15">
-            <div className="bootScreen_r">
-                <p>
-                  <label>自定义开机画面: </label>
-                  图标要求:png格式,1024x1024
-                </p>
-                <div className="mt_15">
-                  <Upload {...props}>
-                    <Button type="primary">
-                       点击上传
-                    </Button>
-                  </Upload>
-                </div>
-            </div>  
-          </Col>
-        </Row>
+          <div style={{height:'120px'}} className="pointTo_1"> 
+            <PointTo lineWidth={this.state.pointToLineWidth.sliderNum} allWidth={this.state.pointToAllWidth.sliderNum}  button="幻灯片数量" fun={this.pointToFun} name="defPic" />
+          </div>
+          
+          <div style={{height:'120px'}} className="pointTo_2"> 
+            <PointTo lineWidth={this.state.pointToLineWidth.listType} allWidth={this.state.pointToAllWidth.listType}  button="列表默认样式" fun={this.pointToFun} name="comments"/>
+          </div>
+          <div className="listStyle_r">
+              <div className="listStyle_r_con" style={bgColor} >
+              </div>
+          </div>
+          
       </div>
     );
   }
