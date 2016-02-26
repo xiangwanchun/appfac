@@ -20,12 +20,12 @@ const LeftDrawer = React.createClass({
   },
   pointToFun(name,expand){
     if( typeof expand != 'undefined'){
-      this.props.fun('users',expand);
+      this.props.fun(name,expand);
     }else{
       this.props.fun(name);
     }
   },
-  
+
   componentDidMount() {
      setTimeout(function(){
         this.setState({

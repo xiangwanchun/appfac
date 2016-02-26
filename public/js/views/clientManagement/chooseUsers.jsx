@@ -26,18 +26,22 @@ const ChooseUser = React.createClass({
       backgroundColor:_this.props.bgColor
     }
     return (
-      <div className="mt_30">
-        <Row>
-          <Col span="10">
+      <div>
+        <Row type="flex" justify="space-between">
+          <Col span="9">
             <div className="userChoose_1">
               <h2>使用用户中心</h2>
-              <img src=""/>
+              <div style={bgColor} className="imgWrap">
+                <img src="images/style_6.png"/>
+              </div>
             </div>
           </Col>
-          <Col span="10">
+          <Col span="9">
             <div className="userChoose_2">
               <h2>使用基础配置</h2>
-              <img src=""/>
+              <div style={bgColor} className="imgWrap">
+                <img src="images/user_2.png"/>
+              </div>
             </div>
           </Col>
         </Row>    

@@ -23,9 +23,14 @@ const AllStyle = React.createClass({
       pointToAllWidth :[0],
       title : '左抽屉',
       curPage : '',
-      visible: false 
+      visible: false,
+      //弹窗名
+      modalTitle : '',
+      //模型内容
+      modalCon : ''
     };
   },
+  //颜色切换处理函数
   handleClick(event) {
 
     this.setState({
@@ -41,27 +46,30 @@ const AllStyle = React.createClass({
   componentDidMount() {
     var _this = this;
     $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:0,startFun:function(i,c){
-      var title = ['左抽屉','上下栏','左右抽屉'];
-      _this.setState({
-        title : title[i],
-        curPage : (i+1)+"/"+c
-      })
+        var title = ['左抽屉','上下栏','左右抽屉'];
+        _this.setState({
+          title : title[i],
+          curPage : (i+1)+"/"+c
+        })
     } });
   },
-  allPointToFun(name,val){
-    
+  //箭头指向处理函数
+  allPointToFun(name,expand){
+    console.log(name)
     if(name == 'users'){
-
+        this.setState({
+          visible: true,
+          modalTitle : '用户中心/基础设置',
+          modalCon : <ChooseUser bgColor={this.state.bgColor} />
+        })
     }else if(name == 'defPic'){
+        this.setState({
+          visible: true,
+          modalTitle : '默认图片设置',
+          modalCon : <ChooseUser bgColor={this.state.bgColor} />
+        })
+    }else if(name == 'title'){
 
-    }else if(name == 'comments'){
-
-    }
-
-   if( !val ) {
-      this.setState({
-        visible: true
-      });
     }
 
   },
@@ -78,12 +86,12 @@ const AllStyle = React.createClass({
   },
   render() {
     var name = "focusBox focusBox_"+this.state.index;
-     var options = [];
-          for (var option in this.state.colors) {
-              options.push(
-                <Col span="4" key={option}><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
-                )
-          };
+    var options = [];
+      for (var option in this.state.colors) {
+          options.push(
+            <Col span="4" key={option}><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
+            )
+      };
     return (
 
       <div className="mt_30">
@@ -111,12 +119,10 @@ const AllStyle = React.createClass({
             <a className="next" href="javascript:void(0)"><Icon type="right"/></a>
         </div>
 
-         <Modal title="第一个 Modal" visible={this.state.visible}
-          onOk={this.handleOk} onCancel={this.handleCancel} style={{width:'400px'}}>
-            <p>对话框的内容</p>
-            <p>对话框的内容</p>
-            <p>对话框的内容</p>
-        </Modal>
+         <Modal title={this.state.modalTitle} visible={this.state.visible}
+          onOk={this.handleOk} onCancel={this.handleCancel} width='700'>
+              {this.state.modalCon}
+          </Modal>
 
       </div>
     );
