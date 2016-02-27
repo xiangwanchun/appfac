@@ -7,7 +7,9 @@ import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal} from 'antd'
 import LeftDrawer from './leftDrawer'
 import UpDownColumn from './upDownColumn'
 import DoubleSideDrawer from './doubleSideDrawer'
-import ChooseUser from './chooseUsers'
+import ChooseUserSet from './chooseUsersSet'
+import DefPicSet from './defPicSet'
+import TitleSet from './titleSet'
 import '../../plug/jquery.SuperSlide.2.1.1.js'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
@@ -28,8 +30,14 @@ const AllStyle = React.createClass({
       modalTitle : '',
       //模型内容
       modalCon : ''
+
     };
   },
+/*        comments : true,
+      defPic : '',
+      title : '',
+      titleLogoUrl : '',
+      userCenter : '1'*/
   //颜色切换处理函数
   handleClick(event) {
 
@@ -45,7 +53,7 @@ const AllStyle = React.createClass({
   },
   componentDidMount() {
     var _this = this;
-    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:0,startFun:function(i,c){
+    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:1,startFun:function(i,c){
         var title = ['左抽屉','上下栏','左右抽屉'];
         _this.setState({
           title : title[i],
@@ -55,28 +63,25 @@ const AllStyle = React.createClass({
   },
   //箭头指向处理函数
   allPointToFun(name,expand){
-    console.log(name)
     if(name == 'users'){
         this.setState({
           visible: true,
           modalTitle : '用户中心/基础设置',
-          modalCon : <ChooseUser bgColor={this.state.bgColor} />
+          modalCon : <ChooseUserSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun} />
         })
     }else if(name == 'defPic'){
         this.setState({
           visible: true,
           modalTitle : '默认图片设置',
-          modalCon : <ChooseUser bgColor={this.state.bgColor} />
+          modalCon : <DefPicSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun}/>
         })
     }else if(name == 'title'){
-
+        this.setState({
+          visible: true,
+          modalTitle : '标题样式',
+          modalCon : <TitleSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun}/>
+        })
     }
-
-  },
-  handleOk() {
-    this.setState({
-      visible: false
-    });
   },
   handleCancel(e) {
     console.log(e);
@@ -84,7 +89,27 @@ const AllStyle = React.createClass({
       visible: false
     });
   },
+  childComponentsThis: '',
+  //弹窗子组件this
+  childComponentsThisFun(childrenThis){
+      this.childComponentsThis = childrenThis;
+  },
+  //提交弹窗时验证表单
+  handleSubmit() {
+    var _this = this.childComponentsThis;
+    _this.props.form.validateFields((errors, values) => {
+      if (!!errors) {
+        console.log('Errors in form!!!');
+        return;
+      }
+      console.log('Submit!!!');
+      console.log(values);
+      this.setState({ visible: false });
+    });
+  },
   render() {
+    console.log('+++++++++++++++++++++')
+    console.log(this.state);
     var name = "focusBox focusBox_"+this.state.index;
     var options = [];
       for (var option in this.state.colors) {
@@ -120,7 +145,7 @@ const AllStyle = React.createClass({
         </div>
 
          <Modal title={this.state.modalTitle} visible={this.state.visible}
-          onOk={this.handleOk} onCancel={this.handleCancel} width='700'>
+          onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
               {this.state.modalCon}
           </Modal>
 

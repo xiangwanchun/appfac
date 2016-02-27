@@ -18,18 +18,18 @@ const UpDownColumn = React.createClass({
   handleClick(e) {
         clientManagement
   },
-  pointToFun(type,val){
-      if(type == 'Switch'){
-
-      }else{
-
-      }
+  pointToFun(name,expand){
+    if( typeof expand != 'undefined'){
+      this.props.fun(name,expand);
+    }else{
+      this.props.fun(name);
+    }
   },
   componentDidMount() {
      setTimeout(function(){
         this.setState({
-          pointToLineWidth: {'title':125,'defPic':105,'user':175,'comments':250},
-          pointToAllWidth:  {'title':170,'defPic':135,'user':220,'comments':320}
+          pointToLineWidth: {'title':155,'defPic':105,'user':175,'comments':250},
+          pointToAllWidth:  {'title':200,'defPic':135,'user':220,'comments':320}
         })
       }.bind(this),1000)
   },
