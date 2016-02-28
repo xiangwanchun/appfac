@@ -7,48 +7,44 @@ import '../../../css/clientManagement.less'
 import { Icon,Button,Row,Col,Upload,Radio,Form,Input,message} from 'antd'
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
-const createForm = Form.create;
-const FormItem = Form.Item;
 
-
-let ChooseUserSet = React.createClass({
+let ListType = React.createClass({
   getInitialState() {
     return {
       current: 'base',
       index : 0,
-      is_member : 0
+      list_type : '1',
     };
   },
-  chooseUsers(type){
+  listTypefun(type){
     this.setState({
-      is_member : type
+      list_type : type
     })
-    this.props.memberFun(type);
+    this.props.fun(type);
   },
   render() {
     var _this = this;
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
-    const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
     return (
       <div>
         <Row type="flex" justify="space-between">
           <Col span="9">
             <div className="userChoose_1">
-              <h2>使用用户中心</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.chooseUsers.bind(this,'1')}>
+              <h2>使用左图样式</h2>
+              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'1')}>
                 <img src="images/style_6.png"/>
-                <Icon type="check-circle" style={{'display' : this.state.is_member == '1' ? 'block' : 'none'}}/>
+                <Icon type="check-circle" style={{'display' : this.state.list_type == '1' ? 'block' : 'none'}}/>
               </div>
             </div>
           </Col>
           <Col span="9">
             <div className="userChoose_2">
-              <h2>使用基础配置</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.chooseUsers.bind(this,'0')}>
+              <h2>使用右图样式</h2>
+              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'2')}>
                 <img src="images/user_2.png"/>
-                <Icon type="check-circle" style={{'display' : this.state.is_member == '0' ? 'block' : 'none'}}/>
+                <Icon type="check-circle" style={{'display' : this.state.list_type == '2' ? 'block' : 'none'}}/>
               </div>
             </div>
           </Col>
@@ -58,5 +54,4 @@ let ChooseUserSet = React.createClass({
   }
 });
 
-ChooseUserSet = createForm()(ChooseUserSet);
-export default  ChooseUserSet;
+export default  ListType;

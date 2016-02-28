@@ -3,27 +3,55 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd'
+import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal} from 'antd'
 import PointTo from './pointTo'
+import ListType from './listType'
 
 const ListStyle = React.createClass({
   getInitialState() {
     return {
       current: 'base',
       index : 0,
+      visible: false,
+      content_list : 'l',
       pointToLineWidth:{'user':0,'defPic':0,'comments':0},
-      pointToAllWidth: {'user':0,'defPic':0,'comments':0}
+      pointToAllWidth: {'user':0,'defPic':0,'comments':0},
+      data : {
+          "content_list_banner":"5","content_list":"1"
+       }
     };
   },
   handleClick(e) {
         clientManagement
   },
-  pointToFun(type,val){
-      if(type == 'Switch'){
+  listTypeFun(type){
+      this.setState({
+          content_list : type
+      })
+  },
+  pointToFun(name,expand){
+    
+    if(name == 'listType'){
+        this.setState({
+          visible: true,
+          allPointToType:name,
+          modalTitle : '总体列表样式',
+          modalCon : <ListType bgColor={this.props.bgColor} fun={this.listTypeFun} content_list={this.state.data.content_list} />
+        })
+    }
 
-      }else{
-
-      }
+  },
+  //提交弹窗时验证表单
+  handleSubmit() {
+    let name = this.state.allPointToType;
+    let data = this.state.data;
+    if(name == 'listType'){
+      data.content_list = this.state.content_list;
+      this.setState({ 
+        "visible": false,
+        "data":data
+      });
+    }
   },
   componentDidMount() {
      setTimeout(function(){
@@ -34,6 +62,8 @@ const ListStyle = React.createClass({
       }.bind(this),1000)
   },
   render() {
+
+    console.log(this.state.data);
     var _this = this;
     var bgColor = {
       backgroundColor:_this.props.bgColor
@@ -46,12 +76,17 @@ const ListStyle = React.createClass({
           </div>
           
           <div style={{height:'120px'}} className="pointTo_2"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.listType} allWidth={this.state.pointToAllWidth.listType}  button="列表默认样式" fun={this.pointToFun} name="comments"/>
+            <PointTo lineWidth={this.state.pointToLineWidth.listType} allWidth={this.state.pointToAllWidth.listType}  button="列表默认样式" fun={this.pointToFun} name="listType"/>
           </div>
           <div className="listStyle_r">
               <div className="listStyle_r_con" style={bgColor} >
               </div>
           </div>
+
+          <Modal title={this.state.modalTitle} visible={this.state.visible}
+          onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
+              {this.state.modalCon}
+          </Modal>
           
       </div>
     );

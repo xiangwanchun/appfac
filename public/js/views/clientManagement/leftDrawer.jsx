@@ -42,7 +42,7 @@ const LeftDrawer = React.createClass({
     return (
       <div className="mt_30 allStyle" id="leftDrawer">
           <div style={{height:'120px'}} className="pointTo_1"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="users" pos="right"/>
+            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="member" pos="right"/>
           </div>
 
           <div style={{height:'120px'}} className="pointTo_2"> 

@@ -47,7 +47,7 @@ const UpDownColumn = React.createClass({
             <PointTo lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right"/>
           </div>
           <div style={{height:'120px'}} className="pointTo_3"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="使用:用户中心" fun={this.pointToFun} name="users"/>
+            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="使用:用户中心" fun={this.pointToFun} name="member"/>
           </div>
           <div style={{height:'120px'}} className="pointTo_4"> 
             <PointTo lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>

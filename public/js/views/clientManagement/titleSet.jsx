@@ -62,9 +62,9 @@ let TitleSet = React.createClass({
       backgroundColor:_this.props.bgColor
     }
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-    const nameProps = getFieldProps('name', {
+    const nameProps = getFieldProps('title', {
       rules: [
-        { required: true, min: 5, message: 'APP名最多为6个字符' },
+        { required: true, max: 5, message: 'APP名最多为6个字符' },
         { validator: this.userExists },
       ],
     });

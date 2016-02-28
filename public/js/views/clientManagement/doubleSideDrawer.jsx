@@ -17,12 +17,12 @@ const DoubleSideDrawer = React.createClass({
   handleClick(e) {
         clientManagement
   },
-  pointToFun(type,val){
-      if(type == 'Switch'){
-
-      }else{
-
-      }
+  pointToFun(name,expand){
+    if( typeof expand != 'undefined'){
+      this.props.fun(name,expand);
+    }else{
+      this.props.fun(name);
+    }
   },
   componentDidMount() {
      setTimeout(function(){
@@ -44,7 +44,7 @@ const DoubleSideDrawer = React.createClass({
             <PointTo lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right" />
           </div>
           <div style={{height:'120px'}} className="pointTo_2"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="users"/>
+            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="member"/>
           </div>
           <div style={{height:'120px'}} className="pointTo_3"> 
             <PointTo lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>

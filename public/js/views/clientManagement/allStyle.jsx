@@ -20,31 +20,57 @@ const AllStyle = React.createClass({
       current: 'base',
       index : 0,
       colors :['#4546cd','#21ae37','#e60111','#000','#8a8a8a'],
-      bgColor : this.props.bgColor || '#4546cd',
       pointToLineWidth :[0],
       pointToAllWidth :[0],
       title : '左抽屉',
+      //当前页
       curPage : '',
+      //总页数
+      allPage : 3,
       visible: false,
+      is_member : '',
+      menberType : '0',
       //弹窗名
       modalTitle : '',
       //模型内容
-      modalCon : ''
+      modalCon : '',
+      //判断是哪个箭头函数触发的
+      allPointToType : '',
+      data :{
+              "color":"red","content_list_title":"{'type':1,'content':'标题'}","frame":1,"is_member":0,'is_comments': true
+            }
 
     };
   },
-/*        comments : true,
-      defPic : '',
-      title : '',
-      titleLogoUrl : '',
-      userCenter : '1'*/
+  //RGB 转换成 #开头的16进制
+  RGBToHex(rgb){ 
+     var regexp = /[0-9]{0,3}/g;  
+     var re = rgb.match(regexp);//利用正则表达式去掉多余的部分，将rgb中的数字提取
+     var hexColor = "#"; 
+     var hex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];  
+     for (var i = 0; i < re.length; i++) {
+          var r = null, c = re[i], l = c; 
+          var hexAr = [];
+          while (c > 16){  
+                r = c % 16;  
+                c = (c / 16) >> 0; 
+                hexAr.push(hex[r]);  
+           } hexAr.push(hex[c]);
+           if(l < 16&&l != ""){        
+               hexAr.push(0)
+           }
+         hexColor += hexAr.reverse().join(''); 
+      }  
+     //alert(hexColor)  
+     return hexColor;  
+  },
   //颜色切换处理函数
   handleClick(event) {
-
+    let data = this.state.data;
+    data.color = this.RGBToHex( event.target.style.backgroundColor ); 
     this.setState({
-      bgColor : event.target.style.backgroundColor
-    })
-    
+      data  : data
+    })    
   },
   componentWillMount(){
     this.setState({
@@ -53,41 +79,60 @@ const AllStyle = React.createClass({
   },
   componentDidMount() {
     var _this = this;
-    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:1,startFun:function(i,c){
+    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:this.state.data.frame-1,startFun:function(i,c){
         var title = ['左抽屉','上下栏','左右抽屉'];
+        let data = _this.state.data;
+        data.frame = i+1;
+        //设置名字,当前页,和选择的类型
         _this.setState({
           title : title[i],
-          curPage : (i+1)+"/"+c
+          curPage : (i+1),
+          allPage : c,
+          data : data
         })
+
     } });
   },
   //箭头指向处理函数
   allPointToFun(name,expand){
-    if(name == 'users'){
+    if(name == 'member'){
         this.setState({
           visible: true,
+          allPointToType:name,
           modalTitle : '用户中心/基础设置',
-          modalCon : <ChooseUserSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun} />
+          modalCon : <ChooseUserSet bgColor={this.state.data.color} memberFun={this.memberFun} />
         })
     }else if(name == 'defPic'){
         this.setState({
           visible: true,
+          allPointToType:name,
           modalTitle : '默认图片设置',
-          modalCon : <DefPicSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <DefPicSet bgColor={this.state.data.color} childComponentsThis={this.childComponentsThisFun}/>
         })
     }else if(name == 'title'){
         this.setState({
           visible: true,
+          allPointToType:name,
           modalTitle : '标题样式',
-          modalCon : <TitleSet bgColor={this.state.bgColor} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <TitleSet bgColor={this.state.data.color} childComponentsThis={this.childComponentsThisFun}/>
         })
+    }else if(name == 'comments'){
+      var data = this.state.data;
+      data.is_comments = expand.val;
+      this.setState({ 
+        "data":data
+      });
     }
   },
   handleCancel(e) {
-    console.log(e);
     this.setState({
       visible: false
     });
+  },
+  memberFun(type){
+    this.setState({
+        "is_member" : type
+    })
   },
   childComponentsThis: '',
   //弹窗子组件this
@@ -96,20 +141,39 @@ const AllStyle = React.createClass({
   },
   //提交弹窗时验证表单
   handleSubmit() {
-    var _this = this.childComponentsThis;
-    _this.props.form.validateFields((errors, values) => {
-      if (!!errors) {
-        console.log('Errors in form!!!');
-        return;
-      }
-      console.log('Submit!!!');
-      console.log(values);
-      this.setState({ visible: false });
-    });
+    let name = this.state.allPointToType;
+    let _this = this.childComponentsThis;
+    let data = this.state.data;
+    if(name == 'member'){
+      data.is_member = this.state.is_member;
+      this.setState({ 
+        "visible": false,
+        "data":data
+      });
+
+    }else if(name == 'defPic'){
+        
+    }else if(name == 'title'){
+      _this.props.form.validateFields((errors, values) => {
+
+          if (!!errors) {
+            return;
+          }
+
+          const appTitle =  typeof values.title ?  values.title : values.upload;
+          const content_list_title_data = '{"type":'+ 1 +',"content":'+values.title+'}';
+          data.content_list_title = content_list_title_data;
+          this.setState({ 
+            "visible": false,
+            "data": data
+          });
+      });
+    }
   },
   render() {
-    console.log('+++++++++++++++++++++')
-    console.log(this.state);
+    setTimeout(function(){
+        console.log(this.state.data);
+      }.bind(this), 300);
     var name = "focusBox focusBox_"+this.state.index;
     var options = [];
       for (var option in this.state.colors) {
@@ -121,7 +185,7 @@ const AllStyle = React.createClass({
 
       <div className="mt_30">
         <Row>
-          <Col span="14"><p className="styleName"> {this.state.title}<span className="ml_5">{this.state.curPage}</span> </p></Col>
+          <Col span="14"><p className="styleName"> {this.state.title}<span className="ml_5">{this.state.curPage} / {this.state.allPage}</span> </p></Col>
           <Col span="10">
             <Row style={{width:220}} className="defColor" type="flex" justify="space-around">
               {options}
@@ -131,13 +195,13 @@ const AllStyle = React.createClass({
         <div className={name}>
             <ul className="pic">
                 <li>
-                  <LeftDrawer bgColor={this.state.bgColor} fun={this.allPointToFun}/>
+                  <LeftDrawer bgColor={this.state.data.color} fun={this.allPointToFun}/>
                 </li>
                 <li>
-                  <UpDownColumn bgColor={this.state.bgColor} fun={this.allPointToFun} />
+                  <UpDownColumn bgColor={this.state.data.color} fun={this.allPointToFun} />
                 </li>
                 <li>
-                  <DoubleSideDrawer bgColor={this.state.bgColor} fun={this.allPointToFun} />
+                  <DoubleSideDrawer bgColor={this.state.data.color} fun={this.allPointToFun} />
                 </li>
             </ul>
             <a className="prev" href="javascript:void(0)"><Icon type="left"/></a>
