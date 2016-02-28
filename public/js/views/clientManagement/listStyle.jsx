@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal} from 'antd'
+import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal,Slider,InputNumber} from 'antd'
 import PointTo from './pointTo'
 import ListType from './listType'
 
@@ -17,7 +17,7 @@ const ListStyle = React.createClass({
       pointToLineWidth:{'user':0,'defPic':0,'comments':0},
       pointToAllWidth: {'user':0,'defPic':0,'comments':0},
       data : {
-          "content_list_banner":"5","content_list":"1"
+          "content_list_banner":5,"content_list":"1"
        }
     };
   },
@@ -41,6 +41,11 @@ const ListStyle = React.createClass({
     }
 
   },
+  handleCancel(e) {
+    this.setState({
+      visible: false
+    });
+  },
   //提交弹窗时验证表单
   handleSubmit() {
     let name = this.state.allPointToType;
@@ -52,6 +57,13 @@ const ListStyle = React.createClass({
         "data":data
       });
     }
+  },
+  onChange(value) {
+    let data = this.state.data;
+    data.content_list_banner = value ;
+    this.setState({
+      data : data
+    });
   },
   componentDidMount() {
      setTimeout(function(){
@@ -81,6 +93,18 @@ const ListStyle = React.createClass({
           <div className="listStyle_r">
               <div className="listStyle_r_con" style={bgColor} >
               </div>
+          </div>
+
+          <div className="sliderNum">
+            <div className="row">
+              <div className="col-14">
+                <Slider min={1} max={5} onChange={this.onChange} value={this.state.data.content_list_banner} step={1} />
+              </div>
+              <div className="col-2">
+                <InputNumber min={1} max={5} style={{ marginLeft: '10px' }}
+                  value={this.state.data.content_list_banner} onChange={this.onChange} />
+              </div>  
+            </div>         
           </div>
 
           <Modal title={this.state.modalTitle} visible={this.state.visible}
