@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu} from 'antd';
+import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu, Modal} from 'antd';
+import Pack from './base/pack'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
@@ -14,6 +15,8 @@ let Base = React.createClass({
     return {
       current: 'base',
       is_updata : 'none',
+      visible: false,
+      modalCon: '',
       data :  {
                 "app_collocation": {
                     "id": "1",
@@ -49,6 +52,9 @@ let Base = React.createClass({
             }
     };
   },
+  packfun(type){
+
+  },
   handleSubmit(e) {
     e.preventDefault();
     console.log('收到表单值：', this.props.form.getFieldsValue());
@@ -73,6 +79,13 @@ let Base = React.createClass({
         subData[key] = data[key];
     }
     console.log(subData);
+
+    this.setState({
+      visible: true,
+      allPointToType:'123',
+      modalTitle : '打包配置',
+      modalCon : <Pack bgColor={this.state.data.color} fun={this.packfun} />
+    })
   },
   normFile(e) {
     if (Array.isArray(e)) {
@@ -95,6 +108,17 @@ let Base = React.createClass({
         "is_updata": 'block'
       })
     }
+  },
+  handleCancel(e) {
+    this.setState({
+      visible: false
+    });
+  },
+  handleOk() {
+    console.log('点击了确定');
+    this.setState({
+      visible: false
+    });
   },
   render() {
 
@@ -354,6 +378,10 @@ let Base = React.createClass({
           </div>
         </Form>
 
+        <Modal title={this.state.modalTitle} visible={this.state.visible}
+          onOk={this.handleOk} onCancel={this.handleCancel} footer={[]}>
+              {this.state.modalCon}
+          </Modal>
       </div>
     );
   }
