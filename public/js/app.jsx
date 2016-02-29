@@ -39,6 +39,16 @@ const MainRouter = React.createClass({
               <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
                   <Route path=":name" component={clientManagement}/>
               </Route>
+              <Route path="appInformation" name="appInformation" component={clientManagement}>
+                  <Route path=":name" component={clientManagement}/>
+              </Route>
+              <Route path="pushConfiguration" name="pushConfiguration" component={clientManagement}>
+                  <Route path=":name" component={clientManagement}/>
+              </Route>
+              <Route path="shareConfiguration" name="shareConfiguration" component={clientManagement}>
+                  <Route path=":name" component={clientManagement}/>
+              </Route>
+
               <Route path="interactive" name="interactive" component={Interactive}>
                   <Route path=":name" component={Interactive}/>
               </Route>

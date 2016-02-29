@@ -12,12 +12,67 @@ var text = <span>说明文字说明文字说明文字说明文字说明文字</s
 let Base = React.createClass({
   getInitialState() {
     return {
-      current: 'base'
+      current: 'base',
+      is_updata : 'none',
+      data :  {
+                "app_collocation": {
+                    "id": "1",
+                    "name": "test",
+                    "icon": "/upload",
+                    "qrcode": "/upload/qrcode/1001.png",
+                    "version": "1.0.1",
+                    "ios_access_id": "2",
+                    "ios_access_key": "测试ios_access_key",
+                    "ios_secret_key": "测试ios_secret_key",
+                    "android_access_id": "3",
+                    "android_access_key": "测试android_access_key",
+                    "android_secret_key": "测试android_secret_key",
+                    "ios_shelf_certificate": "测试ios_shelf_certificate",
+                    "ios_push_certificate": "测试ios_push_certificate",
+                    "starting_img": "/upload/guide_img1",
+                    "is_push" : true,
+                    "is_weixin_share" : true,
+                    "guide_img": [
+                        "/upload/guide_img1",
+                        "/upload/guide_img2"
+                    ],
+                    "is_comment": "1",
+                    "loading_img": "/upload/load/default.jpg",
+                    "weixin_secret": "测试secretid",
+                    "weixin_id": "测试id",
+                    "slogan": "这&lt;是一 个A“ PP‘的宣'传标语",
+                    "statement": "这”是A&amp;P&lt;P的免&quot;责声'明"
+                },
+                "bundle_id": "bundle_id",
+                "android_sign": "android_sign",
+                "callback": "http://www.baidu.com"
+            }
     };
   },
   handleSubmit(e) {
     e.preventDefault();
     console.log('收到表单值：', this.props.form.getFieldsValue());
+    var subData = {
+                   android_access_id:"",
+                   android_access_key:"",
+                   android_secret_key:"",
+                   icon:"",
+                   ios_access_id:"",
+                   ios_access_key:"",
+                   ios_push_certificate:"",
+                   ios_secret_key:"",
+                   ios_shelf_certificate:"",
+                   is_push:"",
+                   is_weixin_share:"",
+                   name:"",
+                   weixin_id:"",
+                   weixin_secret:""
+    }
+    var data = this.state.data.app_collocation;
+    for(let key in subData){
+        subData[key] = data[key];
+    }
+    console.log(subData);
   },
   normFile(e) {
     if (Array.isArray(e)) {
@@ -25,21 +80,36 @@ let Base = React.createClass({
     }
     return e && e.fileList;
   },
-  onChange(checked) {
-    console.log('switch to ' + checked);
+  onChange(name,val) {
+    let  data= this.state.data;
+    if(name == 'is_push' || name == 'is_weixin_share'){
+      data.app_collocation[name] = val;
+      this.setState({
+        "data": data,
+        "is_updata": 'block'
+      })
+    }else{
+      data.app_collocation[name] = val.target.value;
+      this.setState({
+        "data": data,
+        "is_updata": 'block'
+      })
+    }
   },
   render() {
+
     const { getFieldProps } = this.props.form;
+    const  app_col= this.state.data.app_collocation;
     return (
       <div className="contentBlocks mt_30">
-        <Form horizontal onSubmit={this.handleSubmit}>
+        <Form horizontal  onSubmit={this.handleSubmit}>
           <section id="appInformation">
             <ul className="block_nav" >
               <li className="cur">
                 <a href="#appInformation">应用信息</a>
               </li>
               <li>
-                <a href="#pushConfiguration">推送配置</a>
+                <a href="#pushConfiguration">推送配置</a> 
               </li>
               <li>
                 <a href="#shareConfiguration">分享配置</a>
@@ -57,7 +127,7 @@ let Base = React.createClass({
                             label="APP名称："
                             labelCol={{ span: 4}}
                             wrapperCol={{ span:18 }}>
-                            <Input placeholder="输入您的APP名称" {...getFieldProps('appName')} style={{ width: 200 }}/>
+                            <Input placeholder="输入您的APP名称" defaultValue={app_col.name} onChange={this.onChange.bind(this,'name')} style={{ width: 200 }}/>
                             <span className="ant-form-text">建议不大于6个字</span>
                           </FormItem>
                           <FormItem
@@ -155,21 +225,21 @@ let Base = React.createClass({
                             label="iOS Boundle ID & Android 包名："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:15 }}>
-                            <Input id="control-input" disabled defaultValue="我是禁用的" style={{ width:345 }}/>
+                            <Input id="control-input1" disabled defaultValue={this.state.data.bundle_id} style={{ width:345 }}/>
                           </FormItem>
                           <FormItem
-                            id="control-input"
+                            id="control-input2"
                             label="Android签名："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:15 }}>
-                            <Input id="control-input" defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                            <Input id="control-input2" defaultValue={this.state.data.android_sign}  disabled  style={{ width:345 }}/>
                           </FormItem>
                           <FormItem
-                            id="control-input"
+                            id="control-input3"
                             label="iOS & Android 回调地址："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:15 }}>
-                            <Input id="control-input"  defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                            <Input id="control-input3"  defaultValue={this.state.data.callback}  disabled  style={{ width:345 }}/>
                             <p className="desP">上述参数不可修改，用于在各平台申请时使用。</p>
                           </FormItem>
                     </div>
@@ -191,56 +261,51 @@ let Base = React.createClass({
             <div className="block_header mt_20">
               <i className="xgts"></i>
               <span>信鸽推送</span>
-              <Switch defaultChecked={true} onChange={this.onChange} style={{float:'right',marginTop:'6px'}}/>
+              <Switch defaultChecked={app_col.is_push} onChange={this.onChange.bind(this,'is_push')} style={{float:'right',marginTop:'6px'}}/>
             </div>
             <h4 className="ml_10 mt_15">正式环境配置</h4> 
             <h4 className="ml_25">IOS设置</h4>
             <div className="mt_20">
-                <FormItem
-                    id="control-input"
+                <FormItem                  
                     label="ACCESS ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:15 }}>
-                    <Input id="control-input" disabled defaultValue="我是禁用的" style={{ width:345 }}/>
+                    <Input  defaultValue={app_col.ios_access_id} onChange={this.onChange.bind(this,'ios_access_id')}  disabled={!app_col.is_push}  style={{ width:345 }}/>
                 </FormItem>
-                <FormItem
-                  id="control-input"
+                <FormItem                
                   label="ACCESS KEY："
                   labelCol={{ span:4}}
                   wrapperCol={{ span:15 }}>
-                  <Input id="control-input" defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                  <Input defaultValue={app_col.ios_access_key} onChange={this.onChange.bind(this,'ios_access_key')} disabled={!app_col.is_push}  style={{ width:345 }}/>
                 </FormItem>
-                <FormItem
-                  id="control-input"
+                <FormItem                
                   label="SECRET KEY："
                   labelCol={{ span:4}}
                   wrapperCol={{ span:15 }}>
-                  <Input id="control-input"  defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                  <Input  defaultValue={app_col.ios_secret_key} disabled={!app_col.is_push}  onChange={this.onChange.bind(this,'ios_secret_key')} style={{ width:345 }}/>
                   <p className="desP">上述参数不可修改，用于在各平台申请时使用。</p>
                 </FormItem>
             </div>
             <h4 className="ml_25">Android设置</h4>
             <div className="mt_20">
-                <FormItem
-                    id="control-input"
+                <FormItem                  
                     label="ACCESS ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:15 }}>
-                    <Input id="control-input" disabled defaultValue="我是禁用的" style={{ width:345 }}/>
+                    <Input onChange={this.onChange.bind(this,'android_access_id')} disabled={!app_col.is_push} defaultValue={app_col.android_access_id} style={{ width:345 }}/>
                 </FormItem>
                 <FormItem
-                  id="control-input"
+                 
                   label="ACCESS KEY："
                   labelCol={{ span:4}}
                   wrapperCol={{ span:15 }}>
-                  <Input id="control-input" defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                  <Input defaultValue={app_col.android_access_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_access_key')}  style={{ width:345 }}/>
                 </FormItem>
-                <FormItem
-                  id="control-input"
+                <FormItem               
                   label="SECRET KEY："
                   labelCol={{ span:4}}
                   wrapperCol={{ span:15 }}>
-                  <Input id="control-input"  defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                  <Input  defaultValue={app_col.android_secret_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_secret_key')}  style={{ width:345 }}/>
                 </FormItem>
                 <p className="desP">推广版本无需配置，若APP需要在应用商店发布，打包前请  前往信鸽  申请正式环境需要的配置。  点击查看申请流程</p>
             </div>
@@ -260,28 +325,35 @@ let Base = React.createClass({
             <div className="block_header mt_20">
               <i className="wxfx"></i>
               微信分享
-              <Switch defaultChecked={true} onChange={this.onChange} style={{float:'right',marginTop:'6px'}}/>
+              <Switch defaultChecked={app_col.is_weixin_share} onChange={this.onChange.bind(this,'is_weixin_share')} style={{float:'right',marginTop:'6px'}}/>
             </div>
             <h4 className="ml_25 mt_20">微信分享</h4>
             <div className="mt_20">
-                <FormItem
-                    id="control-input"
+                <FormItem                   
                     label="APP ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:15 }}>
-                    <Input id="control-input" disabled defaultValue="我是禁用的" style={{ width:345 }}/>
+                    <Input onChange={this.onChange.bind(this,'weixin_id')} disabled={!app_col.is_weixin_share} defaultValue={app_col.weixin_id} style={{ width:345 }}/>
                 </FormItem>
                 <FormItem
-                  id="control-input"
+                 
                   label="APP SECRET："
                   labelCol={{ span:4}}
                   wrapperCol={{ span:15 }}>
-                  <Input id="control-input"  defaultValue="我是禁用的"  disabled  style={{ width:345 }}/>
+                  <Input  defaultValue={app_col.weixin_secret}  onChange={this.onChange.bind(this,'weixin_secret')} disabled={!app_col.is_weixin_share}  style={{ width:345 }}/>
                 </FormItem>
-                <p className="desP">用于您的客户端分享功能，若关闭或未配置，会造成您的客户端分享功能无法使用，请前往微信开放平台申请。点击查看申请流程</p>
+                <p className="desP" style={{marginBottom:50}}>用于您的客户端分享功能，若关闭或未配置，会造成您的客户端分享功能无法使用，请前往微信开放平台申请。点击查看申请流程</p>
             </div>
           </section>
+          <div className="baseUpdataTip" style={{"display": this.state.is_updata}}>
+            <p>
+                <Icon type="exclamation-circle" className="baseUpdataTipIcon"/>
+                本页信息已经修改,需重新打包生成APP  
+                <Button type="primary" size="small" className="baseUpdatedBtn" htmlType="submit">点击生成APP</Button>
+            </p>
+          </div>
         </Form>
+
       </div>
     );
   }
