@@ -4,6 +4,7 @@ import '../../../css/base.less'
 import '../../../css/clientManagement.less'
 import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu, Modal} from 'antd';
 import Pack from './base/pack'
+import PackProgress from './base/packProgress'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
@@ -84,7 +85,7 @@ let Base = React.createClass({
       visible: true,
       allPointToType:'123',
       modalTitle : '打包配置',
-      modalCon : <Pack bgColor={this.state.data.color} fun={this.packfun} />
+      modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun} />
     })
   },
   normFile(e) {
