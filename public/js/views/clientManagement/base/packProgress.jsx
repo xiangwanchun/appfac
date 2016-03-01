@@ -23,12 +23,11 @@ let PackProgress = React.createClass({
     })
     this.props.fun(type);
   },
-   increase() {
-    console.log('2222222')
+  increase() {
     let percent_ios = this.state.percent_ios;
     let percent_android = this.state.percent_android;
-    let rand1Time = Math.floor(Math.random()*(10000-3000)+ 1000);
-    let rand2Time = Math.floor(Math.random()*(10000-3000)+ 1000);
+    let rand1Time = Math.floor(Math.random()*(10000-8000)+ 8000);
+    let rand2Time = Math.floor(Math.random()*(10000-8000)+ 8000);
     let rand1 = parseInt(3*Math.random())+1;
     let rand2 = parseInt(3*Math.random())+1;
     let times_ios = setInterval(function(){
