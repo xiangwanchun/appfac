@@ -3,11 +3,10 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/push.less'
-import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,DatePicker, TimePicker,Alert} from 'antd';
+import { Form,message, Input, Button, Row, Col, Upload, Icon,Tooltip,DatePicker,Radio,Modal} from 'antd';
 const createForm = Form.create;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
-const TabPane = Tabs.TabPane;
 const RadioButton = Radio.Button;
 
 
@@ -52,7 +51,7 @@ let Push = React.createClass({
       allPointToType : '',
       titleNum:0,
       data :{
-              "destination":3,"timing":"1","time":" ","title":" ",'content': " "
+              "destination":'3',"timing":"1","time":" ","title":" ",'content': " "
             }
 
     }
@@ -80,17 +79,11 @@ let Push = React.createClass({
       data[customData.name] = e.target.value ;  
     }else{//按钮切换处理
       data[customData.name] = customData.val ;
+      if(customData.name == 'timing' &&  customData.val == '1'){
+        data.time = '' ;
+      }
     }
 
-    this.setState({
-      data
-    })
-  },
-  //日期选择处理
-  pushDataChange(customData,val){
-    data = this.state.data;
-    data[customData.name] = val.format('yyyy-MM-dd hh:mm:ss');
-    /*data[customData.name] = Date.parse(val);  */
     this.setState({
       data
     })
@@ -101,14 +94,7 @@ let Push = React.createClass({
       }
       return e && e.fileList;
   },
-  //表单字数统计处理函数
-  inputNumChange(num,e){
-    this.setState({
-      titleNum : e.target.value.length
-    })
-  },
   handleSubmit(e) {
-
     e.preventDefault();
     console.log('1');
     this.props.form.validateFields((errors, values) => {
@@ -116,14 +102,28 @@ let Push = React.createClass({
         console.log('Errors in form!!!');
         return;
       }
-      console.log('Submit!!!');
-      console.log(values);
+      data = this.state.data;
+      let time = values.time && data.timing == '2' ? values.time.format('yyyy-MM-dd hh:mm:ss') : '';
+      if(!values.time && data.timing == '2'){
+           message.warn('请选择定时发布时间');
+          return;
+      }
+      data.title = values.title;
+      data.content = values.content;
+      data.time = time;
+      console.log(data);
+      Modal.success({
+        title: '成功提示',
+        content: '推送已成功发送'
+      });
     });
   },
-  userExists(rule, value, callback) {
-      this.setState({
-        titleNum : value.length
-      })
+  inputNum(rule, value, callback) {
+      if(value){
+        this.setState({
+          titleNum : value.length
+        })
+      }
       callback();
   },
   render() {
@@ -138,7 +138,7 @@ let Push = React.createClass({
       }, {
         rules: [
           { max : 10 , message: '推送标题长度不能大于10个汉字' },
-          { validator: this.userExists },
+          { validator: this.inputNum },
         ],
         trigger: ['onBlur', 'onChange'],
       }]
@@ -163,7 +163,7 @@ let Push = React.createClass({
                   wrapperCol={{ span: 20}}
                 >
                   <div className="IconBtn">
-                    <RadioGroup  defaultValue="3">
+                    <RadioGroup  defaultValue={data.destination}>
                       <RadioButton value="3" onClick={this.pushHandleClick.bind(this,{'name':'destination','val':'3'}) }>所有</RadioButton>
                       <RadioButton value="1" onClick={this.pushHandleClick.bind(this,{'name':'destination','val':'1'}) }><Icon type="apple" /></RadioButton>
                       <RadioButton value="2" onClick={this.pushHandleClick.bind(this,{'name':'destination','val':'2'}) }><Icon type="android" /></RadioButton>
@@ -177,7 +177,7 @@ let Push = React.createClass({
                 >
                   <div className="IconBtn clearfix">
                     <div className="pushtime fl">
-                      <RadioGroup  defaultValue="1">
+                      <RadioGroup  defaultValue={data.timing}>
                         <RadioButton value="1" onClick={this.pushHandleClick.bind(this,{'name':'timing','val':'1'})}>立即</RadioButton>
                         <RadioButton value="2" onClick={this.pushHandleClick.bind(this,{'name':'timing','val':'2'})}>定时</RadioButton>
                       </RadioGroup>
