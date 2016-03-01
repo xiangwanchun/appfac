@@ -108,7 +108,9 @@ let Push = React.createClass({
     })
   },
   handleSubmit(e) {
+
     e.preventDefault();
+    console.log('1');
     this.props.form.validateFields((errors, values) => {
       if (!!errors) {
         console.log('Errors in form!!!');
@@ -118,17 +120,32 @@ let Push = React.createClass({
       console.log(values);
     });
   },
+  userExists(rule, value, callback) {
+      this.setState({
+        titleNum : value.length
+      })
+      callback();
+  },
   render() {
     console.log(this.state.data);
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
     const titleProps = getFieldProps('title', {
-      rules: [
-        { required: true, max: 10, message: "推送内容最多为25个汉字" }
-      ],
+       validate: [{
+        rules: [
+          { required: true ,message: '请输入推送标题'},
+        ],
+        trigger: 'onBlur',
+      }, {
+        rules: [
+          { max : 10 , message: '推送标题长度不能大于10个汉字' },
+          { validator: this.userExists },
+        ],
+        trigger: ['onBlur', 'onChange'],
+      }]
     });
     const contentProps = getFieldProps('content', {
       rules: [
-        { required: true, max: 25, message: "推送内容最多为25个汉字" }
+        { required: true, max: 25, message: "推送内容建议为25个汉字以内" }
       ],
     });
     data = this.state.data;
@@ -166,7 +183,7 @@ let Push = React.createClass({
                       </RadioGroup>
                     </div>
                     <div className="ml_10 pushtime fl" style={{'display':data.timing == '1' ? 'none ' : 'block'}}>
-                      <DatePicker showTime format="yyyy-MM-dd HH:mm:ss" onChange={this.pushDataChange.bind(this,{'name':'time'}) } style={{ width: 160 }} />
+                      <DatePicker showTime format="yyyy-MM-dd HH:mm:ss"  style={{ width: 160 }} {...getFieldProps('time')}/>
                     </div>
                   </div>
                 </FormItem>
@@ -186,37 +203,40 @@ let Push = React.createClass({
                     <Icon type="exclamation-circle" className="updataTipIcon"/>
                     <a className="UpdatedInstructions" onClick={this.showModal}>点击后打开APP</a>  
                 </p>
-                 <FormItem
-                  id="control-input"
-                  label="推送标题："
-                  labelCol={{ span:4 }}
-                  wrapperCol={{ span: 20}}
-                  >
-                  <Row >
-                    <Col span="17">
-                      <div className="inputNumWrap" style={{width:'370px'}}>
-                        <Input id="control-input" placeholder="请填写推送内容标题（仅Android设备可见）"  style={{width:'370px'}} {...titleProps}/>
+                             
+                 <Row >
+                    <Col span="4" style={{textAlign:'right',lineHeight:'35px'}}>
+                      推送标题：
+                    </Col>
+                    <Col span="14">
+                      <div className="inputNumWrap">
+                        <FormItem
+                          id="control-input"
+                          label=""
+                          wrapperCol={{ span: 24}}
+                          >    
+                          <Input id="control-input"  placeholder="请填写推送内容标题（仅Android设备可见）"  {...titleProps}/>
+                        </FormItem>
                         <span className="inputNum"><i style={{"color" : this.state.titleNum > 10 ? '#ff5d3d' : ''}}>{this.state.titleNum}</i>/10</span>
                       </div>
                     </Col>
+
                     <Col span="2">
-                      <Tooltip placement="top" title={text}>
-                        <a href="javascript:;" className="questionCircle"><Icon type="question-circle-o"/></a>
-                      </Tooltip>
+                      <div className="ml_10">
+                        <Tooltip placement="top" title={text}>
+                          <a href="javascript:;" className="questionCircle"><Icon type="question-circle-o"/></a>
+                        </Tooltip>
+                      </div>
                     </Col>
                   </Row>
-                  
-                </FormItem>
 
                 <FormItem
                   label="推送正文："
+                  hasFeedback
                   labelCol={{ span:4 }}
-                  wrapperCol={{ span: 20}}
+                  wrapperCol={{ span:14}}
                   >
-                  <Input type="textarea" placeholder="推送正文" rows="5" style={{width:'370px'}} {...contentProps}/>
-                  <div className="inputNumWrap" style={{width:'370px'}}>                   
-                    <span className="inputNum"><i style={{"color" : this.state.titleNum > 10 ? '#ff5d3d' : ''}}>{this.state.titleNum}</i>/10</span>
-                  </div>
+                  <Input type="textarea" placeholder="推送正文" rows="5"  {...contentProps}/>
                 </FormItem>
                 <Row style={{ marginTop: 24 }}>
                   <Col span="16" offset="4">
