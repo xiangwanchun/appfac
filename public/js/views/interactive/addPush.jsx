@@ -143,6 +143,7 @@ let Push = React.createClass({
                 <FormItem
                   label="推送目标："
                   labelCol={{ span:4 }}
+                  wrapperCol={{ span: 20}}
                 >
                   <div className="IconBtn">
                     <RadioGroup  defaultValue="3">
@@ -155,6 +156,7 @@ let Push = React.createClass({
                 <FormItem
                   label="推送时间："
                   labelCol={{ span:4 }}
+                  wrapperCol={{ span: 20}}
                 >
                   <div className="IconBtn clearfix">
                     <div className="pushtime fl">
@@ -171,6 +173,7 @@ let Push = React.createClass({
                 <FormItem
                   label="推送内容："
                   labelCol={{ span:4 }}
+                  wrapperCol={{ span: 20}}
                 >
                   <div className="IconBtn">
                     <RadioGroup  defaultValue="apple">
@@ -209,10 +212,9 @@ let Push = React.createClass({
                   label="推送正文："
                   labelCol={{ span:4 }}
                   wrapperCol={{ span: 20}}
-                  help='2222'
                   >
-                  <div className="inputNumWrap" style={{width:'370px'}}>
-                    <Input type="textarea" placeholder="推送正文" rows="5" style={{width:'370px'}} {...contentProps}/>
+                  <Input type="textarea" placeholder="推送正文" rows="5" style={{width:'370px'}} {...contentProps}/>
+                  <div className="inputNumWrap" style={{width:'370px'}}>                   
                     <span className="inputNum"><i style={{"color" : this.state.titleNum > 10 ? '#ff5d3d' : ''}}>{this.state.titleNum}</i>/10</span>
                   </div>
                 </FormItem>
