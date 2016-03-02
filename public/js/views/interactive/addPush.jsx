@@ -50,7 +50,7 @@ let Push = React.createClass({
       //判断是哪个箭头函数触发的
       allPointToType : '',
       titleNum:0,
-      data :{
+      data : {
               "destination":'3',"timing":"1","time":" ","title":" ",'content': " "
             }
 
@@ -102,6 +102,7 @@ let Push = React.createClass({
         console.log('Errors in form!!!');
         return;
       }
+
       data = this.state.data;
       let time = values.time && data.timing == '2' ? values.time.format('yyyy-MM-dd hh:mm:ss') : '';
       if(!values.time && data.timing == '2'){
@@ -118,10 +119,10 @@ let Push = React.createClass({
       });
     });
   },
-  inputNum(rule, value, callback) {
+  inputNum(name, rule, value, callback) {
       if(value){
         this.setState({
-          titleNum : value.length
+          [name] : value.length
         })
       }
       callback();
@@ -138,7 +139,7 @@ let Push = React.createClass({
       }, {
         rules: [
           { max : 10 , message: '推送标题长度不能大于10个汉字' },
-          { validator: this.inputNum },
+          { validator: this.inputNum.bind(this,'titleNum') },
         ],
         trigger: ['onBlur', 'onChange'],
       }]

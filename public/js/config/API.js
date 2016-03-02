@@ -1,5 +1,10 @@
-const HOST = `/online_api/`;
+const DONAME  = 'http://172.16.148.16';
+const HOSTNAME  = '/factory';
+const CONFIG = {
+	DONAME,
+	HOSTNAME
+};
 
-export const API_TEST = HOST+`/api/test`;
+export default  CONFIG;
 
 

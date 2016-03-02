@@ -5,10 +5,11 @@ import '../../../css/clientManagement.less'
 import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu, Modal} from 'antd';
 import Pack from './base/pack'
 import PackProgress from './base/packProgress'
-const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+const createForm = Form.create;
+const FormItem = Form.Item;
 var text = <span>说明文字说明文字说明文字说明文字说明文字</span>;
 
 let Base = React.createClass({
@@ -18,6 +19,7 @@ let Base = React.createClass({
       is_updata : 'none',
       visible: false,
       modalCon: '',
+      nameNum:'0',
       data :  {
                 "app_collocation": {
                     "id": "1",
@@ -56,7 +58,18 @@ let Base = React.createClass({
   packfun(type){
 
   },
-  handleSubmit(e) {
+  getValidateStatus(field) {
+    const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
+
+    if (isFieldValidating(field)) {
+      return 'validating';
+    } else if (!!getFieldError(field)) {
+      return 'error';
+    } else if (getFieldValue(field)) {
+      return 'success';
+    }
+  },
+  handleSubmit1(e) {
     e.preventDefault();
     console.log('收到表单值：', this.props.form.getFieldsValue());
     var subData = {
@@ -87,6 +100,17 @@ let Base = React.createClass({
       modalTitle : '打包配置',
       modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun} />
     })
+  },
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((errors, values) => {
+      if (!!errors) {
+        console.log('Errors in form!!!');
+        return;
+      }
+      console.log('Submit!!!');
+      console.log(values);
+    });
   },
   normFile(e) {
     if (Array.isArray(e)) {
@@ -121,13 +145,37 @@ let Base = React.createClass({
       visible: false
     });
   },
+  inputNum(name, rule, value, callback) {
+      this.setState({
+        "is_updata": 'block'
+      })
+      if(value){
+        this.setState({
+          [name] : value.length
+        })
+      }
+      callback();
+  },
   render() {
-
-    const { getFieldProps } = this.props.form;
     const  app_col= this.state.data.app_collocation;
+    const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+    const nameProps = getFieldProps('name', {
+       validate: [{
+        rules: [
+          { required: true ,message: '请输入APP名'},
+        ],
+        trigger: 'onBlur',
+      }, {
+        rules: [
+          { max : 6 , message: 'APP名称建议6个字以内' },
+          { validator: this.inputNum.bind(this,'nameNum') },
+        ],
+        trigger: ['onBlur', 'onChange'],
+      }]
+    });
     return (
       <div className="contentBlocks mt_30">
-        <Form horizontal  onSubmit={this.handleSubmit}>
+        <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
           <section id="appInformation">
             <ul className="block_nav" >
               <li className="cur">
@@ -146,15 +194,16 @@ let Base = React.createClass({
                         <img src="images/basePhone.png" title="新媒体头条"/>
                     </div>
                     <div className="AppInformation_r">
-                       
-                          <FormItem
-                            id="control-input"
-                            label="APP名称："
-                            labelCol={{ span: 4}}
-                            wrapperCol={{ span:18 }}>
-                            <Input placeholder="输入您的APP名称" defaultValue={app_col.name} onChange={this.onChange.bind(this,'name')} style={{ width: 200 }}/>
-                            <span className="ant-form-text">建议不大于6个字</span>
-                          </FormItem>
+                          <div className="inputNumWrap">
+                            <FormItem
+                              id="control-input"
+                              label="APP名称："
+                              labelCol={{ span: 4}}
+                              wrapperCol={{ span:8}}>
+                              <Input placeholder="输入您的APP名称"  defaultValue={app_col.name} {...nameProps}/>
+                            </FormItem>
+                            <span className="inputNum" style={{right:330}}><i style={{"color" : this.state.nameNum > 10 ? '#ff5d3d' : ''}}>{this.state.nameNum}</i>/10</span>
+                          </div>
                           <FormItem
                             label="APP图标："
                             labelCol={{ span: 4}}
@@ -166,7 +215,7 @@ let Base = React.createClass({
                             </div>
                             <div className="AppInformation_upload_r">
                               <p className="mb_10">图片要求:PNG格式,1024x1024</p>
-                              <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
+                              <Upload name="file" action="/factory/upload" listType="text"  data={{"type" :'app_icon'}}
                                 {...getFieldProps('upload', {
                                   valuePropName: 'fileList',
                                   normalize: this.normFile
@@ -197,7 +246,7 @@ let Base = React.createClass({
                             >
                               <Row>
                                 <Col span="5">
-                                    <Upload name="ios_1" action="/upload.do" listType="picture1" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
+                                    <Upload name="ios_1" action="/factory/icon" listType="picture1" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
                                       {...getFieldProps('upload1', {
                                         valuePropName: 'fileList1',
                                         normalize: this.normFile

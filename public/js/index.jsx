@@ -11,6 +11,7 @@ import ActivationVolume from './components/index/activationVolume'
 import UpdataTip from './components/index/updataTip'
 import IndexLeft from './components/index/indexLeft'
 import QuickEntry from './components/index/QuickEntry'
+import CONFIG from './config/API'
 
 import {Tabs} from 'antd';
 const TabPane = Tabs.TabPane;
@@ -22,11 +23,47 @@ const Index = React.createClass({
 
   getInitialState() {
     return {
-      current: 'index'
-    };
+      current: 'index',
+      UpdataTip : '',
+      data: {
+          "app": {
+              "created_at": "1991-10-13 06:33:53",
+              "icon": "images/ml_download.png",
+              "name": "",
+              "qr_code": "images/ml_download.png"
+          },
+          "statistics": {
+              "activation": '',
+              "activation_today": '',
+              "active_today": '',
+              "hit_today": ''
+          }
+      }
+
+
+  }
   },
   handleClick(e) {
    
+  },
+  componentDidMount(){
+     
+      console.log(CONFIG.HOSTNAME);
+      $.get(CONFIG.HOSTNAME, { token: "fds", uid: 1 ,username:32 },function(ajaxdata){
+            let data = this.state.data;
+            ajaxdata = JSON.parse(ajaxdata);
+            if(ajaxdata.state){
+              data = ajaxdata.data;
+              this.setState({
+                data
+              })
+            }  
+      }.bind(this));
+     setTimeout(function(){
+          console.log('2222222');
+          console.log(this.state.data);
+      }.bind(this), 1000)
+      
   },
   render() {
     return (
@@ -34,12 +71,12 @@ const Index = React.createClass({
         <div className="appcenter mt_30">
           <Row>
             <Col span="5">
-                <IndexLeft></IndexLeft>
+                <IndexLeft {...this.state.data.app} config={CONFIG}></IndexLeft>
             </Col>
             <Col span="19">
                 <div id="mainCon">
-                    <UpdataTip></UpdataTip>
-                    <ActivationVolume></ActivationVolume>
+                    {/*<UpdataTip></UpdataTip>*/}
+                    <ActivationVolume {...this.state.data.statistics} config={CONFIG}></ActivationVolume>
                     <QuickEntry></QuickEntry>   
                 </div>
             </Col>
