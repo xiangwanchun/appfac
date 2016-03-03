@@ -103,7 +103,7 @@ let Base = React.createClass({
                    ios_shelf_certificate:"",
                    is_push:"",
                    is_weixin_share:"",
-                   name:"",
+                   name:"11",
                    weixin_id:"",
                    weixin_secret:""
     }
@@ -279,7 +279,7 @@ let Base = React.createClass({
     const testProps = getFieldProps('test', {
        validate: [{
         rules: [
-          { required: aa ,message: '请输入APP名11111'},
+          { required: !aa ,message: '请输入APP名11111'},
         ],
         trigger: ['onBlur', 'onChange'],
       }]
@@ -469,7 +469,7 @@ let Base = React.createClass({
                     label="ACCESS ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:9 }}>
-                    <Input  defaultValue={app_col.ios_access_id}  {...testProps}  disabled={!app_col.is_push}/>
+                    <Input defaultValue={app_col.ios_access_id}  {...testProps}  disabled={!app_col.is_push}/>
                 </FormItem>
                 <FormItem                
                   label="ACCESS KEY："
