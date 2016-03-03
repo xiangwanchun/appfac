@@ -275,8 +275,19 @@ let Base = React.createClass({
         trigger: ['onBlur', 'onChange'],
       }]
     });
+    var aa =app_col.is_push ? true : false;
+    const testProps = getFieldProps('test', {
+       validate: [{
+        rules: [
+          { required: aa ,message: '请输入APP名11111'},
+        ],
+        trigger: ['onBlur', 'onChange'],
+      }]
+    });
+
     const url = CONFIG.DONAME + app_col.icon;
-    var aa= app_col.is_push ? nameProps : {};
+
+    console.log(app_col.is_push );
     return (
       <div className="contentBlocks mt_30">
         <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
@@ -412,22 +423,22 @@ let Base = React.createClass({
                             id="control-input"
                             label="iOS Boundle ID & Android 包名："
                             labelCol={{ span:7}}
-                            wrapperCol={{ span:15 }}>
-                            <Input id="control-input1" disabled defaultValue={this.state.data.bundle_id} style={{ width:345 }}/>
+                            wrapperCol={{ span:9 }}>
+                            <Input id="control-input1" disabled defaultValue={this.state.data.bundle_id}/>
                           </FormItem>
                           <FormItem
                             id="control-input2"
                             label="Android签名："
                             labelCol={{ span:7}}
-                            wrapperCol={{ span:15 }}>
-                            <Input id="control-input2" defaultValue={this.state.data.android_sign}  disabled  style={{ width:345 }}/>
+                            wrapperCol={{ span:9 }}>
+                            <Input id="control-input2" defaultValue={this.state.data.android_sign}  disabled />
                           </FormItem>
                           <FormItem
                             id="control-input3"
                             label="iOS & Android 回调地址："
                             labelCol={{ span:7}}
-                            wrapperCol={{ span:15 }}>
-                            <Input id="control-input3"  defaultValue={this.state.data.callback}  disabled  style={{ width:345 }}/>
+                            wrapperCol={{ span:9 }}>
+                            <Input id="control-input3"  defaultValue={this.state.data.callback}  disabled />
                             <p className="desP">上述参数不可修改，用于在各平台申请时使用。</p>
                           </FormItem>
                     </div>
@@ -457,20 +468,20 @@ let Base = React.createClass({
                 <FormItem                  
                     label="ACCESS ID："
                     labelCol={{ span:4}}
-                    wrapperCol={{ span:15 }}>
-                    <Input  defaultValue={app_col.ios_access_id}  onChange={this.onChange.bind(this,'ios_access_id')}  disabled={!app_col.is_push}  style={{ width:345 }}/>
+                    wrapperCol={{ span:9 }}>
+                    <Input  defaultValue={app_col.ios_access_id}  {...testProps}  disabled={!app_col.is_push}/>
                 </FormItem>
                 <FormItem                
                   label="ACCESS KEY："
                   labelCol={{ span:4}}
-                  wrapperCol={{ span:15 }}>
-                  <Input defaultValue={app_col.ios_access_key} onChange={this.onChange.bind(this,'ios_access_key')} disabled={!app_col.is_push}  style={{ width:345 }}/>
+                  wrapperCol={{ span:9 }}>
+                  <Input defaultValue={app_col.ios_access_key} onChange={this.onChange.bind(this,'ios_access_key')} disabled={!app_col.is_push}  />
                 </FormItem>
                 <FormItem                
                   label="SECRET KEY："
                   labelCol={{ span:4}}
-                  wrapperCol={{ span:15 }}>
-                  <Input  defaultValue={app_col.ios_secret_key} disabled={!app_col.is_push}  onChange={this.onChange.bind(this,'ios_secret_key')} style={{ width:345 }}/>
+                  wrapperCol={{ span:9 }}>
+                  <Input  defaultValue={app_col.ios_secret_key} disabled={!app_col.is_push}  onChange={this.onChange.bind(this,'ios_secret_key')} />
                   <p className="desP">上述参数不可修改，用于在各平台申请时使用。</p>
                 </FormItem>
             </div>
@@ -479,21 +490,21 @@ let Base = React.createClass({
                 <FormItem                  
                     label="ACCESS ID："
                     labelCol={{ span:4}}
-                    wrapperCol={{ span:15 }}>
-                    <Input onChange={this.onChange.bind(this,'android_access_id')} disabled={!app_col.is_push} defaultValue={app_col.android_access_id} style={{ width:345 }}/>
+                    wrapperCol={{ span:9 }}>
+                    <Input onChange={this.onChange.bind(this,'android_access_id')} disabled={!app_col.is_push} defaultValue={app_col.android_access_id} />
                 </FormItem>
                 <FormItem
                  
                   label="ACCESS KEY："
                   labelCol={{ span:4}}
-                  wrapperCol={{ span:15 }}>
-                  <Input defaultValue={app_col.android_access_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_access_key')}  style={{ width:345 }}/>
+                  wrapperCol={{ span:9 }}>
+                  <Input defaultValue={app_col.android_access_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_access_key')}  />
                 </FormItem>
                 <FormItem               
                   label="SECRET KEY："
                   labelCol={{ span:4}}
-                  wrapperCol={{ span:15 }}>
-                  <Input  defaultValue={app_col.android_secret_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_secret_key')}  style={{ width:345 }}/>
+                  wrapperCol={{ span:9 }}>
+                  <Input  defaultValue={app_col.android_secret_key} disabled={!app_col.is_push} onChange={this.onChange.bind(this,'android_secret_key')}  />
                 </FormItem>
                 <p className="desP">推广版本无需配置，若APP需要在应用商店发布，打包前请  前往信鸽  申请正式环境需要的配置。  点击查看申请流程</p>
             </div>
@@ -520,15 +531,15 @@ let Base = React.createClass({
                 <FormItem                   
                     label="APP ID："
                     labelCol={{ span:4}}
-                    wrapperCol={{ span:15 }}>
-                    <Input onChange={this.onChange.bind(this,'weixin_id')} disabled={!app_col.is_weixin_share} defaultValue={app_col.weixin_id} style={{ width:345 }}/>
+                    wrapperCol={{ span:9 }}>
+                    <Input onChange={this.onChange.bind(this,'weixin_id')} disabled={!app_col.is_weixin_share} defaultValue={app_col.weixin_id} />
                 </FormItem>
                 <FormItem
                  
                   label="APP SECRET："
                   labelCol={{ span:4}}
-                  wrapperCol={{ span:15 }}>
-                  <Input  defaultValue={app_col.weixin_secret}  onChange={this.onChange.bind(this,'weixin_secret')} disabled={!app_col.is_weixin_share}  style={{ width:345 }}/>
+                  wrapperCol={{ span:9 }}>
+                  <Input  defaultValue={app_col.weixin_secret}  onChange={this.onChange.bind(this,'weixin_secret')} disabled={!app_col.is_weixin_share}  />
                 </FormItem>
                 <p className="desP" style={{marginBottom:50}}>用于您的客户端分享功能，若关闭或未配置，会造成您的客户端分享功能无法使用，请前往微信开放平台申请。点击查看申请流程</p>
             </div>
