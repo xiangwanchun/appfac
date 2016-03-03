@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu, Modal} from 'antd';
+import { Form, Input, Checkbox, Radio, Switch,Slider, Button, Row, Col, Upload, Icon,Tooltip,Tabs,Menu, Modal,message} from 'antd';
 import Pack from './base/pack'
 import PackProgress from './base/packProgress'
+import CONFIG from '../../config/API'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const createForm = Form.create;
 const FormItem = Form.Item;
 var text = <span>说明文字说明文字说明文字说明文字说明文字</span>;
-
 let Base = React.createClass({
   getInitialState() {
     return {
@@ -23,40 +23,58 @@ let Base = React.createClass({
       data :  {
                 "app_collocation": {
                     "id": "1",
-                    "name": "test",
-                    "icon": "/upload",
-                    "qrcode": "/upload/qrcode/1001.png",
+                    "name": "1",
+                    "icon": "",
+                    "qrcode": "",
                     "version": "1.0.1",
-                    "ios_access_id": "2",
-                    "ios_access_key": "测试ios_access_key",
-                    "ios_secret_key": "测试ios_secret_key",
-                    "android_access_id": "3",
-                    "android_access_key": "测试android_access_key",
-                    "android_secret_key": "测试android_secret_key",
-                    "ios_shelf_certificate": "测试ios_shelf_certificate",
-                    "ios_push_certificate": "测试ios_push_certificate",
+                    "ios_access_id": "",
+                    "ios_access_key": "",
+                    "ios_secret_key": "",
+                    "android_access_id": "",
+                    "android_access_key": "",
+                    "android_secret_key": "",
+                    "ios_shelf_certificate": "",
+                    "ios_push_certificate": "",
                     "starting_img": "/upload/guide_img1",
-                    "is_push" : true,
-                    "is_weixin_share" : true,
+                    "is_push" : 0,
+                    "is_weixin_share" : 0,
                     "guide_img": [
                         "/upload/guide_img1",
                         "/upload/guide_img2"
                     ],
                     "is_comment": "1",
                     "loading_img": "/upload/load/default.jpg",
-                    "weixin_secret": "测试secretid",
-                    "weixin_id": "测试id",
+                    "weixin_secret": "",
+                    "weixin_id": "",
                     "slogan": "这&lt;是一 个A“ PP‘的宣'传标语",
                     "statement": "这”是A&amp;P&lt;P的免&quot;责声'明"
                 },
                 "bundle_id": "bundle_id",
                 "android_sign": "android_sign",
                 "callback": "http://www.baidu.com"
-            }
-    };
+            },
+      subData : ''//提交给后台的数据
+    }
+    
   },
+  /*点击开始生成按钮回调*/
   packfun(type){
 
+    if(type == 'pack'){
+      this.setState({
+        visible: true,
+        allPointToType:'123',
+        modalTitle : '打包配置',
+        modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun}  />
+      })
+      var a = CONFIG.HOSTNAME+'/client/base';
+      console.log('##################');
+      console.log(this.state.subData);
+      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(data){
+          console.log(data);
+      })
+    }
+      
   },
   getValidateStatus(field) {
     const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
@@ -71,8 +89,9 @@ let Base = React.createClass({
   },
   handleSubmit1(e) {
     e.preventDefault();
+    var formGetFieldsValue = this.props.form.getFieldsValue();
     console.log('收到表单值：', this.props.form.getFieldsValue());
-    var subData = {
+    let subData = {
                    android_access_id:"",
                    android_access_key:"",
                    android_secret_key:"",
@@ -92,13 +111,16 @@ let Base = React.createClass({
     for(let key in subData){
         subData[key] = data[key];
     }
-    console.log(subData);
+    subData.name = formGetFieldsValue.name;
+    
+    
 
     this.setState({
       visible: true,
       allPointToType:'123',
       modalTitle : '打包配置',
-      modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun} />
+      subData : subData,
+      modalCon : <Pack bgColor={this.state.data.color} fun={this.packfun} data={{...this.state.data}}/>
     })
   },
   handleSubmit(e) {
@@ -110,6 +132,7 @@ let Base = React.createClass({
       }
       console.log('Submit!!!');
       console.log(values);
+      this.handleSubmit1(e);
     });
   },
   normFile(e) {
@@ -118,9 +141,11 @@ let Base = React.createClass({
     }
     return e && e.fileList;
   },
+  //未验证表单变换时
   onChange(name,val) {
     let  data= this.state.data;
     if(name == 'is_push' || name == 'is_weixin_share'){
+      val = val ? 1 : 0; 
       data.app_collocation[name] = val;
       this.setState({
         "data": data,
@@ -129,8 +154,8 @@ let Base = React.createClass({
     }else{
       data.app_collocation[name] = val.target.value;
       this.setState({
-        "data": data,
-        "is_updata": 'block'
+        "data" : data,
+        "is_updata" : 'block'
       })
     }
   },
@@ -145,6 +170,7 @@ let Base = React.createClass({
       visible: false
     });
   },
+  //统计表单字数
   inputNum(name, rule, value, callback) {
       this.setState({
         "is_updata": 'block'
@@ -154,11 +180,87 @@ let Base = React.createClass({
           [name] : value.length
         })
       }
+      if(name == 'nameNum'){
+          var data = this.state.data;
+              data.app_collocation.name = value;
+          this.setState({
+            data
+          })   
+      }
       callback();
   },
+  //上传变换的时候
+  uploadChange(name,info){
+      if (info.file.status !== 'uploading') {
+        /*console.log(info.file, info.fileList);*/
+      }
+      if (info.file.status === 'done') {
+        if(info.file.response.state){
+          message.success(`${info.file.name} 上传成功。`);
+          var data = this.state.data;
+          data.app_collocation[name] = info.file.response.data.src;
+          this.setState({
+              data
+          })
+        }else{
+          Modal.error({
+            title: '文件上传错误',
+            content: `${info.file.name} ${info.file.response.errors.description}`
+          });
+        }                  
+      }else if (info.file.status === 'error') {
+        Modal.error({
+            title: '文件上传错误',
+            content: `${info.file.name} 上传失败。`
+          });
+      }
+  },
+  componentDidMount(){
+     
+     $.get(CONFIG.HOSTNAME+'/client/base',function(ajaxdata){
+          console.log(ajaxdata);
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+            data = ajaxdata.data.meta;
+            this.setState({
+              data
+            })
+          }  
+      }.bind(this));
+
+      
+  },
   render() {
-    const  app_col= this.state.data.app_collocation;
+    let  app_col= this.state.data.app_collocation;
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+
+    //文件上传处理
+    const _this = this;
+    const icon = {
+              name: 'file',
+              action: '/factory/upload',
+              listType:"text" ,
+              onChange(info) {
+                  _this.uploadChange('icon',info);              
+              }
+            };
+    const certificate1 = {
+              name: 'file',
+              action: '/factory/upload',
+              listType:" text" ,
+              onChange(info) {
+                  _this.uploadChange('ios_shelf_certificate',info);              
+              }
+            };
+    const certificate2 = {
+      name: 'file',
+      action: '/factory/upload',
+      listType:"text " ,
+      onChange(info) {
+          _this.uploadChange('ios_push_certificate',info);              
+      }
+    };
     const nameProps = getFieldProps('name', {
        validate: [{
         rules: [
@@ -173,6 +275,8 @@ let Base = React.createClass({
         trigger: ['onBlur', 'onChange'],
       }]
     });
+    const url = CONFIG.DONAME + app_col.icon;
+    var aa= app_col.is_push ? nameProps : {};
     return (
       <div className="contentBlocks mt_30">
         <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
@@ -191,7 +295,11 @@ let Base = React.createClass({
             <div className="mt_30">
                   <div className="clearfix">
                     <div className="AppInformation_l ">
-                        <img src="images/basePhone.png" title="新媒体头条"/>
+                        <img src="images/basePhone.png"/>
+                        <div className="appIconPreview">
+                            <img src={url} alt="APP图标"/>
+                            <p>{app_col.name}</p>                            
+                        </div>
                     </div>
                     <div className="AppInformation_r">
                           <div className="inputNumWrap">
@@ -200,35 +308,34 @@ let Base = React.createClass({
                               label="APP名称："
                               labelCol={{ span: 4}}
                               wrapperCol={{ span:8}}>
-                              <Input placeholder="输入您的APP名称"  defaultValue={app_col.name} {...nameProps}/>
+                              <Input  defaultValue={app_col.name} {...nameProps}/>
                             </FormItem>
-                            <span className="inputNum" style={{right:330}}><i style={{"color" : this.state.nameNum > 10 ? '#ff5d3d' : ''}}>{this.state.nameNum}</i>/10</span>
+                            <span className="inputNum" style={{right:330}}><i style={{"color" : this.state.nameNum > 6 ? '#ff5d3d' : ''}}>{this.state.nameNum}</i>/6</span>
                           </div>
-                          <FormItem
-                            label="APP图标："
-                            labelCol={{ span: 4}}
-                            wrapperCol={{ span: 18 }}
-                            prefixCls="shorten-form"
-                            >
-                            <div className="AppInformation_upload_l">
-                              <img src="images/ml_headlines.png"/>
-                            </div>
-                            <div className="AppInformation_upload_r">
-                              <p className="mb_10">图片要求:PNG格式,1024x1024</p>
-                              <Upload name="file" action="/factory/upload" listType="text"  data={{"type" :'app_icon'}}
-                                {...getFieldProps('upload', {
-                                  valuePropName: 'fileList',
-                                  normalize: this.normFile
-                                })}
-                              >
-                                <Button type="primary" size="large">
-                                   点击上传
-                                </Button>
-                              </Upload>
-                            </div>
-                          </FormItem>
 
-                          <FormItem
+                          <Row>
+                            <Col span="4" className="colFormItem">
+                                APP图标：
+                            </Col>
+                            <Col span="20">
+                            <div className="AppInformation_upload_l">
+                                <img src={CONFIG.DONAME + app_col.icon}/>
+                              </div>
+
+                              <div className="AppInformation_upload_r">
+                                <p className="mb_10">图片要求:PNG格式,1024x1024</p>
+                              </div>
+                              <div>
+                                <Upload {...icon}  data={{"type" :'app_icon'}} >
+                                  <Button type="primary" size="large">
+                                     点击上传
+                                  </Button>
+                                </Upload>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          {/*<FormItem
                             label="IOS上架配置："
                             labelCol={{ span: 4 }}
                             wrapperCol={{ span: 20 }}
@@ -238,41 +345,48 @@ let Base = React.createClass({
                                 <a href="javascript:;" className="primary-color">说明</a>
                             </Tooltip></p>
                           </FormItem>
-                          <FormItem
-                            label="IOS上架证书上传："
-                            labelCol={{ span: 5}}
-                            wrapperCol={{ span: 18 }}
-                            prefixCls="shorten-form"
-                            >
-                              <Row>
-                                <Col span="5">
-                                    <Upload name="ios_1" action="/factory/icon" listType="picture1" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
-                                      {...getFieldProps('upload1', {
-                                        valuePropName: 'fileList1',
-                                        normalize: this.normFile
-                                      })}
-                                    >
-                                      <Button type="primary" size="large">
-                                         点击上传
-                                      </Button>
-                                    </Upload>
-                                </Col>
-                                <Col span="12">
-                                  <a className="ant-form-text primary-color">证书制作参考</a>
-                                </Col>
-                              </Row>                                           
-                          </FormItem>
+  
+                          <Row>
+                            <Col span="5" className="colFormItem">
+                              IOS上架证书上传：
+                            </Col>
+                            <Col span="4">
+                                <Upload {...certificate1} data={{"type" :'certificate'}} style={{display:'inline-block',width:'120px'}}> 
+                                  <Button type="primary" size="large">
+                                     点击上传
+                                  </Button>
+                                </Upload>
+                            </Col>
+                            <Col span="5">
+                              <a className="ant-form-text primary-color">证书制作参考</a>
+                            </Col>
+                          </Row>      
 
-                          <FormItem
-                            label="IOS上架证书上传："
+                         <Row>
+                            <Col span="5" className="colFormItem" >
+                              IOS推送证书上传：
+                            </Col>
+                            <Col span="4">
+                                <Upload {...certificate2} data={{"type" :'certificate'}} style={{display:'inline-block',width:'120px'}}>
+                                  <Button type="primary" size="large">
+                                     点击上传
+                                  </Button>
+                                </Upload>
+                            </Col>
+                            <Col span="5">
+                              <a className="ant-form-text primary-color">证书制作参考</a>
+                            </Col>
+                          </Row>                                  
+                         <FormItem
+                            label="IOS推送证书上传："
                             labelCol={{ span: 5}}
                             wrapperCol={{ span: 18 }} 
                             prefixCls="shorten-form"
                             >
                               <Row>
                                 <Col span="5">
-                                    <Upload name="ios_1" action="/upload.do" listType="picture2" onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
-                                      {...getFieldProps('upload2', {
+                                    <Upload name="file" action="/factory/upload" listType="text" data={{"type" :'certificate'}} onChange={this.handleUpload} style={{display:'inline-block',width:'120px'}}
+                                      {...getFieldProps('certificate2', {
                                         valuePropName: 'fileList2',
                                         normalize: this.normFile
                                       })}
@@ -286,7 +400,7 @@ let Base = React.createClass({
                                   <a className="ant-form-text primary-color">证书制作参考</a>
                                 </Col>
                               </Row> 
-                          </FormItem>                        
+                          </FormItem>    */  }                    
                     </div>
                   </div>
                   <section>
@@ -335,7 +449,7 @@ let Base = React.createClass({
             <div className="block_header mt_20">
               <i className="xgts"></i>
               <span>信鸽推送</span>
-              <Switch defaultChecked={app_col.is_push} onChange={this.onChange.bind(this,'is_push')} style={{float:'right',marginTop:'6px'}}/>
+              <Switch defaultChecked={app_col.is_push ? true : false } onChange={this.onChange.bind(this,'is_push')} style={{float:'right',marginTop:'6px'}}/>
             </div>
             <h4 className="ml_10 mt_15">正式环境配置</h4> 
             <h4 className="ml_25">IOS设置</h4>
@@ -344,7 +458,7 @@ let Base = React.createClass({
                     label="ACCESS ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:15 }}>
-                    <Input  defaultValue={app_col.ios_access_id} onChange={this.onChange.bind(this,'ios_access_id')}  disabled={!app_col.is_push}  style={{ width:345 }}/>
+                    <Input  defaultValue={app_col.ios_access_id}  onChange={this.onChange.bind(this,'ios_access_id')}  disabled={!app_col.is_push}  style={{ width:345 }}/>
                 </FormItem>
                 <FormItem                
                   label="ACCESS KEY："
@@ -399,7 +513,7 @@ let Base = React.createClass({
             <div className="block_header mt_20">
               <i className="wxfx"></i>
               微信分享
-              <Switch defaultChecked={app_col.is_weixin_share} onChange={this.onChange.bind(this,'is_weixin_share')} style={{float:'right',marginTop:'6px'}}/>
+              <Switch defaultChecked={app_col.is_weixin_share ? true : false} onChange={this.onChange.bind(this,'is_weixin_share')} style={{float:'right',marginTop:'6px'}}/>
             </div>
             <h4 className="ml_25 mt_20">微信分享</h4>
             <div className="mt_20">

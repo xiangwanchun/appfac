@@ -28,9 +28,9 @@ const Index = React.createClass({
       data: {
           "app": {
               "created_at": "1991-10-13 06:33:53",
-              "icon": "images/ml_download.png",
+              "icon": "",
               "name": "",
-              "qr_code": "images/ml_download.png"
+              "qr_code": ""
           },
           "statistics": {
               "activation": '',

@@ -28,7 +28,25 @@
 .AppInformation_l{
 	width:230px;
 	float:left;
+	position: relative;
+	.appIconPreview{
+		position: absolute;
+		left:20px;
+		top:230px;
+		width:65px;
+		font-size:12px;
+		transform:scale(.9);
+		color:#fff;
+		overflow:hidden;
+		text-align: center;
+		img{
+			height:65px;
+			width:65px;
+			border-radius:6px;
+		}
+	}
 }
+
 .AppInformation_r{
 	float:left;
 	width:650px;
@@ -83,16 +101,16 @@
   vertical-align: top;
   float:left;
   margin-right:10px;
+
 }
 
 .AppInformation_upload_l img {
   height:185px;
   width:185px;
   border-radius:6px;
+  border:1px solid @border-color-base;
 }
-.AppInformation_upload_r{
-	float:left;
-}
+
 
 /* .ant-form-item-control span.ant-radio-button{
 	display:inline-block;
@@ -598,4 +616,25 @@
 		top:68%;
 		color:@primary-color;
 	}
+}
+
+/* 
+* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*       菜单管理页面 
+* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+/* ztree右键菜单 */
+div#rMenu {position:absolute; visibility:hidden; top:0; background-color: #555;text-align: left;padding: 2px;}
+div#rMenu ul li{
+	margin: 1px 0;
+	padding: 0 5px;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color: #DFDFDF;
+}
+
+#clientMenuCon{
+	height:calc(100%-112px);
+	padding-left:0;
+	padding-bottom:0;
 }

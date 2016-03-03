@@ -13,8 +13,8 @@ let PackProgress = React.createClass({
     return {
       current: 'base',
       index : 0,
-      percent_ios:0,
-      percent_android:0
+      percent_ios:1,
+      percent_android:2
     };
   },
   progressfun(type){

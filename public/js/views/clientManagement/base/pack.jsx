@@ -13,15 +13,11 @@ let Pack = React.createClass({
   getInitialState() {
     return {
       current: 'base',
-      index : 0,
-      list_type : this.props.content_list,
+      index : 0
     };
   },
-  packfun(type){
-    this.setState({
-      list_type : type
-    })
-    this.props.fun(type);
+  handSubmit(){
+    this.props.fun('pack');
   },
   render() {
     var _this = this;
@@ -65,7 +61,7 @@ let Pack = React.createClass({
                 </FormItem>
                 <Row style={{ marginTop: 24 }}>
                   <Col span="16" offset="4">
-                    <Button type="primary" size="large" htmlType="submit">开始生成</Button>
+                    <Button type="primary" size="large" onClick={this.handSubmit} >开始生成</Button>
                   </Col>
                 </Row>
             </div>
