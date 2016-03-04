@@ -71,7 +71,14 @@ let Base = React.createClass({
       console.log('##################');
       console.log(this.state.subData);
       $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(data){
-          console.log(data);
+
+        if(!data.state){
+            Modal.error({
+              title: '错误提示',
+              content: '请检查信鸽或者微信分享信息是否完整'
+            });
+        }
+        
       })
     }
       
@@ -164,12 +171,6 @@ let Base = React.createClass({
       visible: false
     });
   },
-  handleOk() {
-    console.log('点击了确定');
-    this.setState({
-      visible: false
-    });
-  },
   //统计表单字数
   inputNum(name, rule, value, callback) {
       this.setState({
@@ -205,7 +206,7 @@ let Base = React.createClass({
         }else{
           Modal.error({
             title: '文件上传错误',
-            content: `${info.file.name} ${info.file.response.errors.description}`
+            content: `${info.file.name} ${info.file.response.error.description}`
           });
         }                  
       }else if (info.file.status === 'error') {
@@ -218,7 +219,7 @@ let Base = React.createClass({
   componentDidMount(){
      
      $.get(CONFIG.HOSTNAME+'/client/base',function(ajaxdata){
-          console.log(ajaxdata);
+          /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
@@ -275,15 +276,15 @@ let Base = React.createClass({
         trigger: ['onBlur', 'onChange'],
       }]
     });
-    var aa =app_col.is_push ? true : false;
+   /* var aa =app_col.is_push ? true : false;
     const testProps = getFieldProps('test', {
        validate: [{
         rules: [
-          { required: !aa ,message: '请输入APP名11111'},
+          { required: aa ,message: '请输入APP名11111'},
         ],
         trigger: ['onBlur', 'onChange'],
       }]
-    });
+    });*/
 
     const url = CONFIG.DONAME + app_col.icon;
 
@@ -319,7 +320,7 @@ let Base = React.createClass({
                               label="APP名称："
                               labelCol={{ span: 4}}
                               wrapperCol={{ span:8}}>
-                              <Input  defaultValue={app_col.name} {...nameProps}/>
+                              <Input  defaultValue={app_col.name} {...nameProps}  placeholder={app_col.name}/>
                             </FormItem>
                             <span className="inputNum" style={{right:330}}><i style={{"color" : this.state.nameNum > 6 ? '#ff5d3d' : ''}}>{this.state.nameNum}</i>/6</span>
                           </div>
@@ -469,7 +470,7 @@ let Base = React.createClass({
                     label="ACCESS ID："
                     labelCol={{ span:4}}
                     wrapperCol={{ span:9 }}>
-                    <Input defaultValue={app_col.ios_access_id}  {...testProps}  disabled={!app_col.is_push}/>
+                    <Input defaultValue={app_col.ios_access_id}  onChange={this.onChange.bind(this,'ios_access_id')}  disabled={!app_col.is_push}/>
                 </FormItem>
                 <FormItem                
                   label="ACCESS KEY："

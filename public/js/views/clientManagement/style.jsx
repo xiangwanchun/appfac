@@ -29,7 +29,7 @@ const Style = React.createClass({
     return (
 
       <div className="contentBlocks mt_30">
-          <Tabs  defaultActiveKey="6" onChange={this.callback}>
+          <Tabs  defaultActiveKey="1" onChange={this.callback}>
               <TabPane tab="开机画面"  key="1">
                 <BootScreen/>
               </TabPane>

@@ -3,36 +3,62 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd';
+import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,message,Modal} from 'antd';
+import CONFIG from '../../config/API'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
-const props = {
-  name: 'file',
-  action: '/upload.do',
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} 上传成功。`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 上传失败。`);
-    }
-  }
-};
 
 const BootScreen = React.createClass({
   getInitialState() {
     return {
-      current: 'base'
+      current: 'base',
+      data : ''
     };
   },
   handleClick(e) {
         clientManagement
   },
+  //上传变换的时候
+  uploadChange(name,info){
+    console.log(info)
+      if (info.file.status !== 'uploading') {
+        /*console.log(info.file, info.fileList);*/
+      }
+      if (info.file.status === 'done') {
+        if(info.file.response.state){
+          message.success(`${info.file.name} 上传成功。`);
+          var data = this.state.data;
+          /*data[name] = info.file.response.data.src;
+          this.setState({
+              data
+          })*/
+        }else{
+          var errorsDes = typeof info.file.response.error.description;
+          alert(errorsDes)
+          Modal.error({
+            title: '文件上传错误',
+            content: `${info.file.name} ${errorsDes}`
+          });
+        }                  
+      }else if (info.file.status === 'error') {
+        Modal.error({
+            title: '文件上传错误',
+            content: `${info.file.name} 上传失败。`
+          });
+      }
+  },
   render() {
-
+    //文件上传处理
+    const _this = this;
+    const starting = {
+              name: 'file',
+              action: '/factory/upload',
+              listType:"text" ,
+              onChange(info) {
+                  _this.uploadChange('starting',info);              
+              }
+            };
     return (
       <div className="mt_30" id="bootScreenmain" >
         <Row type="flex" justify="space-around" align="middle">
@@ -48,7 +74,7 @@ const BootScreen = React.createClass({
                   图标要求:png格式,1024x1024
                 </p>
                 <div className="mt_15">
-                  <Upload {...props}>
+                  <Upload {...starting} data={{"type" :'starting'}} >
                     <Button type="primary">
                        点击上传
                     </Button>
