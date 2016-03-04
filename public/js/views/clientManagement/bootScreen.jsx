@@ -25,7 +25,7 @@ const BootScreen = React.createClass({
       if (info.file.status !== 'uploading') {
         /*console.log(info.file, info.fileList);*/
       }
-      if (info.file.status === 'done') {
+      if (info.file.status === 'done'){
         if(info.file.response.state){
           message.success(`${info.file.name} 上传成功。`);
           var data = this.state.data;
@@ -47,6 +47,9 @@ const BootScreen = React.createClass({
             content: `${info.file.name} 上传失败。`
           });
       }
+  },
+  handSubmit(){
+
   },
   render() {
     //文件上传处理
@@ -86,7 +89,7 @@ const BootScreen = React.createClass({
         <Row type="flex" justify="center" style={{marginTop:15}}>
           <Col span="5">
             <div className="">
-                <Button type="primary" size="large">确认并发布</Button>
+                <Button type="primary" size="large" onClick={this.handSubmit}>确认并发布</Button>
             </div>
           </Col>
         </Row>

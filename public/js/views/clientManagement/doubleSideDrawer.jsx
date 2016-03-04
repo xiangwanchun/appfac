@@ -35,20 +35,23 @@ const DoubleSideDrawer = React.createClass({
   render() {
     var _this = this;
     var bgColor = {
-      backgroundColor:_this.props.bgColor
+      backgroundColor:_this.props.color
     }
     return (
       <div className="mt_30 allStyle" id="doubleSideDrawer">
 
           <div style={{height:'120px'}} className="pointTo_1"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right" />
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right" />
           </div>
-          <div style={{height:'120px'}} className="pointTo_2"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="member"/>
-          </div>
+          {/*<div style={{height:'120px'}} className="pointTo_2"> 
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="用户中心" fun={this.pointToFun} name="member"/>
+          </div>*/}
           <div style={{height:'120px'}} className="pointTo_3"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>
           </div>
+
+          <div className="defPicBox"></div>
+          <div className="commentsBox"></div>
 
           <div className="doubleSideDrawer_l" style={bgColor}>
 

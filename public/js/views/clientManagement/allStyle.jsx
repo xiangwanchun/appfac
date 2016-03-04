@@ -11,6 +11,7 @@ import ChooseUserSet from './chooseUsersSet'
 import DefPicSet from './defPicSet'
 import TitleSet from './titleSet'
 import '../../plug/jquery.SuperSlide.2.1.1.js'
+import CONFIG from '../../config/API'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -36,8 +37,9 @@ const AllStyle = React.createClass({
       modalCon : '',
       //判断是哪个箭头函数触发的
       allPointToType : '',
+      content_title : '',
       data :{
-              "color":"red","content_list_title":"{'type':1,'content':'标题'}","frame":1,"is_member":0,'is_comments': true
+              "color":"red","content_list_title":{'type':1,'content':'标题'},"frame":1,"is_member":0,'is_comment': 1
             }
 
     };
@@ -79,19 +81,39 @@ const AllStyle = React.createClass({
   },
   componentDidMount() {
     var _this = this;
-    $(".focusBox_"+this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:this.state.data.frame-1,startFun:function(i,c){
-        var title = ['左抽屉','上下栏','左右抽屉'];
-        let data = _this.state.data;
-        data.frame = i+1;
-        //设置名字,当前页,和选择的类型
-        _this.setState({
-          title : title[i],
-          curPage : (i+1),
-          allPage : c,
-          data : data
-        })
 
-    } });
+    $.get(CONFIG.HOSTNAME+'/client/frame',function(ajaxdata){
+          /*console.log(ajaxdata);*/
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+            data = ajaxdata.data.meta;
+            this.setState({
+              data
+            })
+          }  
+          setTimeout(function(){
+            $(".focusBox_"+_this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:_this.state.data.frame-1,startFun:function(i,c){
+              var title = ['左抽屉','上下栏','左右抽屉'];
+              let data = _this.state.data;
+              data.frame = i+1;
+              //设置名字,当前页,和选择的类型
+              _this.setState({
+                title : title[i],
+                curPage : (i+1),
+                allPage : c,
+                data : data,
+                content_title : data.content_list_title
+              })
+
+          } });
+          },500);
+          
+
+      }.bind(this));
+
+    
+
   },
   //箭头指向处理函数
   allPointToFun(name,expand){
@@ -100,25 +122,25 @@ const AllStyle = React.createClass({
           visible: true,
           allPointToType:name,
           modalTitle : '用户中心/基础设置',
-          modalCon : <ChooseUserSet bgColor={this.state.data.color} memberFun={this.memberFun} />
+          modalCon : <ChooseUserSet {...this.state.data} memberFun={this.memberFun} />
         })
     }else if(name == 'defPic'){
         this.setState({
           visible: true,
           allPointToType:name,
           modalTitle : '默认图片设置',
-          modalCon : <DefPicSet bgColor={this.state.data.color} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <DefPicSet {...this.state.data} childComponentsThis={this.childComponentsThisFun}/>
         })
     }else if(name == 'title'){
         this.setState({
           visible: true,
           allPointToType:name,
           modalTitle : '标题样式',
-          modalCon : <TitleSet bgColor={this.state.data.color} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <TitleSet {...this.state.data} childComponentsThis={this.childComponentsThisFun}/>
         })
     }else if(name == 'comments'){
       var data = this.state.data;
-      data.is_comments = expand.val;
+      data.is_comment = expand.val ? '1' : '0';
       this.setState({ 
         "data":data
       });
@@ -144,16 +166,17 @@ const AllStyle = React.createClass({
     let name = this.state.allPointToType;
     let _this = this.childComponentsThis;
     let data = this.state.data;
-    if(name == 'member'){
+    
+    if(name == 'member'){//用户中心
       data.is_member = this.state.is_member;
       this.setState({ 
         "visible": false,
         "data":data
       });
 
-    }else if(name == 'defPic'){
+    }else if(name == 'defPic'){//默认图片
         
-    }else if(name == 'title'){
+    }else if(name == 'title'){//标题
       _this.props.form.validateFields((errors, values) => {
 
           if (!!errors) {
@@ -161,16 +184,38 @@ const AllStyle = React.createClass({
           }
 
           const appTitle =  typeof values.title ?  values.title : values.upload;
-          const content_list_title_data = '{"type":'+ 1 +',"content":'+values.title+'}';
+          const content_list_title_data = {};
+          content_list_title_data.type = 1;
+          content_list_title_data.content = values.title;
           data.content_list_title = content_list_title_data;
           this.setState({ 
             "visible": false,
-            "data": data
+            "data": data,
+            content_title : content_list_title_data
           });
       });
     }
-  },
-  render() {
+  }, 
+  //向后台提交数据
+  handleSubmitAjax(){
+    //处理数据content_list_title 如果是json处理成逗号分隔
+     let data = this.state.data;
+     if(typeof data.content_list_title == 'object' ){
+        data.content_list_title = data.content_list_title.type+','+data.content_list_title.content;
+     }
+     
+    $.post(CONFIG.HOSTNAME+'/client/frame',data,function(ajaxdata){
+      ajaxdata = JSON.parse(ajaxdata);
+      if(!ajaxdata.state){
+          Modal.error({
+            title: '错误提示',
+            content: '请检查相关信息是否填完整'
+          });
+      }
+      
+    })
+  },    
+  render(){
     setTimeout(function(){
         console.log(this.state.data);
       }.bind(this), 300);
@@ -195,18 +240,25 @@ const AllStyle = React.createClass({
         <div className={name}>
             <ul className="pic">
                 <li>
-                  <LeftDrawer bgColor={this.state.data.color} fun={this.allPointToFun}/>
+                  <LeftDrawer {...this.state.data} fun={this.allPointToFun}/>
                 </li>
                 <li>
-                  <UpDownColumn bgColor={this.state.data.color} fun={this.allPointToFun} />
+                  <UpDownColumn {...this.state.data} fun={this.allPointToFun} content_title={this.state.content_title} />
                 </li>
                 <li>
-                  <DoubleSideDrawer bgColor={this.state.data.color} fun={this.allPointToFun} />
+                  <DoubleSideDrawer {...this.state.data} fun={this.allPointToFun} />
                 </li>
             </ul>
             <a className="prev" href="javascript:void(0)"><Icon type="left"/></a>
             <a className="next" href="javascript:void(0)"><Icon type="right"/></a>
         </div>
+        <Row type="flex" justify="center" style={{marginTop:15}}>
+          <Col span="5">
+            <div className="">
+                <Button type="primary" size="large" onClick={this.handleSubmitAjax}>确认选择样式</Button>
+            </div>
+          </Col>
+        </Row>
 
          <Modal title={this.state.modalTitle} visible={this.state.visible}
           onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>

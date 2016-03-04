@@ -1,5 +1,5 @@
+/*箭头处理函数*/
 import React, { Component } from 'react'
-
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
@@ -10,11 +10,14 @@ const PointTo = React.createClass({
     return {
       current: 'base',
       opacity : 0,
-      Switch : true
+      Switch : this.props.is_comment
     };
   },
   handleClick(e) {
         clientManagement
+  },
+  componentWillUpdate(){
+
   },
   componentWillMount(){
     this.setState({
@@ -24,7 +27,8 @@ const PointTo = React.createClass({
   componentDidMount(){
     setTimeout(function(){
         this.setState({
-            opacity : 1
+            opacity : 1,
+            Switch : this.props.is_comment
         })
     }.bind(this),1500)
   },
@@ -32,12 +36,15 @@ const PointTo = React.createClass({
     this.setState({
       Switch : checked
     })
+
     this.props.fun(this.props.name,{'type':'Switch','val':checked});
   },
   controlOnClick(){
     this.props.fun(this.props.name);
   },
   render() {
+    console.log('======================');
+    console.log(this.props);
     let _this = this;
     let squareEdgeWidth = this.props.allWidth - this.props.lineWidth;
     let hypotenuseWidth = Math.sqrt(squareEdgeWidth*squareEdgeWidth + squareEdgeWidth*squareEdgeWidth);
@@ -66,7 +73,7 @@ const PointTo = React.createClass({
         return (
            <div className="pointToWrap" style={{height:squareEdgeWidth+32+'px',width:this.props.allWidth+'px'}}>
               <div className="pointToControl" style={{'opacity':opacity,textAlign:'right'}}>{this.props.type == 'switch' ? 
-<Switch checked={this.state.Switch} onChange={this.onChange} /> : <a href="javascript:;" onClick={this.controlOnClick}>{this.props.button}</a>}</div>
+<Switch checked={this.state.Switch == '1' ? true : false} onChange={this.onChange} /> : <a href="javascript:;" onClick={this.controlOnClick}>{this.props.button}</a>}</div>
               <div className="pointToline" style={{'left': squareEdgeWidth-1+'px','width' : this.props.lineWidth+'px'}}>
               </div>
               <div className="pointToline_hypotenuse" style={ hypotenuseStyle_L}>

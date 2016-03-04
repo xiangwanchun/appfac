@@ -70,9 +70,9 @@ let Base = React.createClass({
       var a = CONFIG.HOSTNAME+'/client/base';
       console.log('##################');
       console.log(this.state.subData);
-      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(data){
-
-        if(!data.state){
+      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
+         ajaxdata = JSON.parse(ajaxdata);
+        if(!ajaxdata.state){
             Modal.error({
               title: '错误提示',
               content: '请检查信鸽或者微信分享信息是否完整'

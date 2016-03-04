@@ -6,6 +6,7 @@ import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd';
 import PointTo from './pointTo'
 
+
 const UpDownColumn = React.createClass({
   getInitialState() {
     return {
@@ -32,26 +33,37 @@ const UpDownColumn = React.createClass({
           pointToAllWidth:  {'title':200,'defPic':135,'user':220,'comments':320}
         })
       }.bind(this),1000)
+
+     
+     
   },
   render() {
     var _this = this;
     var bgColor = {
-      backgroundColor:_this.props.bgColor
+      backgroundColor:_this.props.color
     }
+    var title = this.props.content_title;
+   
+    
     return (
       <div className="mt_30 allStyle" id="upDownColumn">
           <div style={{height:'120px'}} className="pointTo_1"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.title} allWidth={this.state.pointToAllWidth.title}  button="标题类型" fun={this.pointToFun} name="title" pos="right"/>
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.title} allWidth={this.state.pointToAllWidth.title}  button="标题类型" fun={this.pointToFun} name="title" pos="right"/>
           </div>
           <div style={{height:'120px'}} className="pointTo_2"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right"/>
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.defPic} allWidth={this.state.pointToAllWidth.defPic}  button="未加载默认图" fun={this.pointToFun} name="defPic" pos="right"/>
           </div>
-          <div style={{height:'120px'}} className="pointTo_3"> 
+          {/*<div style={{height:'120px'}} className="pointTo_3"> 
             <PointTo lineWidth={this.state.pointToLineWidth.user} allWidth={this.state.pointToAllWidth.user}  button="使用:用户中心" fun={this.pointToFun} name="member"/>
-          </div>
+          </div>*/}
           <div style={{height:'120px'}} className="pointTo_4"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>
+            <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>
           </div>
+
+          <div className="defPicBox"></div>
+          <div className="commentsBox"></div>
+          <div className="titleBox" >{title.type == '1' ? title.content : ''}</div>
+
           <div className="upDownColumn_l">
               <div className="upDownColumn_l_con" style={bgColor}>
               </div>
