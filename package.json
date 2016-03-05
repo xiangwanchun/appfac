@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "webpack --progress --color --config webpack.dist.config.js "
+    "build": "webpack --progress --color --config webpack.dist.config.js ",
+    "win_build": "set BABEL_ENV=production && set NODE_ENV=production && set  BUILD_PRERELEASE=1 && webpack --progress --color --config webpack.dist.config.js "
   },
   "dependencies": {
     "antd": "^0.11.2",

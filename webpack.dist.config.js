@@ -23,7 +23,7 @@ config.output= {
   path: path.join(__dirname, 'dist/public/'),
   filename: 'js/[name].js',
   chunkFilename: "js/[id].js",
-  publicPath: '/'
+  /*publicPath: '/'*/
 };
 
 config.externals = {
@@ -31,41 +31,41 @@ config.externals = {
   'react-dom': 'ReactDOM'
 };
 
-// config.module= {
-//     loaders: [{
-//       test: /\.jsx?$/,
-//       exclude: /node_modules/,
-//       loader: 'es3ify',
-//     }, {
-//       test: /\.jsx?$/,
-//       exclude: /node_modules/,
-//       loader: 'babel',
-//       query: {
-//         presets: ['es2015', 'react', 'stage-0'],
-//         plugins: ['add-module-exports']
-//       }
-//     }, {
-//       test: /\.json$/,
-//       loader: 'json-loader'
-//     }, {
-//       test: /\.less$/,
-//       loader: ExtractTextPlugin.extract(
-//         'css?sourceMap&-minimize!' + 'autoprefixer-loader!' + 'less?sourceMap'
-//       )
-//     }, {
-//       test: /\.css$/,
-//       loader: ExtractTextPlugin.extract(
-//         'css?sourceMap&-minimize!' + 'autoprefixer-loader'
-//       )
-//     },
-//     { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]' },
-//     { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]' },
-//     { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/octet-stream&name=fonts/[name].[ext]' },
-//     { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&name=fonts/[name].[ext]' },
-//     { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=image/svg+xml&name=fonts/[name].[ext]' },
-//     { test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i, loader: 'url?limit=10000&name=images/[name].[ext]' },
-//     ]
-//   };
+config.module= {
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'es3ify',
+    }, {
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel',
+      query: {
+        presets: ['es2015', 'react', 'stage-0'],
+        plugins: ['add-module-exports']
+      }
+    }, {
+      test: /\.json$/,
+      loader: 'json-loader'
+    }, {
+      test: /\.less$/,
+      loader: ExtractTextPlugin.extract(
+        'css?sourceMap&-minimize!' + 'autoprefixer-loader!' + 'less?sourceMap'
+      )
+    }, {
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract(
+        'css?sourceMap&-minimize!' + 'autoprefixer-loader'
+      )
+    },
+    { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]' },
+    { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]' },
+    { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=application/octet-stream&name=fonts/[name].[ext]' },
+    { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&name=fonts/[name].[ext]' },
+    { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&minetype=image/svg+xml&name=fonts/[name].[ext]' },
+    { test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i, loader: 'url?limit=10000&name=images/[name].[ext]' },
+    ]
+  };
 config.plugins = [
   new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
   new ExtractTextPlugin('/css/[name].css'),
