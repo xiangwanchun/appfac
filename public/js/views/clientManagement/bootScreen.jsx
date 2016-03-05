@@ -13,7 +13,9 @@ const BootScreen = React.createClass({
   getInitialState() {
     return {
       current: 'base',
-      data : ''
+      data : {
+            "starting_img": "/upload/starting_img"
+        }
     };
   },
   handleClick(e) {
@@ -29,10 +31,10 @@ const BootScreen = React.createClass({
         if(info.file.response.state){
           message.success(`${info.file.name} 上传成功。`);
           var data = this.state.data;
-          /*data[name] = info.file.response.data.src;
+          data[name] = info.file.response.data.src;
           this.setState({
               data
-          })*/
+          })
         }else{
           var errorsDes = typeof info.file.response.error.description;
           alert(errorsDes)
@@ -49,7 +51,22 @@ const BootScreen = React.createClass({
       }
   },
   handSubmit(){
-
+    $.post(CONFIG.HOSTNAME+'/client/starting',{starting_img : this.state.data.starting_img},function(ajaxdata){
+          /*console.log(ajaxdata);*/
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+              Modal.success({
+                title: '成功信息',
+                content: `恭喜您!开屏图设置成功。`
+              });
+          }else{
+              Modal.error({
+                title: '开屏图设置失败',
+                content: `${info.file.name} 上传失败。`
+              });
+          }  
+      }.bind(this));
   },
   render() {
     //文件上传处理
@@ -59,15 +76,19 @@ const BootScreen = React.createClass({
               action: '/factory/upload',
               listType:"text" ,
               onChange(info) {
-                  _this.uploadChange('starting',info);              
+                  _this.uploadChange('starting_img',info);              
               }
             };
+    let url2 = CONFIG.DONAME+ this.state.data.starting_img;
+    let style2 ={
+      'backgroundImage':'url('+url2+')'
+    }
     return (
       <div className="mt_30" id="bootScreenmain" >
         <Row type="flex" justify="space-around" align="middle">
           <Col span="9">
             <div className="bootScreen_l">
-
+                <div className="starting_img" style={style2}></div>
             </div>
           </Col>
           <Col span="15">
@@ -95,7 +116,23 @@ const BootScreen = React.createClass({
         </Row>
       </div>
     );
-  }
+  },
+  componentDidMount(){
+     
+     $.get(CONFIG.HOSTNAME+'/client/starting',function(ajaxdata){
+          /*console.log(ajaxdata);*/
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+            data = ajaxdata.data.meta;
+            this.setState({
+              data
+            })
+          }  
+      }.bind(this));
+
+      
+  },
 });
 
 export default  BootScreen;
