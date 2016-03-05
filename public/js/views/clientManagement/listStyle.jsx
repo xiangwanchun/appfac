@@ -6,6 +6,7 @@ import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal,Slider,InputNumber} from 'antd'
 import PointTo from './pointTo'
 import ListType from './listType'
+import CONFIG from '../../config/API'
 
 const ListStyle = React.createClass({
   getInitialState() {
@@ -73,6 +74,24 @@ const ListStyle = React.createClass({
         })
       }.bind(this),1000)
   },
+  ajaxhandSubmit(){
+    $.post(CONFIG.HOSTNAME+'/client/list',this.state.data,function(ajaxdata){
+          /*console.log(ajaxdata);*/
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+              Modal.success({
+                title: '成功信息',
+                content: `恭喜您!列表样式设置成功。`
+              });
+          }else{
+              Modal.error({
+                title: '失败消息',
+                content: `列表样式保存失败`
+              });
+          }  
+      }.bind(this));
+  },
   render() {
 
     console.log(this.state.data);
@@ -81,37 +100,49 @@ const ListStyle = React.createClass({
       backgroundColor:_this.props.bgColor
     }
     return (
-      <div className="mt_30 allStyle" id="listStyle">
+      <div>
+        <div className="mt_30 allStyle" id="listStyle">
 
-          <div style={{height:'120px'}} className="pointTo_1"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.sliderNum} allWidth={this.state.pointToAllWidth.sliderNum}  button="幻灯片数量" fun={this.pointToFun} name="defPic" />
-          </div>
-          
-          <div style={{height:'120px'}} className="pointTo_2"> 
-            <PointTo lineWidth={this.state.pointToLineWidth.listType} allWidth={this.state.pointToAllWidth.listType}  button="列表默认样式" fun={this.pointToFun} name="listType"/>
-          </div>
-          <div className="listStyle_r">
-              <div className="listStyle_r_con" style={bgColor} >
+            <div style={{height:'120px'}} className="pointTo_1"> 
+              <PointTo lineWidth={this.state.pointToLineWidth.sliderNum} allWidth={this.state.pointToAllWidth.sliderNum}  button="幻灯片数量" fun={this.pointToFun} name="defPic" />
+            </div>
+            
+            <div style={{height:'120px'}} className="pointTo_2"> 
+              <PointTo lineWidth={this.state.pointToLineWidth.listType} allWidth={this.state.pointToAllWidth.listType}  button="列表默认样式" fun={this.pointToFun} name="listType"/>
+            </div>
+            <div className="listStyle_r">
+                <div className="listStyle_r_con" style={bgColor} >
+                </div>
+            </div>
+
+            <div className="sliderNum">
+              <div className="row">
+                <div className="col-14">
+                  <Slider min={1} max={5} onChange={this.onChange} value={this.state.data.content_list_banner} step={1} />
+                </div>
+                <div className="col-2">
+                  <InputNumber min={1} max={5} style={{ marginLeft: '10px' }}
+                    value={this.state.data.content_list_banner} onChange={this.onChange} />
+                </div>  
+              </div>         
+            </div>
+            
+
+            <Modal title={this.state.modalTitle} visible={this.state.visible}
+            onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
+                {this.state.modalCon}
+            </Modal>
+            
+        </div>
+        <div>
+          <Row type="flex" justify="center" style={{marginTop:15}}>
+            <Col span="5">
+              <div className="">
+                  <Button type="primary" size="large" onClick={this.ajaxhandSubmit}>确认修改</Button>
               </div>
-          </div>
-
-          <div className="sliderNum">
-            <div className="row">
-              <div className="col-14">
-                <Slider min={1} max={5} onChange={this.onChange} value={this.state.data.content_list_banner} step={1} />
-              </div>
-              <div className="col-2">
-                <InputNumber min={1} max={5} style={{ marginLeft: '10px' }}
-                  value={this.state.data.content_list_banner} onChange={this.onChange} />
-              </div>  
-            </div>         
-          </div>
-
-          <Modal title={this.state.modalTitle} visible={this.state.visible}
-          onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
-              {this.state.modalCon}
-          </Modal>
-          
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
