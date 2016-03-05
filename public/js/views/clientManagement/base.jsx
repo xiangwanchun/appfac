@@ -23,7 +23,7 @@ let Base = React.createClass({
       data :  {
                 "app_collocation": {
                     "id": "1",
-                    "name": "1",
+                    "name": "",
                     "icon": "",
                     "qrcode": "",
                     "version": "1.0.1",
@@ -35,7 +35,7 @@ let Base = React.createClass({
                     "android_secret_key": "",
                     "ios_shelf_certificate": "",
                     "ios_push_certificate": "",
-                    "starting_img": "/upload/guide_img1",
+                    "starting_img": "",
                     "is_push" : 0,
                     "is_weixin_share" : 0,
                     "guide_img": [
@@ -43,7 +43,7 @@ let Base = React.createClass({
                         "/upload/guide_img2"
                     ],
                     "is_comment": "1",
-                    "loading_img": "/upload/load/default.jpg",
+                    "loading_img": "",
                     "weixin_secret": "",
                     "weixin_id": "",
                     "slogan": "这&lt;是一 个A“ PP‘的宣'传标语",

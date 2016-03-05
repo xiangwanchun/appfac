@@ -21,14 +21,18 @@ const PointTo = React.createClass({
   },
   componentWillMount(){
     this.setState({
-      index : this.state.index++
+      Switch : this.props.is_comment
+    })
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      Switch : nextProps.is_comment
     })
   },
   componentDidMount(){
     setTimeout(function(){
         this.setState({
-            opacity : 1,
-            Switch : this.props.is_comment
+            opacity : 1
         })
     }.bind(this),1500)
   },
@@ -43,8 +47,6 @@ const PointTo = React.createClass({
     this.props.fun(this.props.name);
   },
   render() {
-    console.log('======================');
-    console.log(this.props);
     let _this = this;
     let squareEdgeWidth = this.props.allWidth - this.props.lineWidth;
     let hypotenuseWidth = Math.sqrt(squareEdgeWidth*squareEdgeWidth + squareEdgeWidth*squareEdgeWidth);

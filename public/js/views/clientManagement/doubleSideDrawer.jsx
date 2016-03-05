@@ -5,6 +5,7 @@ import '../../../css/base.less'
 import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload} from 'antd';
 import PointTo from './pointTo'
+import CONFIG from '../../config/API'
 const DoubleSideDrawer = React.createClass({
   getInitialState() {
     return {
@@ -37,6 +38,11 @@ const DoubleSideDrawer = React.createClass({
     var bgColor = {
       backgroundColor:_this.props.color
     }
+
+    let url2 = CONFIG.DONAME+ this.props.loading_img ;
+    let style2 ={
+      'backgroundImage':'url('+url2+')'
+    }
     return (
       <div className="mt_30 allStyle" id="doubleSideDrawer">
 
@@ -50,8 +56,8 @@ const DoubleSideDrawer = React.createClass({
             <PointTo {...this.props} lineWidth={this.state.pointToLineWidth.comments} allWidth={this.state.pointToAllWidth.comments}  button="评论" type="switch" fun={this.pointToFun} name="comments"/>
           </div>
 
-          <div className="defPicBox"></div>
-          <div className="commentsBox"></div>
+          <div className="defPicBox" style={style2}></div>
+          <div className="commentsBox" style={{display : this.props.is_comment == '1' ? 'none' : 'block'}}></div>
 
           <div className="doubleSideDrawer_l" style={bgColor}>
 

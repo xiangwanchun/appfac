@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/clientManagement.less'
-import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal} from 'antd'
+import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Modal,message} from 'antd'
 import LeftDrawer from './leftDrawer'
 import UpDownColumn from './upDownColumn'
 import DoubleSideDrawer from './doubleSideDrawer'
@@ -38,8 +38,10 @@ const AllStyle = React.createClass({
       //判断是哪个箭头函数触发的
       allPointToType : '',
       content_title : '',
+      config : CONFIG,
+      loading: false,
       data :{
-              "color":"red","content_list_title":{'type':1,'content':'标题'},"frame":1,"is_member":0,'is_comment': 1
+              "color":"red","content_list_title":{'type':1,'content':'标题'},"frame":1,"is_member":0,'is_comment': 0,'loading_img' :''
             }
 
     };
@@ -92,8 +94,9 @@ const AllStyle = React.createClass({
               data
             })
           }  
+
           setTimeout(function(){
-            $(".focusBox_"+_this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:_this.state.data.frame-1,startFun:function(i,c){
+            $(".focusBox_"+_this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:_this.state.data.frame-1,endFun:function(i,c){
               var title = ['左抽屉','上下栏','左右抽屉'];
               let data = _this.state.data;
               data.frame = i+1;
@@ -102,15 +105,15 @@ const AllStyle = React.createClass({
                 title : title[i],
                 curPage : (i+1),
                 allPage : c,
-                data : data,
+                /*data : data,*/
                 content_title : data.content_list_title
               })
 
           } });
           },500);
           
-
       }.bind(this));
+      
 
     
 
@@ -129,17 +132,18 @@ const AllStyle = React.createClass({
           visible: true,
           allPointToType:name,
           modalTitle : '默认图片设置',
-          modalCon : <DefPicSet {...this.state.data} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <DefPicSet {...this.state.data} childComponentsThis={this.childComponentsThisFun} fun={this.defPicFun}/>
         })
     }else if(name == 'title'){
         this.setState({
           visible: true,
           allPointToType:name,
           modalTitle : '标题样式',
-          modalCon : <TitleSet {...this.state.data} childComponentsThis={this.childComponentsThisFun}/>
+          modalCon : <TitleSet {...this.state} childComponentsThis={this.childComponentsThisFun} titleFun ={this.titleFun} />
         })
     }else if(name == 'comments'){
       var data = this.state.data;
+
       data.is_comment = expand.val ? '1' : '0';
       this.setState({ 
         "data":data
@@ -151,10 +155,29 @@ const AllStyle = React.createClass({
       visible: false
     });
   },
+  //用户中心处理函数
   memberFun(type){
     this.setState({
         "is_member" : type
     })
+  },
+  //默认图处理函数
+  defPicFun(src){
+    let data = this.state.data;
+    data.loading_img = src;
+    this.setState({
+      loading_img : src
+    })
+  },
+  //标题图片处理函数
+  titleFun(obj){
+    let data = this.state.data;
+    data.content_list_title = obj;
+    this.setState({ 
+      "visible": false,
+      "data": data,
+       content_title : obj
+    });
   },
   childComponentsThis: '',
   //弹窗子组件this
@@ -163,7 +186,7 @@ const AllStyle = React.createClass({
   },
   //提交弹窗时验证表单
   handleSubmit() {
-    let name = this.state.allPointToType;
+    let name = this.state.allPointToType;//取出时哪个箭头函数触发的
     let _this = this.childComponentsThis;
     let data = this.state.data;
     
@@ -175,30 +198,25 @@ const AllStyle = React.createClass({
       });
 
     }else if(name == 'defPic'){//默认图片
-        
+      this.setState({ 
+        "visible": false,
+      });
     }else if(name == 'title'){//标题
       _this.props.form.validateFields((errors, values) => {
 
           if (!!errors) {
             return;
           }
-
-          const appTitle =  typeof values.title ?  values.title : values.upload;
-          const content_list_title_data = {};
-          content_list_title_data.type = 1;
-          content_list_title_data.content = values.title;
-          data.content_list_title = content_list_title_data;
-          this.setState({ 
-            "visible": false,
-            "data": data,
-            content_title : content_list_title_data
-          });
+          this.titleFun({type:1,content:values.title});
       });
+
+      
     }
   }, 
   //向后台提交数据
   handleSubmitAjax(){
     //处理数据content_list_title 如果是json处理成逗号分隔
+      this.setState({ loading: true });
      let data = this.state.data;
      if(typeof data.content_list_title == 'object' ){
         data.content_list_title = data.content_list_title.type+','+data.content_list_title.content;
@@ -206,19 +224,22 @@ const AllStyle = React.createClass({
      
     $.post(CONFIG.HOSTNAME+'/client/frame',data,function(ajaxdata){
       ajaxdata = JSON.parse(ajaxdata);
+      this.setState({ loading: false });
       if(!ajaxdata.state){
           Modal.error({
             title: '错误提示',
             content: '请检查相关信息是否填完整'
           });
+      }else{
+          Modal.success({
+            title: '成功提示',
+            content: '总体样式设置成功'
+          });
       }
       
-    })
+    }.bind(this))
   },    
   render(){
-    setTimeout(function(){
-        console.log(this.state.data);
-      }.bind(this), 300);
     var name = "focusBox focusBox_"+this.state.index;
     var options = [];
       for (var option in this.state.colors) {
@@ -255,7 +276,7 @@ const AllStyle = React.createClass({
         <Row type="flex" justify="center" style={{marginTop:15}}>
           <Col span="5">
             <div className="">
-                <Button type="primary" size="large" onClick={this.handleSubmitAjax}>确认选择样式</Button>
+                <Button type="primary" size="large" onClick={this.handleSubmitAjax} loading={this.state.loading} >确认选择样式</Button>
             </div>
           </Col>
         </Row>
