@@ -1,10 +1,10 @@
-const DONAME  = 'http://172.16.148.16';
-const HOSTNAME  = '/factory';
-const CONFIG = {
+var DONAME  = 'http://test.appsback.sobeyyun.com';
+var  HOSTNAME  = '/factory';
+var CONFIG = {
 	DONAME,
 	HOSTNAME
 };
 
-export default  CONFIG;
+export default  CONFIG
 
 

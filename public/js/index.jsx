@@ -4,8 +4,7 @@ import 'antd/style/index.less'
 /*import 'antd/style/themes/default/custom.less'*/
 import '../css/base.less'
 import '../css/index.less'
-import { Row, Col} from 'antd'
-import { Menu, Icon,Button} from 'antd'
+import { Menu, Icon,Button,Modal, Row, Col} from 'antd'
 import MainNav from './components/mainNav'
 import ActivationVolume from './components/index/activationVolume'
 import UpdataTip from './components/index/updataTip'
@@ -25,6 +24,7 @@ const Index = React.createClass({
     return {
       current: 'index',
       UpdataTip : '',
+      states: '',
       data: {
           "app": {
               "created_at": "1991-10-13 06:33:53",
@@ -39,17 +39,17 @@ const Index = React.createClass({
               "hit_today": ''
           }
       }
-
-
-  }
+    }
   },
   handleClick(e) {
    
   },
   componentDidMount(){
-     
-      console.log(CONFIG.HOSTNAME);
-      $.get(CONFIG.HOSTNAME, { token: "fds", uid: 1 ,username:32 },function(ajaxdata){
+      let url = location.href.split('//')[1].split('.');
+      console.log(url);
+      var urlparam = this.GetRequest();
+      urlparam.tenant_id= 'test' || url[0];     
+      $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
             let data = this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){
@@ -57,33 +57,45 @@ const Index = React.createClass({
               this.setState({
                 data
               })
-            }  
+            }
       }.bind(this));
-     setTimeout(function(){
-          console.log('2222222');
-          console.log(this.state.data);
-      }.bind(this), 1000)
       
+  },//获取url中get参数的值
+ GetRequest() {
+    var url = location.href.split('?')[1]; //获取url中"?"符后的字串
+    var theRequest = new Object();
+    var str = url;
+    var strs;
+    console.log(str);
+    if (str.indexOf("&") != -1) {
+        strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+    } else {
+        theRequest[str.split("=")[0]] = unescape(str.split("=")[1]);
+    }
+    return theRequest;
   },
   render() {
-    return (
-      <div>
-        <div className="appcenter mt_30">
-          <Row>
-            <Col span="5">
-                <IndexLeft {...this.state.data.app} config={CONFIG}></IndexLeft>
-            </Col>
-            <Col span="19">
-                <div id="mainCon">
-                    {/*<UpdataTip></UpdataTip>*/}
-                    <ActivationVolume {...this.state.data.statistics} config={CONFIG}></ActivationVolume>
-                    <QuickEntry></QuickEntry>   
-                </div>
-            </Col>
-          </Row>
+      return (
+        <div>
+          <div className="appcenter mt_30">
+            <Row>
+              <Col span="5">
+                  <IndexLeft {...this.state.data.app} config={CONFIG}></IndexLeft>
+              </Col>
+              <Col span="19">
+                  <div id="mainCon">
+                      {/*<UpdataTip></UpdataTip>*/}
+                      <ActivationVolume {...this.state.data.statistics} config={CONFIG}></ActivationVolume>
+                      <QuickEntry></QuickEntry>   
+                  </div>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 
 });

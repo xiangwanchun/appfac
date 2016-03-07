@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/push.less'
-import {Table,Button, Row, Col, Icon} from 'antd';
+import {Table,Button, Row, Col, Icon,Modal} from 'antd';
+import CONFIG from '../../config/API'
 const columns = [{
   title: '推送内容',
   dataIndex: 'name',
@@ -16,8 +17,6 @@ const columns = [{
   dataIndex: 'time',
   key: 'time',
   render(text,record) {
-    console.log(record.a1);
-    var bb = text[0];
     return <div className="pushContent"><p className="">{record.time}</p><p className="">{record.platform}</p></div>;
   }
 },{
@@ -26,15 +25,15 @@ const columns = [{
   render(text, record) {
     return (
       <span>
-        <a href="javascript:;">操作一</a>
+        <a href="javascript:;">删除</a>
         <span className="ant-divider"></span>
-        <a href="javascript:;">操作二</a>
+        <a href="javascript:;">编辑</a>
       </span>
     );
   }
 }];
 
-const data = [{
+var data = [{
   key: '1',
   title: '憧憬',
   content:'憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈憧憬哈哈哈',
@@ -59,6 +58,18 @@ const data = [{
 
 
 let PushRecord = React.createClass({
+  getInitialState() {
+    return {
+      data: [{
+              key: '',
+              title: '',
+              content:'',
+              time: '',
+              platform:'',
+              address: ''
+            }]
+    }
+  },
 
   handleSelectChange(value) {
     console.log('selected ' + value);
@@ -72,11 +83,40 @@ let PushRecord = React.createClass({
       }
       return e && e.fileList;
   },
-
+  componentDidMount(){
+    $.get(CONFIG.HOSTNAME+'/push',function(ajaxdata){
+          ajaxdata = JSON.parse(ajaxdata);
+          var tableData = {
+              key: '',
+              title: '',
+              content:'',
+              time: '',
+              platform:''
+          }
+          var data = [];
+          if(ajaxdata.state){
+              var ajaxdata = ajaxdata.data.data;
+              ajaxdata.forEach(function(key,i){
+                var  tableData = {};
+                tableData.key = i ;
+                tableData.title = key.title ;
+                tableData.content = key.content ;
+                tableData.time = key.created_at ;
+                tableData.platform = key.admin_id ;
+                data.push(tableData);
+              });
+              console.log(data)
+              this.setState({
+                data
+              })
+          
+        }
+      }.bind(this));
+  },
   render() {
     return (
       <div className="mt_30">
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={this.state.data} />
       </div>
 
     );

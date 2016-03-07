@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../css/base.less'
 import '../../../css/push.less'
+
 import { Form,message, Input, Button, Row, Col, Upload, Icon,Tooltip,DatePicker,Radio,Modal} from 'antd';
+import CONFIG from '../../config/API'
 const createForm = Form.create;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -50,8 +52,9 @@ let Push = React.createClass({
       //判断是哪个箭头函数触发的
       allPointToType : '',
       titleNum:0,
+      status : false,
       data : {
-              "destination":'3',"timing":"1","time":" ","title":" ",'content': " "
+              "destination":"3","timing":"1","time":" ","title":" ",'content': " "
             }
 
     }
@@ -113,11 +116,32 @@ let Push = React.createClass({
       data.content = values.content;
       data.time = time;
       console.log(data);
-      Modal.success({
-        title: '成功提示',
-        content: '推送已成功发送'
-      });
+      this.setState({
+        'status' : true
+      })
     });
+  },
+  ajaxhandleSubmit(e){
+    this.handleSubmit(e);
+    if( this.state.status ){
+
+      $.post(CONFIG.HOSTNAME+'/push',this.state.data,function(ajaxdata){
+        ajaxdata = JSON.parse(ajaxdata);
+        if(ajaxdata.state){
+          Modal.success({
+            title: '成功信息',
+            content: `恭喜您!推送成功。`
+          });
+        }else{
+          Modal.error({
+            title: '失败消息',
+            content: `推送失败`
+          });
+        }  
+      }.bind(this));
+
+    }
+    
   },
   inputNum(name, rule, value, callback) {
       if(value){
@@ -152,7 +176,7 @@ let Push = React.createClass({
     data = this.state.data;
     return (
       <div className="mt_30 pushWrap">
-         <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
+         <Form horizontal form={this.props.form} onSubmit={this.ajaxhandleSubmit}>
           <div className="clearfix">
             <div className="AppInformation_l ">
                 <img src="images/basePhone.png" title="新媒体头条"/>

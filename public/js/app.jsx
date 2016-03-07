@@ -6,7 +6,7 @@ import 'antd/style/index.less'
 import '../css/base.less'
 import '../css/clientManagement.less'
 import { Row, Col} from 'antd'
-import { Menu, Icon , Button } from 'antd'
+import { Menu, Icon , Button ,Modal } from 'antd'
 import MainNav from './components/mainNav'
 import LeftNav from './components/leftNav'
 import VersionHistory from './views/clientManagement/VersionHistory'
@@ -16,6 +16,9 @@ import About from './views/clientManagement/about';
 import clientManagement from './views/clientManagement/index';
 import Interactive from './views/interactive/index';
 import Content from './views/content/index';
+import CONFIG from './config/API'
+
+
 
 // etc.
 const Main = React.createClass({
@@ -32,35 +35,86 @@ const Main = React.createClass({
 
 
 const MainRouter = React.createClass({
+  getInitialState() {
+    return {
+      current: 'index',
+      UpdataTip : '',
+      states: '0'
+    }
+  },
+  componentDidMount(){
+      let url = location.href.split('//')[1].split('.');
+      console.log(url);
+      var urlparam = this.GetRequest();
+      urlparam.tenant_id= 'test' || url[0];     
+      $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
+            let data = this.state.data;
+            ajaxdata = JSON.parse(ajaxdata);
+            if(ajaxdata.state){
+              this.setState({
+                states : '1'
+              })
+            }else{
+              Modal.error({
+                title: '登陆失败',
+                content: `请检查用户信息`
+              });
+              this.setState({
+                states : '0'
+              })
+            }  
+      }.bind(this));
+      
+  },//获取url中get参数的值
+ GetRequest() {
+    var url = location.href.split('?')[1]; //获取url中"?"符后的字串
+    var theRequest = new Object();
+    var str = url;
+    var strs;
+    console.log(str);
+    if (str.indexOf("&") != -1) {
+        strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+    } else {
+        theRequest[str.split("=")[0]] = unescape(str.split("=")[1]);
+    }
+    return theRequest;
+  },
   render() {
-    return (
-      <div>
-         <Router history={browserHistory}>
-            <Route path="/" component={Main}>
-              <IndexRoute name="index" component={Index}/>
-              <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
-                  <Route path=":name" component={clientManagement}/>
-              </Route>
-              <Route path="appInformation" name="appInformation" component={clientManagement}>
-                  <Route path=":name" component={clientManagement}/>
-              </Route>
-              <Route path="pushConfiguration" name="pushConfiguration" component={clientManagement}>
-                  <Route path=":name" component={clientManagement}/>
-              </Route>
-              <Route path="shareConfiguration" name="shareConfiguration" component={clientManagement}>
-                  <Route path=":name" component={clientManagement}/>
-              </Route>
+      if(this.state.states == '1'){
+        return (
+          <div>
+             <Router history={browserHistory}>
+                <Route path="/" component={Main}>
+                  <IndexRoute name="index" component={Index}/>
+                  <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
+                      <Route path=":name" component={clientManagement}/>
+                  </Route>
+                  <Route path="appInformation" name="appInformation" component={clientManagement}>
+                      <Route path=":name" component={clientManagement}/>
+                  </Route>
+                  <Route path="pushConfiguration" name="pushConfiguration" component={clientManagement}>
+                      <Route path=":name" component={clientManagement}/>
+                  </Route>
+                  <Route path="shareConfiguration" name="shareConfiguration" component={clientManagement}>
+                      <Route path=":name" component={clientManagement}/>
+                  </Route>
 
-              <Route path="interactive" name="interactive" component={Interactive}>
-                  <Route path=":name" component={Interactive}/>
-              </Route>
-              <Route path="content" name="content" component={Content}>
-                  <Route path=":name" component={Content}/>
-              </Route>          
-            </Route>
-        </Router>
-      </div>
-    )
+                  <Route path="interactive" name="interactive" component={Interactive}>
+                      <Route path=":name" component={Interactive}/>
+                  </Route>
+                  <Route path="content" name="content" component={Content}>
+                      <Route path=":name" component={Content}/>
+                  </Route>          
+                </Route>
+            </Router>
+          </div>
+        )
+    }else{
+      return(<div></div>);
+    }
   }
 })
 

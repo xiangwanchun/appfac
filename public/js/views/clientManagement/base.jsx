@@ -20,6 +20,7 @@ let Base = React.createClass({
       visible: false,
       modalCon: '',
       nameNum:'0',
+      packState : {},
       data :  {
                 "app_collocation": {
                     "id": "1",
@@ -70,18 +71,75 @@ let Base = React.createClass({
       var a = CONFIG.HOSTNAME+'/client/base';
       console.log('##################');
       console.log(this.state.subData);
-      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
-         ajaxdata = JSON.parse(ajaxdata);
-        if(!ajaxdata.state){
-            Modal.error({
-              title: '错误提示',
-              content: '请检查信鸽或者微信分享信息是否完整'
-            });
-        }
-        
-      })
+      this.ajaxfun();
+      var timer = setInterval(function() {
+             this.ajaxfun(timer);
+      }, 500);
+      
     }
       
+  },
+  ajaxfun(timer){
+
+    $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
+       ajaxdata = JSON.parse(ajaxdata);
+      if(!ajaxdata.state){
+        if(ajaxdata.error.code == '2010' || ajaxdata.error.code == '3010'){//重复打包和打包失败
+          Modal.error({
+            title: '错误提示',
+            content: `${ajaxdata.error.description}`
+          });
+        }else{
+          Modal.error({
+            title: '错误提示',
+            content: '请检查信鸽或者微信分享信息是否完整'
+          });
+        }
+          
+      }else{//打包成功
+        if(ajaxdata.data.ios){//IOS平台都打包完成
+          let packState = this.state.packState;
+          if(packState.ios){
+            return;
+          }
+
+          Modal.success({
+            title: '成功信息',
+            content: 'IOS打包成功'
+          });
+
+        
+          packState.ios = true;
+          this.setState({
+              packState
+          })
+          
+        }
+        if(ajaxdata.data.android){//android平台都打包完成
+
+          if(packState.android){
+            return;
+          }
+
+          Modal.success({
+            title: '成功信息',
+            content: 'android打包成功'
+          });
+          let packState = this.state.packState;
+          packState.android = true;
+          this.setState({
+              packState
+          })
+        }
+
+        if(ajaxdata.data.ios && ajaxdata.data.android){//2个平台都打包完成
+          setInterval(timer)
+        }
+
+      }  
+
+    }.bind(this) );
+
   },
   getValidateStatus(field) {
     const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
