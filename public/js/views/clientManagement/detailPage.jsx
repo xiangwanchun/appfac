@@ -6,6 +6,7 @@ import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Modal} from 'antd'
 import PointTo from './pointTo'
 import DetailPageType from './detailPageType'
+import CONFIG from '../../config/API'
 
 const DetailPage = React.createClass({
   getInitialState() {
@@ -15,8 +16,9 @@ const DetailPage = React.createClass({
       content_show : 1,
       pointToLineWidth:{'detailPage':0},
       pointToAllWidth: {'detailPage':0},
+      loading: false,
       data : {
-                content_show : 2
+                content_show : ''
              }
     };
   },
@@ -39,14 +41,6 @@ const DetailPage = React.createClass({
         })
     }
   },
-  componentDidMount() {
-     setTimeout(function(){
-        this.setState({
-          pointToLineWidth: {'detailPage':130},
-          pointToAllWidth:  {'detailPage':165}
-        })
-      }.bind(this),1000)
-  },
   handleCancel(e) {
     this.setState({
       visible: false
@@ -65,6 +59,29 @@ const DetailPage = React.createClass({
       });
     }
   },
+  //向后台提交数据
+  handleSubmitAjax(){
+    //处理数据content_list_title 如果是json处理成逗号分隔
+    this.setState({ loading: true });
+    let data = this.state.data;
+     
+    $.post(CONFIG.HOSTNAME+'/client/show',data,function(ajaxdata){
+      ajaxdata = JSON.parse(ajaxdata);
+      this.setState({ loading: false });
+      if(!ajaxdata.state){
+          Modal.error({
+            title: '错误提示',
+            content: '保存失败'
+          });
+      }else{
+          Modal.success({
+            title: '成功提示',
+            content: '详细页样式设置成功'
+          });
+      }
+      
+    }.bind(this))
+  },    
   render() {
     var _this = this;
     var bgColor = {
@@ -79,6 +96,13 @@ const DetailPage = React.createClass({
               <div className="detailPage_r_con" style={bgColor} >
               </div>
           </div>
+          <Row type="flex" justify="center" style={{marginTop:15}}>
+            <Col span="5">
+              <div className="">
+                  <Button type="primary" size="large" onClick={this.handleSubmitAjax} loading={this.state.loading} >确认选择样式</Button>
+              </div>
+            </Col>
+          </Row>
           <Modal title={this.state.modalTitle} visible={this.state.visible}
             onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
                 {this.state.modalCon}
@@ -86,6 +110,26 @@ const DetailPage = React.createClass({
           
       </div>
     );
+  },
+  componentDidMount() {
+    setTimeout(function(){
+        this.setState({
+          pointToLineWidth: {'detailPage':130},
+          pointToAllWidth:  {'detailPage':165}
+        })
+      }.bind(this),1000)
+    var _this = this;
+    $.get(CONFIG.HOSTNAME+'/client/show',function(ajaxdata){
+        console.log(ajaxdata);
+        let data = this.state.data;
+        ajaxdata = JSON.parse(ajaxdata);
+        if(ajaxdata.state){
+          data = ajaxdata.data.meta;
+          this.setState({
+            data
+          })
+        }            
+      }.bind(this));
   }
 });
 

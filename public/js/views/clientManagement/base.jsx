@@ -74,7 +74,7 @@ let Base = React.createClass({
       this.ajaxfun();
       var timer = setInterval(function() {
              this.ajaxfun(timer);
-      }, 500);
+      }.bind(this), 5500);
       
     }
       
@@ -133,7 +133,7 @@ let Base = React.createClass({
         }
 
         if(ajaxdata.data.ios && ajaxdata.data.android){//2个平台都打包完成
-          setInterval(timer)
+          clearInterval(timer)
         }
 
       }  
