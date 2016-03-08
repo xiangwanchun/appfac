@@ -39,9 +39,7 @@ const LeftNav = React.createClass({
         <Menu.Item key="about">
           <Link to="/clientmanagement/about">关于</Link>
         </Menu.Item>
-        <Menu.Item key="version">
-          <Link to="/clientmanagement/version">版本管理</Link>
-        </Menu.Item>
+
 
       </Menu>
     );
@@ -49,3 +47,9 @@ const LeftNav = React.createClass({
 });
 
 export default  LeftNav;
+
+
+
+        /*<Menu.Item key="version">
+          <Link to="/clientmanagement/version">版本管理</Link>
+        </Menu.Item>*/

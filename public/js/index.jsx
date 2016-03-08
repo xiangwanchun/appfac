@@ -62,7 +62,7 @@ const Index = React.createClass({
       
   },//获取url中get参数的值
  GetRequest() {
-    var url = location.href.split('?')[1]; //获取url中"?"符后的字串
+    var url = location.href.split('?')[1].split('#')[0]; //获取url中"?"符后"#"前的字串 
     var theRequest = new Object();
     var str = url;
     var strs;

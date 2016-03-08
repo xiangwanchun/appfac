@@ -34,7 +34,7 @@ let ListType = React.createClass({
             <div className="userChoose_1">
               <h2>使用左图样式</h2>
               <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'1')}>
-                <img src="images/style_6.png"/>
+                <img src="images/list_l.png"/>
                 <Icon type="check-circle" style={{'display' : this.state.list_type == '1' ? 'block' : 'none'}}/>
               </div>
             </div>
@@ -43,7 +43,7 @@ let ListType = React.createClass({
             <div className="userChoose_2">
               <h2>使用右图样式</h2>
               <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'2')}>
-                <img src="images/user_2.png"/>
+                <img src="images/list_r.png"/>
                 <Icon type="check-circle" style={{'display' : this.state.list_type == '2' ? 'block' : 'none'}}/>
               </div>
             </div>

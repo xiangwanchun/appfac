@@ -23,9 +23,10 @@ const DetailPage = React.createClass({
     };
   },
   pageTypeFun(type){
-    console.log(type);
+      let data = this.state.data;
+      data.content_show = type ;
       this.setState({
-          content_show : type
+          data
       })
   },
   handleClick(e) {
@@ -52,15 +53,13 @@ const DetailPage = React.createClass({
     let name = this.state.allPointToType;
     let data = this.state.data;
     if(name == 'detailPageType'){
-      data.content_show = this.state.content_show;
       this.setState({ 
-        "visible": false,
-        "data":data
+        "visible": false
       });
     }
   },
   //向后台提交数据
-  handleSubmitAjax(){
+  ajaxhandSubmit(){
     //处理数据content_list_title 如果是json处理成逗号分隔
     this.setState({ loading: true });
     let data = this.state.data;
@@ -84,8 +83,11 @@ const DetailPage = React.createClass({
   },    
   render() {
     var _this = this;
+    var content_show = this.state.data.content_show;
+        content_show = content_show == '1' ?  'page_1' : 'page_2'
     var bgColor = {
-      backgroundColor:_this.props.bgColor
+      backgroundColor:_this.props.bgColor,
+      backgroundImage:"url(/images/"+content_show+".png)"
     }
     return (
       <div className="mt_30 allStyle" id="detailPage">          
@@ -96,13 +98,16 @@ const DetailPage = React.createClass({
               <div className="detailPage_r_con" style={bgColor} >
               </div>
           </div>
-          <Row type="flex" justify="center" style={{marginTop:15}}>
-            <Col span="5">
-              <div className="">
-                  <Button type="primary" size="large" onClick={this.handleSubmitAjax} loading={this.state.loading} >确认选择样式</Button>
-              </div>
-            </Col>
-          </Row>
+
+          <div>
+            <Row type="flex" justify="center" style={{marginTop:15}}>
+              <Col span="5">
+                <div className="">
+                    <Button type="primary" size="large" onClick={this.ajaxhandSubmit}>确认修改</Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
           <Modal title={this.state.modalTitle} visible={this.state.visible}
             onOk={this.handleSubmit} onCancel={this.handleCancel} width='700'>
                 {this.state.modalCon}
@@ -120,7 +125,6 @@ const DetailPage = React.createClass({
       }.bind(this),1000)
     var _this = this;
     $.get(CONFIG.HOSTNAME+'/client/show',function(ajaxdata){
-        console.log(ajaxdata);
         let data = this.state.data;
         ajaxdata = JSON.parse(ajaxdata);
         if(ajaxdata.state){

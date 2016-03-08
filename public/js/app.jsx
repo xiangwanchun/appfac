@@ -43,17 +43,19 @@ const MainRouter = React.createClass({
     }
   },
   componentDidMount(){
-      let url = location.href.split('//')[1].split('.');
-     
-      var urlparam = this.GetRequest();
+    var _this = this ;
+
+    $(function(){
+      let url = location.href.split('//')[1].split('.');   
+      var urlparam = _this.GetRequest();
       urlparam.tenant_id= 'test' || url[0];   
       urlparam.rand = Math.random(); 
-      console.log(urlparam) ;
+
       $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
-            let data = this.state.data;
+            let data = _this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){
-              this.setState({
+              _this.setState({
                 states : '1'
               })
             }else{
@@ -61,19 +63,19 @@ const MainRouter = React.createClass({
                 title: '登陆失败',
                 content: `请检查用户信息`
               });
-              this.setState({
+              _this.setState({
                 states : '0'
               })
             }  
-      }.bind(this));
-      
+      });
+    })
+ 
   },//获取url中get参数的值
  GetRequest() {
-    var url = location.href.split('?')[1]; //获取url中"?"符后的字串
+    var url = location.href.split('?')[1].split('#')[0]; //获取url中"?"符后"#"前的字串 
     var theRequest = new Object();
     var str = url;
     var strs;
-    console.log(str);
     if (str.indexOf("&") != -1) {
         strs = str.split("&");
         for (var i = 0; i < strs.length; i++) {

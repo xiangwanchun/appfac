@@ -17,6 +17,21 @@ let PackProgress = React.createClass({
       percent_android:2
     };
   },
+  componentWillReceiveProps(nextProps) {
+
+    if(nextProps.percent_ios){
+      this.setState({
+        percent_ios:100
+      })
+    }
+
+    if(nextProps.percent_android){
+      this.setState({
+          percent_android:100
+        })
+    }
+    
+  },
   progressfun(type){
     this.setState({
       list_type : type
@@ -24,26 +39,30 @@ let PackProgress = React.createClass({
     this.props.fun(type);
   },
   increase() {
-    let percent_ios = this.state.percent_ios;
-    let percent_android = this.state.percent_android;
+    let percent_ios;
+    let percent_android ;
     let rand1Time = Math.floor(Math.random()*(10000-8000)+ 8000);
     let rand2Time = Math.floor(Math.random()*(10000-8000)+ 8000);
     let rand1 = parseInt(3*Math.random())+1;
     let rand2 = parseInt(3*Math.random())+1;
+
     let times_ios = setInterval(function(){
+        percent_ios = this.state.percent_ios;
         percent_ios += rand1;
         this.setState({ percent_ios });
         if (percent_ios > 91) {
           clearInterval(times_ios);
         }
     }.bind(this),rand1Time);
+    
     let times_android = setInterval(function(){
-        percent_android += rand2;
-        this.setState({ percent_android });
-        if (percent_android > 93) {
-          clearInterval(times_android)
-        }
-    }.bind(this),rand2Time);
+      percent_android = this.state.percent_android;
+      percent_android += rand2;
+      this.setState({ percent_android });
+      if (percent_android > 93) {
+        clearInterval(times_android)
+      }
+    }.bind(this),rand1Time);
     
   },
   componentDidMount(){

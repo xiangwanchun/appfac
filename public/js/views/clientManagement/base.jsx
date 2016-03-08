@@ -54,19 +54,20 @@ let Base = React.createClass({
                 "android_sign": "android_sign",
                 "callback": "http://www.baidu.com"
             },
-      subData : ''//提交给后台的数据
+      subData : '',//提交给后台的数据
+      data1 : { state: 'true', data: {ios: '', android: '', description: "开始打包"},'error' : {'code' : '2010'}}
     }
     
   },
   /*点击开始生成按钮回调*/
   packfun(type){
-
+    var data = this.state.data;
     if(type == 'pack'){
       this.setState({
         visible: true,
         allPointToType:'123',
         modalTitle : '打包配置',
-        modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun}  />
+        modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun} {...data} />
       })
       var a = CONFIG.HOSTNAME+'/client/base';
       console.log('##################');
@@ -74,16 +75,18 @@ let Base = React.createClass({
       this.ajaxfun();
       var timer = setInterval(function() {
              this.ajaxfun(timer);
-      }.bind(this), 5500);
+      }.bind(this), 120000);
       
     }
       
   },
   ajaxfun(timer){
+      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
 
-    $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
-       ajaxdata = JSON.parse(ajaxdata);
+      ajaxdata = JSON.parse(ajaxdata);
+      
       if(!ajaxdata.state){
+
         if(ajaxdata.error.code == '2010' || ajaxdata.error.code == '3010'){//重复打包和打包失败
           Modal.error({
             title: '错误提示',
@@ -97,39 +100,41 @@ let Base = React.createClass({
         }
           
       }else{//打包成功
+
+        let packState = this.state.packState;
         if(ajaxdata.data.ios){//IOS平台都打包完成
-          let packState = this.state.packState;
-          if(packState.ios){
-            return;
-          }
 
-          Modal.success({
-            title: '成功信息',
-            content: 'IOS打包成功'
-          });
-
-        
           packState.ios = true;
           this.setState({
-              packState
+              packState,
           })
           
         }
+
+
         if(ajaxdata.data.android){//android平台都打包完成
 
-          if(packState.android){
-            return;
-          }
-
-          Modal.success({
-            title: '成功信息',
-            content: 'android打包成功'
-          });
-          let packState = this.state.packState;
           packState.android = true;
           this.setState({
               packState
           })
+
+        }
+
+        if(packState.ios || packState.android){
+
+          var data = {
+              percent_ios : packState.ios,
+              percent_android:  packState.android
+          }
+
+          this.setState({
+              visible: true,
+              allPointToType:'123',
+              modalTitle : '打包配置1',
+              modalCon : <PackProgress  fun={this.packfun} {...data} />
+          })
+
         }
 
         if(ajaxdata.data.ios && ajaxdata.data.android){//2个平台都打包完成
@@ -138,7 +143,7 @@ let Base = React.createClass({
 
       }  
 
-    }.bind(this) );
+      }.bind(this) );
 
   },
   getValidateStatus(field) {
@@ -155,7 +160,6 @@ let Base = React.createClass({
   handleSubmit1(e) {
     e.preventDefault();
     var formGetFieldsValue = this.props.form.getFieldsValue();
-    console.log('收到表单值：', this.props.form.getFieldsValue());
     let subData = {
                    android_access_id:"",
                    android_access_key:"",
@@ -345,8 +349,6 @@ let Base = React.createClass({
     });*/
 
     const url = CONFIG.DONAME + app_col.icon;
-
-    console.log(app_col.is_push );
     return (
       <div className="contentBlocks mt_30">
         <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>

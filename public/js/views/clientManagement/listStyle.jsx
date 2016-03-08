@@ -18,7 +18,7 @@ const ListStyle = React.createClass({
       pointToLineWidth:{'user':0,'defPic':0,'comments':0},
       pointToAllWidth: {'user':0,'defPic':0,'comments':0},
       data : {
-          "content_list_banner":5,"content_list":"1"
+          "content_list_banner":'',"content_list":"1"
        }
     };
   },
@@ -73,6 +73,16 @@ const ListStyle = React.createClass({
           pointToAllWidth:  {'sliderNum':135,'listType':130}
         })
       }.bind(this),1000)
+     $.get(CONFIG.HOSTNAME+'/client/list',function(ajaxdata){
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+            data = ajaxdata.data.meta;
+            this.setState({
+              data
+            })
+          }  
+      }.bind(this));
   },
   ajaxhandSubmit(){
     $.post(CONFIG.HOSTNAME+'/client/list',this.state.data,function(ajaxdata){
@@ -96,8 +106,11 @@ const ListStyle = React.createClass({
 
     console.log(this.state.data);
     var _this = this;
+    var content_list = this.state.data.content_list;
+        content_list = content_list=='1' ?  'list_l' : 'list_r'
     var bgColor = {
-      backgroundColor:_this.props.bgColor
+      backgroundColor:_this.props.bgColor,
+      backgroundImage:"url(/images/"+content_list+".png)"
     }
     return (
       <div>

@@ -31,15 +31,18 @@ const InteractiveLeftNav = React.createClass({
         <Menu.Item key="push">
           <Link to="/Interactive/push">推送</Link>
         </Menu.Item>
-        <Menu.Item key="notice">
-          <Link to="/Interactive/notice">公告</Link>
-        </Menu.Item>
-        <Menu.Item key="feedback">
-          <Link to="/Interactive/feedback">意见反馈</Link>
-        </Menu.Item>
+       
       </Menu>
     );
   }
 });
 
 export default  InteractiveLeftNav;
+
+
+ /*<Menu.Item key="notice">
+          <Link to="/Interactive/notice">公告</Link>
+        </Menu.Item>
+        <Menu.Item key="feedback">
+          <Link to="/Interactive/feedback">意见反馈</Link>
+        </Menu.Item>*/
