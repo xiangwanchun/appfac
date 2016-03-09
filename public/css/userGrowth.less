@@ -1,0 +1,247 @@
+/* 统计 -->  用户统计  --> 用户增长*/
+@fontSize14: 14px;
+@fontSize18: 18px;
+@fontSize12: 12px;
+.userGrowth-wp {
+
+  .topNav {
+    font-size: @fontSize14;
+    overflow: hidden;
+    border-bottom: #e0e0e0 solid 1px;
+  }
+  .topNav a {
+    display: inline-block;
+    margin-right: 35px;
+    padding: 10px 0px;
+    cursor: pointer;
+    color: #666;
+    -webkit-transition: all 0.3s ease;
+             transition: all 0.3s ease;
+  }
+  .topNav a.topNavClick {
+    color: #3f8bed;
+    border-bottom: #3f8bed solid 4px;
+  }
+  .topNav a:hover {
+    color: #3f8bed;
+  }
+  .prompt {
+    font-size: @fontSize14;
+    padding: 13px 21px;
+    margin: 26px 0 23px 0;
+    background-color: #e0eef9;
+    border-radius: 2px;
+  }
+  .prompt:before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-top: -3px;
+    margin-right: 12px;
+    overflow: hidden;
+    vertical-align: middle;
+    background-image: url("./images/prompthtx1.png");
+  }
+  .cruxIndex {
+    padding: 14px 23px;
+    overflow: hidden;
+    border: #e0e0e0 solid 1px;
+    border-radius: 2px;
+
+    .cruxInTitle {
+      font-size: 14px;
+      padding-bottom: 8px;
+      border-bottom: #e0e0e0 solid 1px;
+    }
+    .cruxInTab {
+      float: left;
+      display: inline;
+      width: 25%;
+      margin: 28px 0 8px 0;
+      overflow: hidden;
+      border-right: #e0e0e0 solid 1px;
+
+      p {
+        text-align: center;
+        padding: 4px;
+      }
+      p.fontSize14 {
+         font-size: @fontSize14;
+      }
+      p.fontSize18 {
+        font-size: @fontSize18;
+        color: #3f8bed;
+      }
+      p.fontSize12 {
+        font-size: @fontSize12;
+      }
+    }
+    .cruxInTab:last-child {
+      border-right: none;
+    }
+  }
+
+  .decline:before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 10px;
+    overflow: hidden;
+    vertical-align: middle;
+    background-image: url("../images/decline.png");
+    -webkit-animation: decline 1.5s linear  infinite;
+             animation: decline 1.5s linear  infinite;
+  }
+  @-webkit-keyframes decline{
+    from{margin-bottom: 5px}
+    to{margin-top: 3px}
+  }
+  .rise:before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 10px;
+    overflow: hidden;
+    vertical-align: middle;
+    background-image: url("../images/rise.png");
+    -webkit-animation: rise 1.5s linear  infinite;
+    animation: rise 1.5s linear  infinite;
+  }
+  @-webkit-keyframes rise{
+    from{margin-top: 5px}
+    to{margin-bottom: 3px}
+  }
+
+
+  .tabCen {
+    margin-top: 23px;
+    border: #e0e0e0 solid 1px;
+    border-radius: 2px;
+  }
+  .tabCenTop {
+    padding: 0 20px;
+    background-color: #f8f8f8;
+    border-bottom: #e0e0e0 solid 1px;
+  }
+  .tabCenTop-switch {
+    height: 41px;
+    line-height: 40px;
+    border-bottom: #e0e0e0 solid 1px;
+
+    label.ant-radio-button:hover {
+      color: #3f8bed;
+    }
+    label.ant-radio-button {
+      padding: 0 20px;
+      border: 0;
+      background-color: #f8f8f8;
+    }
+    label.ant-radio-button-checked:hover,
+    label.ant-radio-button-checked {
+      background-color: #3f8bed;
+      color: #FFF;
+    }
+    label.ant-radio-button:first-child,
+    label.ant-radio-button:last-child {
+      border: 0;
+      border-radius: 0;
+    }
+    label.ant-radio-button:hover:before {
+      background-color: #f8f8f8;
+      visibility: hidden;
+    }
+    label.ant-radio-button {
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+    }
+    .ant-radio-group {
+      vertical-align: inherit;
+    }
+  }
+  .tabCenTop-time,
+  .tabCenTop-growth {
+    padding: 25px 0;
+
+    label.ant-radio-button {
+      height: 35px;
+      padding: 0 23px;
+      line-height: 35px;
+      font-size: 14px;
+    }
+    .tabTime-Name,
+    .tabGrowth-Name {
+      margin: 0 20px;
+    }
+    label.ant-radio-button:last-child,
+    label.ant-radio-button:first-child {
+      border-radius: 0;
+    }
+    label.ant-radio-button-checked {
+      background: #FFF;
+      border-color: #d9d9d9;
+      color: #3f8bed;
+      box-shadow: 0 0 0 ;
+    }
+    .ant-radio-group {
+      vertical-align: inherit;
+    }
+  }
+  .tabCenTop-growth {
+    padding-top: 0;
+  }
+
+  .ant-btn-primary {
+    background-color: #3f8bed;
+    border-color: #3f8bed;
+    border-radius: 2px;
+    padding: 7px 24px;
+    vertical-align: top;
+    margin-left: 100px;
+  }
+  .ant-btn-primary:hover {
+    opacity: .8;
+  }
+
+
+  .tabCenBott {
+    padding: 21px;
+
+    .prompt {
+      margin: 0;
+    }
+    .title {
+      padding: 0 10px;
+      margin: 10px 0;
+      font-size: @fontSize14;
+      border-left: #666 solid 4px;
+
+      a {
+        float: right;
+        display: inline;
+        color: #3f8bed;
+      }
+      a:hover {
+       color: #2db7f5
+      }
+    }
+
+    #barContainer {
+      height: 420px;
+      margin-bottom: 30px;
+    }
+    .tabB {
+      margin-top: 23px;
+    }
+    .tabB th {
+      text-align: center;
+      background-color: #CBE5F6;
+    }
+    .tabB td {
+      text-align: center;
+    }
+  }
+
+}
+

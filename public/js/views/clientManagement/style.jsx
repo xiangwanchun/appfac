@@ -13,12 +13,13 @@ import Model from './model';
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+import CONFIG from '../../config/API'
 
 const Style = React.createClass({
   getInitialState() {
     return {
       current: 'base',
-      bgColor : 'red',
+      bgColor : ''
     };
   },
   handleClick(e) {
@@ -51,6 +52,22 @@ const Style = React.createClass({
           </Tabs>
       </div>
     );
+  },
+  componentDidMount(){
+     console.log(11111111)
+     $.get(CONFIG.HOSTNAME+'/client/frame',function(ajaxdata){
+          /*console.log(ajaxdata);*/
+          let data = this.state.data;
+          ajaxdata = JSON.parse(ajaxdata);
+          if(ajaxdata.state){
+            data = ajaxdata.data.meta;
+            this.setState({
+              bgColor : data.color
+            })
+          }  
+      }.bind(this));
+
+      
   }
 });
 

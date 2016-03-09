@@ -49,7 +49,11 @@ let PackProgress = React.createClass({
     let times_ios = setInterval(function(){
         percent_ios = this.state.percent_ios;
         percent_ios += rand1;
+        if (percent_ios > 100) {
+          percent_ios = 100;
+        }
         this.setState({ percent_ios });
+        
         if (percent_ios > 91) {
           clearInterval(times_ios);
         }
@@ -58,7 +62,11 @@ let PackProgress = React.createClass({
     let times_android = setInterval(function(){
       percent_android = this.state.percent_android;
       percent_android += rand2;
+      if (percent_android > 100) {
+          percent_android = 100;
+      }
       this.setState({ percent_android });
+      
       if (percent_android > 93) {
         clearInterval(times_android)
       }

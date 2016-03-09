@@ -713,7 +713,6 @@
 	position:relative;
 	>div{
 		position:absolute;
-		border:1px solid red;
 	}
 	.modelStyle_r{
 		width:225px;
@@ -768,8 +767,8 @@
 		height:50px;
 		width:210px;
 		margin-top:38px;
-		border:1px solid red ;
 		bottom:0;
+		border:1px solid @border-color-base;
 	}
 	.stylePic{
 		left:0;
@@ -777,8 +776,51 @@
 	.stylePicl{
 		right:-290px;
 	}
+	.stylePicl_1{
+		right:-329px;
+	}
 
 
+}
+
+/* 模型设置 */
+.modelChoose{
+	width:100%;
+	text-align:center;
+	h2{
+		width:215px;
+		height:30px;
+		line-height:30px;
+		text-align:center;
+		width:215px;
+		font-size:14px;
+		display:inline-block;
+	}
+	div.imgWrap{
+		display:inline-block;
+		cursor:pointer;
+		height:60px;
+		width:215px;
+		border:1px solid @border-color-base;
+		position:relative;
+		img{
+			width:100%;
+			height:100%;
+		}
+		i.anticon{
+			position:absolute;
+			left:50%;
+			top:50%;
+			margin-left:-27px;
+			margin-top:-27px;
+			line-height:55px;
+			font-size:55px;
+			background-color:#fff;
+			color:@primary-color;
+			border-radius:50%;
+		}
+	}
+	
 }
 
 /* 

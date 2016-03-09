@@ -16,7 +16,7 @@ let ChooseUserSet = React.createClass({
     return {
       current: 'base',
       index : 0,
-      is_member : 0
+      is_member : this.props.is_member
     };
   },
   chooseUsers(type){

@@ -20,7 +20,7 @@ const AllStyle = React.createClass({
     return {
       current: 'base',
       index : 0,
-      colors :['#4546cd','#21ae37','#e60111','#000','#8a8a8a'],
+      colors :['#c90505','#ff6633','#0a78cd','#000','#0bb8f4','#37ab31','#2ebdab'],
       pointToLineWidth :[0],
       pointToAllWidth :[0],
       title : '左抽屉',
@@ -97,7 +97,7 @@ const AllStyle = React.createClass({
 
           setTimeout(function(){
             $(".focusBox_"+_this.state.index).slide({ mainCell:".pic",effect:"left",delayTime:300,defaultIndex:_this.state.data.frame-1,endFun:function(i,c){
-              var title = ['左抽屉','上下栏','左右抽屉'];
+              var title = ['上下栏','左抽屉','左右抽屉'];
               let data = _this.state.data;
               data.frame = i+1;
               //设置名字,当前页,和选择的类型
@@ -244,7 +244,7 @@ const AllStyle = React.createClass({
     var options = [];
       for (var option in this.state.colors) {
           options.push(
-            <Col span="4" key={option}><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
+            <Col span="3" key={option}><span className="defColor_choose"  style={{backgroundColor:this.state.colors[option]}}  onClick={this.handleClick}></span></Col>
             )
       };
     return (
@@ -253,7 +253,7 @@ const AllStyle = React.createClass({
         <Row>
           <Col span="14"><p className="styleName"> {this.state.title}<span className="ml_5">{this.state.curPage} / {this.state.allPage}</span> </p></Col>
           <Col span="10">
-            <Row style={{width:220}} className="defColor" type="flex" justify="space-around">
+            <Row style={{width:280}} className="defColor" type="flex" justify="space-around">
               {options}
             </Row>
           </Col>
@@ -261,10 +261,10 @@ const AllStyle = React.createClass({
         <div className={name}>
             <ul className="pic">
                 <li>
-                  <LeftDrawer {...this.state.data} fun={this.allPointToFun}/>
+                  <UpDownColumn {...this.state.data} fun={this.allPointToFun} content_title={this.state.content_title} />
                 </li>
                 <li>
-                  <UpDownColumn {...this.state.data} fun={this.allPointToFun} content_title={this.state.content_title} />
+                  <LeftDrawer {...this.state.data} fun={this.allPointToFun}/>
                 </li>
                 <li>
                   <DoubleSideDrawer {...this.state.data} fun={this.allPointToFun} />

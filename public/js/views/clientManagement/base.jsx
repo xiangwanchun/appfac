@@ -66,7 +66,7 @@ let Base = React.createClass({
       this.setState({
         visible: true,
         allPointToType:'123',
-        modalTitle : '打包配置',
+        modalTitle : '打包进度',
         modalCon : <PackProgress bgColor={this.state.data.color} fun={this.packfun} {...data} />
       })
       var a = CONFIG.HOSTNAME+'/client/base';
@@ -81,18 +81,24 @@ let Base = React.createClass({
       
   },
   ajaxfun(timer){
+      var subData = this.state.subData;
+      subData.rand =  Math.random(); 
       $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
 
       ajaxdata = JSON.parse(ajaxdata);
       
       if(!ajaxdata.state){
 
-        if(ajaxdata.error.code == '2010' || ajaxdata.error.code == '3010'){//重复打包和打包失败
+        if(ajaxdata.error.code == '2010'){//重复打包和打包失败
+          
+        }else if(ajaxdata.error.code == '3010'){
           Modal.error({
             title: '错误提示',
             content: `${ajaxdata.error.description}`
           });
-        }else{
+          clearInterval(timer);
+        }
+        else{
           Modal.error({
             title: '错误提示',
             content: '请检查信鸽或者微信分享信息是否完整'
@@ -131,7 +137,7 @@ let Base = React.createClass({
           this.setState({
               visible: true,
               allPointToType:'123',
-              modalTitle : '打包配置1',
+              modalTitle : '打包进度',
               modalCon : <PackProgress  fun={this.packfun} {...data} />
           })
 
@@ -174,7 +180,9 @@ let Base = React.createClass({
                    is_weixin_share:"",
                    name:"11",
                    weixin_id:"",
-                   weixin_secret:""
+                   weixin_secret:"",
+                   version : ''
+
     }
     var data = this.state.data.app_collocation;
     for(let key in subData){

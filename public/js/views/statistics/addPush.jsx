@@ -38,7 +38,7 @@ Date.prototype.format = function(format) {
 }
 
 
-let Push = React.createClass({
+let AddPush = React.createClass({
   getInitialState() {
     return {
       current: 'base',
@@ -99,8 +99,8 @@ let Push = React.createClass({
   },
   handleSubmit(e) {
     e.preventDefault();
-    
     this.props.form.validateFields((errors, values) => {
+          console.log('1111111111111111');
       if (!!errors) {
         console.log('Errors in form!!!');
         return;
@@ -108,7 +108,7 @@ let Push = React.createClass({
 
       data = this.state.data;
       let time = values.time && data.timing == '2' ? values.time.format('yyyy-MM-dd hh:mm:ss') : '';
-      console.log('222222');
+      
       if(!values.time && data.timing == '2'){
            message.warn('请选择定时发布时间');
           return;
@@ -124,28 +124,28 @@ let Push = React.createClass({
   },
   ajaxhandleSubmit(e){
     this.handleSubmit(e);
-    setTimeout(function(){
-      if( this.state.status ){
+    if( this.state.status ){
 
-        $.post(CONFIG.HOSTNAME+'/push',this.state.data,function(ajaxdata){
-         /* ajaxdata = JSON.parse(ajaxdata);*/
-          if(ajaxdata.state){
-            Modal.success({
-              title: '成功信息',
-              content: `恭喜您!推送成功。`
-            });
-          }else{
-            Modal.error({
-              title: '失败消息',
-              content: `推送失败`
-            });
-          } 
-        }.bind(this));
+      $.post(CONFIG.HOSTNAME+'/push',this.state.data,function(ajaxdata){
+        console.log(111111);
+        console.log(ajaxdata);
+        /*ajaxdata = JSON.parse(ajaxdata);
+        if(ajaxdata.state){
+          Modal.success({
+            title: '成功信息',
+            content: `恭喜您!推送成功。`
+          });
+        }else{
+          Modal.error({
+            title: '失败消息',
+            content: `推送失败`
+          });
+        }  */
+      }.bind(this));
 
-        }
-      }.bind(this), 500)
 
-    
+
+    }
     
   },
   inputNum(name, rule, value, callback) {
@@ -281,8 +281,8 @@ let Push = React.createClass({
   }
 });
 
-Push = createForm()(Push);
-export default  Push;
+AddPush = createForm()(AddPush);
+export default  AddPush;
 
 
 

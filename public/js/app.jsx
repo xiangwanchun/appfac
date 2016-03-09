@@ -16,6 +16,7 @@ import About from './views/clientManagement/about';
 import clientManagement from './views/clientManagement/index';
 import Interactive from './views/interactive/index';
 import Content from './views/content/index';
+import Statistics from './views/statistics/index';
 import CONFIG from './config/API'
 
 
@@ -111,6 +112,9 @@ const MainRouter = React.createClass({
                   </Route>
                   <Route path="content" name="content" component={Content}>
                       <Route path=":name" component={Content}/>
+                  </Route>  
+                  <Route path="statistics" name="statistics" component={Statistics}>
+                      <Route path=":name" component={Statistics}/>
                   </Route>          
                 </Route>
             </Router>

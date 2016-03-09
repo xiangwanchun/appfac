@@ -132,7 +132,7 @@ const BootScreen = React.createClass({
       }.bind(this));
 
       
-  },
+  }
 });
 
 export default  BootScreen;
