@@ -20,7 +20,7 @@ const AllStyle = React.createClass({
     return {
       current: 'base',
       index : 0,
-      colors :['#c90505','#ff6633','#0a78cd','#000','#0bb8f4','#37ab31','#2ebdab'],
+      colors :['#c90505','#ff6633','#37ab31','#2ebdab','#0bb8f4','#0a78cd','#000'],
       pointToLineWidth :[0],
       pointToAllWidth :[0],
       title : '左抽屉',

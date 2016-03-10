@@ -34,9 +34,6 @@ const Style = React.createClass({
               <TabPane tab="开机画面"  key="1">
                 <BootScreen/>
               </TabPane>
-              <TabPane tab="引导图组"  key="2">
-                <Guide/>
-              </TabPane>
               <TabPane tab="总体样式"  key="3">
                 <AllStyle bgColor={this.state.bgColor}/>
               </TabPane>
@@ -54,7 +51,6 @@ const Style = React.createClass({
     );
   },
   componentDidMount(){
-     console.log(11111111)
      $.get(CONFIG.HOSTNAME+'/client/frame',function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
@@ -72,3 +68,8 @@ const Style = React.createClass({
 });
 
 export default  Style;
+
+
+              /*<TabPane tab="引导图组"  key="2">
+                <Guide/>
+              </TabPane>*/
