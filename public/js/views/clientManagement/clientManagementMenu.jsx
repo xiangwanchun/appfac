@@ -7,32 +7,12 @@ import { Menu, Icon,Button,Tabs,Alert,Table,Row,Col,message,Modal} from 'antd'
 import 'ztree'
 import '../../plug/ztree/css/zTreeStyle/zTreeStyle.css'
 import CONFIG from '../../config/API'
+import MenuType from './menu/menuType'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const confirm = Modal.confirm;
-var zNodes =[
-  {id:1, name:"无右键菜单 1", open:true, 
-    children:[
-         {id:11, name:"节点 1-1", noR:true},
-         {id:12, name:"节点 1-2", noR:true}
 
-    ]},
-  {id:2, name:"右键操作 2", open:true,
-    children:[
-         {id:21, name:"节点 2-1"},
-         {id:22, name:"节点 2-2"},
-         {id:23, name:"节点 2-3"},
-         {id:24, name:"节点 2-4"}
-    ]},
-  {id:3, name:"右键操作 3", open:true,
-    children:[
-         {id:31, name:"节点 3-1"},
-         {id:32, name:"节点 3-2"},
-         {id:33, name:"节点 3-3"},
-         {id:34, name:"节点 3-4"}
-    ]}
-  ];
 var curTreeNode;
 
 function checkTreeNode(checked) {
@@ -54,6 +34,7 @@ const ClientManagementMenu = React.createClass({
     return {
       current: 'base',
       visible: false,
+      menuType : <MenuType/>,
       setting : {
                   view: {
                     dblClickExpand: false
@@ -238,11 +219,9 @@ const ClientManagementMenu = React.createClass({
             <Col span="18">
             </Col>
           </Row>
-          <Modal title="第一个 Modal" visible={this.state.visible}
-          onOk={this.handleOk} onCancel={this.handleCancel}>
-            <p>对话框的内容</p>
-            <p>对话框的内容</p>
-            <p>对话框的内容</p>
+          <Modal title="选择导航类型" visible={this.state.visible}
+          onOk={this.handleOk} onCancel={this.handleCancel} width="1000">
+            {this.state.menuType}
           </Modal>
       </div>
     );

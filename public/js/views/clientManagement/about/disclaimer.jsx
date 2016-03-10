@@ -62,7 +62,7 @@ let Disclaimer = React.createClass({
                   label="内容："
                   labelCol={{ span:2 }}
                   >  
-                    <Input type="textarea" id="control-textarea1"  rows="5" style={{width:'830px'}} value={this.state.data.statement} onChange={this.handChange}/>
+                    <Input type="textarea" id="control-textarea1"  rows="16" style={{width:'830px'}} value={this.state.data.statement} onChange={this.handChange}/>
                 </FormItem>
 
                 <Row style={{ marginTop: 25 }}>

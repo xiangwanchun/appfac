@@ -75,7 +75,7 @@ let Base = React.createClass({
       this.ajaxfun();
       var timer = setInterval(function() {
              this.ajaxfun(timer);
-      }.bind(this), 120000);
+      }.bind(this), 60000);
       
     }
       
