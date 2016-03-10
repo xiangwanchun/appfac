@@ -14,8 +14,14 @@ let ModelType = React.createClass({
     return {
       current: 'base',
       index : 0,
-      list_type : 1,
+      list_type : this.props.checkedId,
+      data : ''
     };
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      list_type : nextProps.checkedId
+    })
   },
   listTypefun(type){
     this.setState({
@@ -28,55 +34,29 @@ let ModelType = React.createClass({
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
-
-    let styles = this.props.styles;
-   /* let checked = this.props.data.;*/
+    let  name  = this.props.name;
+    let styles = this.props.styles[name];
+    let index = 'content_list_' + name;
+    let checked = this.props.data[index].id;
     let chooseList = [];
     let html;
-    let pos = 'left';
+    let pos = this.props.pos;
     for(let key in styles){
-      html = <Col span="12" key={key}>
-            <div className="modelChoose">
-              <h2>{styles[key].name}</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,styles[key].id)}>
-                <img src={CONFIG.DONAME + styles[key].img[pos]}/>
-                <Icon type="check-circle" style={{'display' : this.state.list_type == styles[key].id ? 'block' : 'none'}}/>
-              </div>
+    html = <Col span="12" key={key}>
+          <div className="modelChoose">
+            <h2>{styles[key].name}</h2>
+            <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,styles[key].id)}>
+              <img src={CONFIG.DONAME + styles[key].img[pos]}/>
+              <Icon type="check-circle" style={{'display' : this.state.list_type == styles[key].id ? 'block' : 'none'}}/>
             </div>
-          </Col>;
-      chooseList.push(html);
+          </div>
+        </Col>;
+    chooseList.push(html);
     }
     return (
       <div>
         <Row type="flex" justify="space-between">
           {chooseList}
-          {/*<Col span="12">
-            <div className="modelChoose">
-              <h2>使用左图样式</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'1')}>
-                <img src="images/list_l.png"/>
-                <Icon type="check-circle" style={{'display' : this.state.list_type == '1' ? 'block' : 'none'}}/>
-              </div>
-            </div>
-          </Col>
-          <Col span="12">
-            <div className="modelChoose">
-              <h2>使用右图样式</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'2')}>
-                <img src="images/list_r.png"/>
-                <Icon type="check-circle" style={{'display' : this.state.list_type == '2' ? 'block' : 'none'}}/>
-              </div>
-            </div>
-          </Col>
-          <Col span="12">
-            <div className="modelChoose">
-              <h2>使用右图样式</h2>
-              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,'3')}>
-                <img src="images/list_r.png"/>
-                <Icon type="check-circle" style={{'display' : this.state.list_type == '3' ? 'block' : 'none'}}/>
-              </div>
-            </div>
-          </Col>*/}
         </Row>  
       </div>
     );

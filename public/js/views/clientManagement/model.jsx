@@ -34,6 +34,7 @@ const Model = React.createClass({
     let  index = 'content_list_' + this.state.allPointToType;
     data[index].id= type;
     data[index].img[pos]= this.state.styles[this.state.allPointToType][type].img[pos];
+    data[index].name= this.state.styles[this.state.allPointToType][type].name;
     this.setState({
         data
     })
@@ -41,48 +42,50 @@ const Model = React.createClass({
   },
   pointToFun(name,expand){
     var styles = this.state.styles[name];
-    
+    let index = 'content_list_' + name;
+    let checkedId = this.state.data[index].id;
+    console.log(checkedId);
     if(name == 'images'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '图集样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state} />
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }else if(name == 'img_text'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '图文样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state}/>
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }else if(name == 'link'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '链接样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state}/>
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }else if(name == 'live'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '直播样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state}/>
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }else if(name == 'special'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '专题样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state}/>
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }else if(name == 'video'){
       this.setState({
         visible: true,
-        allPointToType:name,
+        allPointToType : name,
         modalTitle : '直播样式',
-        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun} content_list={this.state.data.content_list} {this.state}/>
+        modalCon : <ModelType bgColor={this.props.bgColor} fun={this.ModelTypeFun}  {...this.state} name={name} checkedId={checkedId}/>
       })
     }
 
@@ -106,19 +109,29 @@ const Model = React.createClass({
     });
   },
   ajaxhandSubmit(){
-    $.post(CONFIG.HOSTNAME+'/client/model',this.state.data,function(ajaxdata){
+    let subData ={};
+    let data = this.state.data;
+    for( let key in data){
+      if( key == 'content_list'){
+        continue;
+      }else if(key == ''){
+        break;
+      }
+      subData[key] = data[key].id ;
+    }    
+    $.post(CONFIG.HOSTNAME+'/client/model',subData,function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
               Modal.success({
                 title: '成功信息',
-                content: `恭喜您!列表样式设置成功。`
+                content: `恭喜您!模型样式设置成功。`
               });
           }else{
               Modal.error({
                 title: '失败消息',
-                content: `列表样式保存失败`
+                content: `模型样式保存失败`
               });
           }  
       }.bind(this));

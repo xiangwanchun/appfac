@@ -34,8 +34,10 @@ const IndexLeft = React.createClass({
     };
   },
   render() {
-    let propsData = this.props;
-    let domain  = propsData.config.DONAME + '';
+    console.log('=====')
+    console.log(this.props);
+    let propsData = this.props.app;
+    let domain  = this.props.config.DONAME + '';
     let created_at = propsData.created_at.substring(0,19).replace(/-/g,'/');
         created_at = new Date(created_at);
         created_at = created_at.format('yyyy-MM-dd');
@@ -54,13 +56,13 @@ const IndexLeft = React.createClass({
           </section>
           <section className="mt_20 ml_download">
               <h3>下载</h3>
-              <a>
+              <a href={this.props.download.ios} target="_blank">
                 <Button type="ghost" size="large" className='appbtn1'>
                   <Icon type="apple" />
                    V1.01
                 </Button>
               </a>
-              <a>
+              <a href={this.props.download.android} target="_blank">
                 <Button type="ghost" size="large" className='appbtn1 mt_10'>
                     <Icon type="android" />
                   点击下载

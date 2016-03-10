@@ -37,7 +37,12 @@ const Index = React.createClass({
               "activation_today": '',
               "active_today": '',
               "hit_today": ''
+          },
+          "download" : {
+              "ios" : "",
+              "android" : ""
           }
+
       }
     }
   },
@@ -83,7 +88,7 @@ const Index = React.createClass({
           <div className="appcenter mt_30">
             <Row>
               <Col span="5">
-                  <IndexLeft {...this.state.data.app} config={CONFIG}></IndexLeft>
+                  <IndexLeft {...this.state.data} config={CONFIG}></IndexLeft>
               </Col>
               <Col span="19">
                   <div id="mainCon">
