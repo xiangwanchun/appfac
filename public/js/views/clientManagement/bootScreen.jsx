@@ -95,7 +95,7 @@ const BootScreen = React.createClass({
             <div className="bootScreen_r">
                 <p>
                   <label>自定义开机画面: </label>
-                  图标要求:png格式,1024x1024
+                  图标要求:png格式,1080x1920
                 </p>
                 <div className="mt_15">
                   <Upload {...starting} data={{"type" :'starting'}} >

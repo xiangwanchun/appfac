@@ -126,7 +126,7 @@ let TitleSet = React.createClass({
                   <RadioButton value="pic" onClick={this.handClick.bind(this,'pic')}>图标</RadioButton>
                 </RadioGroup>
                 <div className="mt_15 titleInputWrap">
-                     <p className="picDes">自定义图标要求:PNG格式,140x30</p>
+                     <p className="picDes">自定义图标要求:PNG格式,600x72</p>
                     <Upload {...titlePic} data={{"type" :'title'}}>
                       <Button type="primary">
                         <Icon type="upload" /> 点击上传
