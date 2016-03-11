@@ -22,6 +22,10 @@ const uploadprops = {
   }
 };
 
+var listData = {
+		'1' : ['category','name',' icon','sname','catname','bddh'],
+		'2' : ['category','name','link']
+	}
 let MenuFormNew = React.createClass({
   getInitialState() {
     return {
@@ -226,14 +230,21 @@ let MenuFormNew = React.createClass({
 	                  _this.uploadChange('icon',info);              
 	              }
 	            };
+	       let category  = this.props.data.category;
+	       let showListData = listData[category];
+	       let html;
 
+	   /*    var listData = {
+		'1' : ['category','name',' icon','sname','catname','bddh'],
+		'2' : ['category','name','link']
+	}*/
 
 		return (
 			<div className='MenuFormMian'>
 			  <Form horizontal form={this.props.form}>
 				<div className='MenuFormCont'>
-					<div className='MenuFormCol'>
-						<div className='MenuFormColCont' id="type">
+					<div>
+						<div className='MenuFormColCont' style={showListData.indexOf('name') != -1 ?{display:'block'}:{display:'none'}}>
 						 <Row>
 						 	<Col span='24'>
 						 		<FormItem
@@ -246,7 +257,7 @@ let MenuFormNew = React.createClass({
 						    </Col>
 						 </Row>	
 						</div>
-						<div className='MenuFormColCont' style={this.props.data.pid==0?{display:'block'}:{display:'none'}}>
+						<div className='MenuFormColCont' style={showListData.indexOf('category') != -1 ?{display:'block'}:{display:'none'}}>
 							<Row>
 								 <Col span='24'>
 								        <div className="inputNumWrap">
@@ -263,7 +274,7 @@ let MenuFormNew = React.createClass({
 							      </Col>  
 							</Row>
 						</div>
-						<div className='MenuFormColCont' style={this.props.data.pid==0?{display:'block'}:{display:'none'}}>
+						<div className='MenuFormColCont' style={showListData.indexOf('icon') != -1?{display:'block'}:{display:'none'}}>
 
 							<Row>
 								<Col span='5' className="colFormItem">

@@ -42,7 +42,7 @@ var menuprops={
         ],
         "children": "3,4",
         "pid": "0",
-        "category": "1",
+        "category": "2",
         "catid": "1635",
         "model": "0",
         "end_time": "0",
@@ -346,7 +346,7 @@ const ClientManagementMenu = React.createClass({
             </Col>
             <Col span="18">
               <div style={{width:400}}>
-                <Menuall data = {this.state.navigateData == '' ? menuprops :  this.state.navigateData}/>
+                <Menuall data = {menuprops/*this.state.navigateData == '' ? menuprops :  this.state.navigateData*/}/>
               </div>
             </Col>
           </Row>
