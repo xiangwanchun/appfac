@@ -49,7 +49,14 @@ const MainRouter = React.createClass({
     $(function(){
       let url = location.href.split('//')[1].split('.');   
       var urlparam = _this.GetRequest();
-      urlparam.tenant_id= 'test' || url[0];   
+      if(!urlparam){
+        Modal.error({
+            title: '登陆失败',
+            content: `请检查用户登陆信息`
+          });
+        return;
+      }
+      urlparam.tenant_id = url[0];   
       urlparam.rand = Math.random(); 
 
       $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
@@ -73,6 +80,9 @@ const MainRouter = React.createClass({
  
   },//获取url中get参数的值
  GetRequest() {
+    if(location.href.indexOf('?') == -1){
+      return;
+    }
     var url = location.href.split('?')[1].split('#')[0]; //获取url中"?"符后"#"前的字串 
     var theRequest = new Object();
     var str = url;
