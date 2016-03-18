@@ -43,7 +43,7 @@ const MainNav = React.createClass({
                         </Menu.Item>
          
                         <Menu.Item key="interactive">
-                          <Link to="interactive">互动</Link>
+                          <Link to="interactive">应用</Link>
                         </Menu.Item>
                         <Menu.Item key="statistics">
                           <Link to="statistics">统计</Link>

@@ -8,7 +8,7 @@ import 'ztree'
 import '../../plug/ztree/css/zTreeStyle/zTreeStyle.css'
 import CONFIG from '../../config/API'
 import MenuType from './menu/menuType'
-import Menuall from './MenuMangement/Menuall';
+import ManagementMenuNew from './MenuMangement/ManagementMenuNew';
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -34,7 +34,7 @@ var menuprops={
         "id": "",
         "admin_id": "",
         "version": "",
-        "name": "",
+        "name": "首页",
         "sname": "",
         "icon": [
             "/upload/icon/navigate/default.png",
@@ -42,7 +42,7 @@ var menuprops={
         ],
         "children": "3,4",
         "pid": "0",
-        "category": "2",
+        "category": "1",
         "catid": "1635",
         "model": "0",
         "end_time": "0",
@@ -141,7 +141,8 @@ const ClientManagementMenu = React.createClass({
                     onClick: this.OnClick
                   }
                 },
-      navigateData : ''
+      navigateData : '',
+      conData : ''
 
     };
   },
@@ -201,6 +202,7 @@ const ClientManagementMenu = React.createClass({
             this.setState({
               navigateData
             })
+        
           }  
       }.bind(this));
 
@@ -275,7 +277,7 @@ const ClientManagementMenu = React.createClass({
     }
   },
   handleOk(){
-    console.log(this.state.modelId);
+    console.log(33,this.state.modelId);
     if(!this.state.modelId){
       Modal.error({
         title: '错误提示',
@@ -324,13 +326,15 @@ const ClientManagementMenu = React.createClass({
     });
   },
   handleCancel(e) {
-    console.log(e);
     this.setState({
       visible: false
     });
   },
   render() {
-
+    if(this.state.navigateData){
+        menuprops=this.state.navigateData    
+    }
+         
     return (
 
       <div className="contentBlocks mt_30" id="clientMenuCon">
@@ -346,7 +350,7 @@ const ClientManagementMenu = React.createClass({
             </Col>
             <Col span="18">
               <div style={{width:400}}>
-                <Menuall data = {menuprops/*this.state.navigateData == '' ? menuprops :  this.state.navigateData*/}/>
+                <ManagementMenuNew data = {this.state.navigateData == '' ? menuprops :  this.state.navigateData}/>
               </div>
             </Col>
           </Row>
@@ -368,7 +372,6 @@ const ClientManagementMenu = React.createClass({
             rMenu = $("#rMenu");
             var bodyHeight = $(window).outerHeight();
             $('#treeDemo').css('height',bodyHeight-112);
-
           }  
 
       }.bind(this));

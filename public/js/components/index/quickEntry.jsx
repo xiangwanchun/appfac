@@ -25,12 +25,12 @@ const QuickEntry = React.createClass({
                       <p>消息推送</p>
                     </Link> 
                   </div>
-                  <div className="quickEntryDiv">
+                  {/*<div className="quickEntryDiv">
                     <Link to="/Interactive/feedback">
                       <img src="images/kj2.png"/>
                       <p>意见反馈</p>
                     </Link> 
-                  </div>
+                  </div>*/}
                   <div className="quickEntryDiv">
                     <Link to="/clientmanagement/menu">
                       <img src="images/kj3.png"/>

@@ -37,7 +37,6 @@ const BootScreen = React.createClass({
           })
         }else{
           var errorsDes = typeof info.file.response.error.description;
-          alert(errorsDes)
           Modal.error({
             title: '文件上传错误',
             content: `${info.file.name} ${errorsDes}`

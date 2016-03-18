@@ -1,4 +1,4 @@
-var DONAME  = 'http://test.appsback.sobeyyun.com';
+var DONAME  = 'http://demo.appsback.sobeyyun.com';
 var  HOSTNAME  = '/factory';
 var CONFIG = {
 	DONAME,

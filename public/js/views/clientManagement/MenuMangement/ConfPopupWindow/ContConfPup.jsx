@@ -4,7 +4,7 @@ import '../../../../../css/ManagementMenu.less'
 import {Row, Col,Icon,Upload,Button, Input,Alert,Form,Modal,} from 'antd';
 
 let ContConf = React.createClass({
- getInitialState(){
+getInitialState(){
  	return{
  		staue:'-1'
  		
@@ -18,8 +18,10 @@ deleonselec(i){
 	this.setState({
 		staue:i
 	})
+
 	this.props.model[1].push(this.props.model[0][i])
 	this.props.model[0].splice(i,1);
+
 	this.setState({
 		staue:'-1'
 	})
@@ -28,33 +30,39 @@ addselec(i){
 	this.setState({
 		staue:i
 	})
+
 	this.props.model[0].push(this.props.model[1][i])
 	this.props.model[1].splice(i,1);
+
 	this.setState({
 		staue:'-1'
 	})
+
 },
 
 	render(){
+		console.log(1111);
 		
-			var ContCategory = this.props.model[0].map(function(e,i){
-				return 				<div className='ContBlock' key={e.id} style={i==this.state.staue?{display:'none'}:{display:'block'}} onClick={this.deleonselec.bind(this,i)}>
-										<div className='ContName'>
-										       <p>
-										       		{e.name}
-												</p>
-										</div>
-									</div>
-			}.bind(this))
-			var unContCategory = this.props.model[1].map(function(e,i){
-				return 				<div className='unContBlock' key={e.id} style={i==this.state.staue?{display:'none'}:{display:'block'}} onClick={this.addselec.bind(this,i)}>
-										<div className='ContName'>
-										       <p>
-										       		{e.name}
-												</p>
-										</div>
-									</div>
-			}.bind(this))
+		var ContCategory = this.props.model[0].map(function(e,i){
+			return 	<div className='ContBlock' key={e.id} style={i==this.state.staue?{display:'none'}:{display:'block'}} onClick={this.deleonselec.bind(this,i)}>
+						<div className='ContName'>
+						       <p>
+						       		{e.name}
+								</p>
+						</div>
+					</div>
+		}.bind(this))
+
+		var unContCategory = this.props.model[1].map(function(e,i){
+			return 	<div className='unContBlock' key={e.id} style={i==this.state.staue?{display:'none'}:{display:'block'}} onClick={this.addselec.bind(this,i)}>
+						<div className='ContName'>
+						       <p>
+						       		{e.name}
+								</p>
+						</div>
+					</div>
+		}.bind(this))
+
 		return(
 			<div className='PupMian'>
 					<div className='onselec clearfloat'>{ContCategory}</div>

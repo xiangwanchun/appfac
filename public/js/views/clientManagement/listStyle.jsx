@@ -18,7 +18,7 @@ const ListStyle = React.createClass({
       pointToLineWidth:{'user':0,'defPic':0,'comments':0},
       pointToAllWidth: {'user':0,'defPic':0,'comments':0},
       data : {
-          "content_list_banner":'',"content_list":"1"
+          "content_list_banner":'0',"content_list":"1"
        }
     };
   },
@@ -112,12 +112,13 @@ const ListStyle = React.createClass({
       backgroundColor:_this.props.bgColor,
       backgroundImage:"url(/images/"+content_list+".png)"
     }
+    let sliderNum = parseInt( this.state.data.content_list_banner );
     return (
       <div>
         <div className="mt_30 allStyle" id="listStyle">
 
             <div style={{height:'120px'}} className="pointTo_1"> 
-              <PointTo lineWidth={this.state.pointToLineWidth.sliderNum} allWidth={this.state.pointToAllWidth.sliderNum}  button="幻灯片数量" fun={this.pointToFun} name="defPic" />
+              <PointTo lineWidth={this.state.pointToLineWidth.sliderNum} allWidth={this.state.pointToAllWidth.sliderNum}  button="幻灯片数量 : " fun={this.pointToFun} name="defPic" />
             </div>
             
             <div style={{height:'120px'}} className="pointTo_2"> 
@@ -130,10 +131,10 @@ const ListStyle = React.createClass({
 
             <div className="sliderNum">
               <div className="row">
-                <div className="col-14">
-                  <Slider min={1} max={5} onChange={this.onChange} value={this.state.data.content_list_banner} step={1} />
+                <div className="col-13" style={{marginTop:32}}>
+                  <Slider min={1} max={5} onChange={this.onChange} value={sliderNum} step={1} />
                 </div>
-                <div className="col-2">
+                <div className="col-2" style={{marginLeft:-10}}>
                   <InputNumber min={1} max={5} style={{ marginLeft: '10px' }}
                     value={this.state.data.content_list_banner} onChange={this.onChange} />
                 </div>  
