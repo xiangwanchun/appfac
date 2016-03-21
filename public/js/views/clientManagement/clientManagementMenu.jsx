@@ -142,7 +142,8 @@ const ClientManagementMenu = React.createClass({
                   }
                 },
       navigateData : '',
-      conData : ''
+      conData : '',
+      navigateVisible : false
 
     };
   },
@@ -192,7 +193,9 @@ const ClientManagementMenu = React.createClass({
       })
   },
   OnClick(event, treeId, treeNode){
-
+    this.setState({
+      navigateVisible : false
+    }) 
     $.get(CONFIG.HOSTNAME+'/navigate/'+treeNode.nid,function(ajaxdata){
        
           let navigateData = this.state.navigateData;
@@ -203,7 +206,10 @@ const ClientManagementMenu = React.createClass({
               navigateData
             })
         
-          }  
+          } 
+          this.setState({
+            navigateVisible : true
+          }) 
       }.bind(this));
 
   },
@@ -277,7 +283,6 @@ const ClientManagementMenu = React.createClass({
     }
   },
   handleOk(){
-    console.log(33,this.state.modelId);
     if(!this.state.modelId){
       Modal.error({
         title: '错误提示',
@@ -327,13 +332,19 @@ const ClientManagementMenu = React.createClass({
   },
   handleCancel(e) {
     this.setState({
-      visible: false
+      visible: false,
+      navigateVisible: false
     });
   },
   render() {
     if(this.state.navigateData){
         menuprops=this.state.navigateData    
     }
+
+    let navigateStyle={
+            width:400,
+            display: this.state.navigateVisible ? 'block' : 'none'
+          }
          
     return (
 
@@ -349,7 +360,7 @@ const ClientManagementMenu = React.createClass({
                 </div>
             </Col>
             <Col span="18">
-              <div style={{width:400}}>
+              <div style={navigateStyle}>
                 <ManagementMenuNew data = {this.state.navigateData == '' ? menuprops :  this.state.navigateData}/>
               </div>
             </Col>
@@ -372,6 +383,7 @@ const ClientManagementMenu = React.createClass({
             rMenu = $("#rMenu");
             var bodyHeight = $(window).outerHeight();
             $('#treeDemo').css('height',bodyHeight-112);
+            $('#treeDemo_1_a').click();
           }  
 
       }.bind(this));

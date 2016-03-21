@@ -4,6 +4,7 @@ import '../../../../css/ManagementMenu.less'
 import {Row, Col,Icon,Upload,Button, Input,Alert,Form,Modal,message} from 'antd';
 
 import ContConf from './ConfPopupWindow/ContConfPup'
+import MenuIconSet from './ConfPopupWindow/menuIconSet'
 import CONFIG from '../../../config/API'
 
 const createForm = Form.create;
@@ -30,12 +31,12 @@ var listData = {
 		'4' : ['category','name','icon','sname','list'],//专题
 		'5' : ['category','name','icon','sname','cat','list'],//视频
 		'6' : ['category','name','icon','sname','list'],//直播
-		'7' : ['category','name','icon','sname','cat','list'],//活动
-		'8' : ['category','name','icon','sname','cat'],//图集
-		'9' : ['category','name','icon','sname','banner'],//外链
+		'7' : ['category','name','icon','sname'],//活动
+		'8' : ['category','name','icon','sname','cat','list'],//图集
+		'9' : ['category','name','icon','sname','link'],//外链
 		'10' : ['category','name','icon','sname'],//积分商城
 		'11' : ['category','name','icon','sname','banner','textare'],//爆料
-		'12' : ['category','name','icon','sname','link']//摇TV
+		'12' : ['category','name','icon','sname','banner']//摇TV
 	}
 var showListData ;
 let MenuFormNew = React.createClass({
@@ -65,7 +66,12 @@ let MenuFormNew = React.createClass({
        data : {
        		
        },
-       model:[] //弹出框数据
+       model:[], //弹出框数据
+       modalType : '',//模型分类,看弹出的是哪个弹窗
+       chooseIconModalVisible : false, // 导航图标选择
+       catVisible : false,//内容分类弹窗
+       modelVisible : false,//模型分类弹窗
+       listVisible : false //选择列表样式
  
     };
   },
@@ -80,33 +86,31 @@ let MenuFormNew = React.createClass({
       return 'success';
     }
   },
-  componentWillReceiveProps(nextProps){
-	    //加载时获得数据
-	var  levedata = this.state.levedata;
-	     levedata.id = nextProps.data.id;
-	     levedata.pid = nextProps.data.pid;
-	     levedata.children = nextProps.data.children;
-	     levedata.category = nextProps.data.category;
-		 levedata.categoryName=nextProps.data.categoryName;
-		 levedata.icon = {};
-   		 levedata.icon.un='1123';
-   		 levedata.icon.on='66666';
-		 levedata.catname = nextProps.data.catname;
-		 levedata.catid = nextProps.data.catid;
-		levedata.modelName = nextProps.data.modelName;
-		 levedata.model =nextProps.data.model;
-
+  componentWillMount(){
+  	//加载时获得数据
+	var  levedata = this.props.data;
     this.setState({
-    	levedata
+    	levedata,
+    	data : levedata
     })
-
   },
-   showModal(a,b) {
-   	var model = [];
-   	model.push(a,b)
+  componentWillReceiveProps(nextProps){
+	//加载时获得数据
+	var  levedata = nextProps.data;
     this.setState({
-    	visible:true,
-    	model
+    	levedata,
+    	data : levedata
+    })
+  },
+   showModal(a,b,type) {
+   	let modalType = type;
+   	var model = [];
+   	var aa = 'listVisible';
+   	model.push(a,b);
+    this.setState({
+    	model,
+    	modalType,
+    	[aa] : true
     })
 
   },
@@ -132,12 +136,18 @@ let MenuFormNew = React.createClass({
 		model: this.state.model
 	})
   },
-    handleOk() {
+   handleOk() {
     this.setState({ loading: true });
     this.setState({ loading: false, visible: false });
   },
   handleCancel() {
-    this.setState({ visible: false });
+    this.setState({ 
+    	visible: false ,
+    	catVisible : false,//内容分类弹窗
+        modelVisible : false,//模型分类弹窗
+        chooseIconModalVisible : false,//图片选择弹窗
+        listVisible : false //列表选择弹窗
+    });
   },
    handleSubmit(e) {
    
@@ -148,13 +158,48 @@ let MenuFormNew = React.createClass({
         return;
       }
 
-      let postData = this.state.levedata;
-      postData._method = 'put';
+      let data = this.state.data;
 
-      console.log(postData)
+       let postData = {
+            "admin_id": data.admin_id,
+            "banner": data.banner,
+            "category": data.category,
+            "catid": data.catalog_selected,
+            "children": data.children,
+            "end_time": data.end_time,
+            "icon": data.icon,
+            "id": data.id,
+            "model": data.model_selected,
+            "name": data.name,
+            "navigate_id": data.navigate_id_selected,
+            "order_by": data.order_by,
+            "pid": data.pid,
+            "sname": data.sname,
+            "tip": data.tip,
+            "_method" : 'put'
+        }
+
+      console.log('==================');
+      console.log(data);
+      console.log(postData);
+      if(postData.catid instanceof Array){
+
+  		postData.catid = this.postDatafun(postData.catid);
+
+      }
+      if(postData.model instanceof Array){
+
+  		postData.model = this.postDatafun(postData.model);
+
+      }
+      if(postData.navigate_id instanceof Array){
+    	
+  		postData.navigate_id = this.postDatafun(postData.navigate_id);
+
+      }
 
       $.ajax({
-          url: '/factory/navigate/'+postData.id,
+          url: '/factory/navigate/'+data.id,
           type: 'post',
           data: postData,
           success: function(ajaxdata) {
@@ -177,6 +222,18 @@ let MenuFormNew = React.createClass({
       
     });
 
+  },
+  postDatafun(data){//将数组中的id提取出来处理成字符串
+	let returnData = '';
+	let len = data.length;
+	for(let index in data){
+		if(len-1 == index){
+			returnData += data[index].id;
+		}else{
+			returnData += data[index].id + ',';
+		}
+	}
+	return returnData;
   },
   inputNum(name,Navname,rule, value, callback) {
       if(value){
@@ -219,20 +276,25 @@ let MenuFormNew = React.createClass({
             content: `${info.file.name} 上传失败。`
           });
       }
-  },
-
+    },
+  	chooseIcon(){
+  		this.setState({
+  			chooseIconModalVisible : true
+  		})
+    },
 	render(){ 
-		var data = this.props.data;
-		var  levepage =data.pid==0 ? true : false;//判断当前为几级页面
-		var  levedata = this.state.levedata;
-
-		//类容分类
-		var categorycont = data.catalog_selected.map(function(ele,index) {
+		let data = this.state.data;
+		let  levepage =data.pid==0 ? true : false;//判断当前为几级页面
+		let  levedata = this.state.levedata;
+		//内容分类
+		let categorycont = data.catalog_selected.map(function(ele,index) {
 		 return	<span className='ContCategory' key={index}>{ele.name}</span>
 		})
+
 		if(!categorycont.length){
 			categorycont.push("无分类");
 		}
+
 		//模型分类
 		var categorymodel =data.model_selected.map(function(ele,index) {
 		 return	<span className='ModelCategory' key={index}>{ele.name}</span>
@@ -243,7 +305,7 @@ let MenuFormNew = React.createClass({
 	    const titleProps = getFieldProps('title', {
 	       validate: [{
 	        rules: [
-	          { required: true ,message: '请输入导航名称'},
+	          { required: false ,message: '请输入导航名称'},
 	        ],
 	        trigger: 'onBlur',
 	      }, {
@@ -310,7 +372,7 @@ let MenuFormNew = React.createClass({
 						          labelCol={{ span:5}}
 	  							  wrapperCol = {{ span: 12 }}
 									>
-						        <span className='Category wrapperColheight'>{this.props.data.name}</span>
+						        <span className='Category wrapperColheight'>{this.props.data.categoryName}</span>
 						        </FormItem>
 						    </Col>
 						 </Row>	
@@ -338,26 +400,33 @@ let MenuFormNew = React.createClass({
 								<Col span='5' className="colFormItem">
 									导航图标 :
 								</Col>
-								<Col span='19'>
-								
-										<div className='NavBerImg'>
-												<div className='UpImg'>
-												 <img src={CONFIG.DONAME+ data.icon.on} title="导航图标"/>
-												</div>
-												
-											</div>
-											<div className='NavBerInstr'>
-												<span className='Details1'>图标要求 PNG格式 ，60x60</span>
-												<span className='Details2'>图标制作示例</span>
-												<div className='chosebtn'>
-													<Upload {...icon} data={{"type" :'icon'}} >
-									                    <Button type="primary">
-									                       点击上传
-									                    </Button>
-									                 </Upload>
-												</div>	 
-											</div>	
-									
+								<Col span='19'>								
+									<div className='NavBerImg'>
+										<div className='UpImg'>
+										 <img src={CONFIG.DONAME+ data.icon.on} title="导航图标"/>
+										</div>	
+									</div>
+									<div className='NavBerInstr'>
+										<span className='Details1'>图标要求 PNG格式 ，60x60</span>
+										<span className='Details2'>图标制作示例</span>
+										<div className='chosebtn'>
+											<Button type="primary" onClick={this.chooseIcon}>点击选择</Button>
+										</div>	 
+									</div>	
+
+									<Modal ref="modal"
+							          visible={this.state.chooseIconModalVisible}
+							          width="755"
+							          title="配置导航图标" 
+							          onOk={this.handleOk} onCancel={this.handleCancel} 
+							          footer={[									  
+							            <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>返 回</Button>,
+							            <Button key="submit" type="primary" size="large"  onClick={this.handleOk}>
+							              确 定
+							            </Button>
+							          ]}>
+							         	<MenuIconSet {...this.state.data}/>
+							        </Modal>										
 								</Col>
 							</Row>
 						</div>
@@ -390,7 +459,7 @@ let MenuFormNew = React.createClass({
 												<div className='Category wrapperColheight' onClick={this.showModal.bind(this,data.catalog_selected,data.catalog_unselected)}>{categorycont }</div>
 									</FormItem>	
 									<Modal ref="modal"
-							          visible={this.state.visible}
+							          visible={this.state.catVisible}
 							          width="755"
 							          title="配置内容分类" 
 							          onOk={this.handleOk} onCancel={this.handleCancel} onadd={this.handleaddALL} ondele={this.handledeleALL}
@@ -450,7 +519,7 @@ let MenuFormNew = React.createClass({
 									<Modal ref="modal"
 							          visible={this.state.visible}
 							          width="755"
-							          title="配置内容分类" 
+							          title="绑定导航" 
 							          onOk={this.handleOk} onCancel={this.handleCancel} onadd={this.handleaddALL} ondele={this.handledeleALL}
 							          footer={[
 							          	<Button key="addALL" type="ghost" size="large" onClick={this.handleaddALL.bind(this,data.catalog_selected,data.catalog_unselected)}>添加全部</Button>,
@@ -477,9 +546,9 @@ let MenuFormNew = React.createClass({
 												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,data.catalog_selected,data.catalog_unselected)}>默认样式</span>
 									</FormItem>	
 									<Modal ref="modal"
-							          visible={this.state.visible}
+							          visible={this.state.listVisible}
 							          width="755"
-							          title="配置内容分类" 
+							          title="列表样式" 
 							          onOk={this.handleOk} onCancel={this.handleCancel} onadd={this.handleaddALL} ondele={this.handledeleALL}
 							          footer={[
 							          	<Button key="addALL" type="ghost" size="large" onClick={this.handleaddALL.bind(this,data.catalog_selected,data.catalog_unselected)}>添加全部</Button>,

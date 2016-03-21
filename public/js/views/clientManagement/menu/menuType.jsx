@@ -37,10 +37,13 @@ let MenuType = React.createClass({
       borderColor : '#1ba796'
     }
 
-    for(let key in data){
-      html = <li onClick={this.checkedFun.bind(this,key,data[key].id)} key={key} style={key == this.state.checked ? style : {} }>{data[key].name}</li>;
-      chooseList.push(html);
+    if(data){
+      for(let key in data){
+        html = <li onClick={this.checkedFun.bind(this,key,key)} key={key} style={key == this.state.checked ? style : {} }>{data[key]}</li>;
+        chooseList.push(html);
+      }
     }
+    
     return (
 
       <ul className="menuTypeUl clearfix">
@@ -56,7 +59,7 @@ let MenuType = React.createClass({
           ajaxdata = JSON.parse(ajaxdata);
            console.log(ajaxdata);
           if(ajaxdata.state){
-            data = ajaxdata.data.model;
+            data = ajaxdata.data.category;
             this.setState({
               data
             })
