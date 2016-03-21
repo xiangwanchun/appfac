@@ -74,11 +74,11 @@ let TitleSet = React.createClass({
       }
   },
   render() {
-    console.log(this.props)
     var _this = this;
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
+    let title = this.props.content_title;
     var url = this.props.config.DONAME+(this.props.content_title.type == '2' ? this.props.content_title.content : '');
     var style1 ={
       'backgroundImage':'url('+url+')'
@@ -110,7 +110,7 @@ let TitleSet = React.createClass({
                 <div className="mt_15 titleInputWrap">
                     <FormItem
                       hasFeedback>
-                      <Input {...nameProps} type="text" placeholder="APP名称" />
+                      <Input {...nameProps} type="text" placeholder={title.type == '1' ? title.content : ''} />
                     </FormItem>
                 </div>
               </Form>

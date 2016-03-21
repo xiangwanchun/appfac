@@ -542,7 +542,7 @@
 	    position:absolute;
 	    left:525px;
 	    top:110px;
-	    z-index:9999;
+	    z-index:99;
 	    height:50px;
 	}
 }
@@ -831,11 +831,21 @@
 /* ztree右键菜单 */
 div#rMenu {position:absolute; visibility:hidden; top:0; background-color: #555;text-align: left;padding: 2px;}
 div#rMenu ul li{
+	cursor: pointer;
 	margin: 1px 0;
 	padding: 0 5px;
-	cursor: pointer;
 	list-style: none outside none;
 	background-color: #DFDFDF;
+}
+//导航类型选择
+.navTypeLi{
+	cursor: pointer;
+	&:hover{
+		border-color:@primary-color;
+	}
+}
+.navTypeLiDisable{
+	background:#ccc;
 }
 
 #clientMenuCon{
@@ -862,6 +872,5 @@ div#rMenu ul li{
 		text-align:center;
 		margin-bottom:10px;
 		margin-right:10px;
-		cursor:pointer;
 	}
 }

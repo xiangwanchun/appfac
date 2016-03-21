@@ -35,7 +35,7 @@ var listData = {
 		'8' : ['category','name','icon','sname','cat','list'],//图集
 		'9' : ['category','name','icon','sname','link'],//外链
 		'10' : ['category','name','icon','sname'],//积分商城
-		'11' : ['category','name','icon','sname','banner','textare'],//爆料
+		'11' : ['category','name','icon','sname'/*,'banner','textare'*/],//爆料
 		'12' : ['category','name','icon','sname','banner']//摇TV
 	}
 var showListData ;
@@ -130,7 +130,7 @@ let MenuFormNew = React.createClass({
   	  for(var i=0;i<a.length;i++){
   		b.push(a[i])
   }
-		a.splice(0,a.length)
+		a.splice(1,a.length)
 
 	this.setState({
 		model: this.state.model
@@ -546,16 +546,14 @@ let MenuFormNew = React.createClass({
 							          visible={this.state.listVisible}
 							          width="755"
 							          title="列表样式" 
-							          onOk={this.handleOk} onCancel={this.handleCancel} onadd={this.handleaddALL} ondele={this.handledeleALL}
+							          onOk={this.handleOk} onCancel={this.handleCancel}
 							          footer={[
-							          	<Button key="addALL" type="ghost" size="large" onClick={this.handleaddALL.bind(this,data.catalog_selected,data.catalog_unselected)}>添加全部</Button>,
-							          	<Button key="deleALL" type="ghost" size="large" onClick={this.handledeleALL.bind(this,data.catalog_selected,data.catalog_unselected)}>删除全部</Button>,
 							            <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>返 回</Button>,
 							            <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>
 							              确 定
 							            </Button>
 							          ]}>
-							          <ContConf {...data} model = {this.state.model}/>
+							          <NavModelType {...data} model = {this.state.model}/>
 							        </Modal>		
 								</Col>
 							</Row>

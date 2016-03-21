@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'antd/style/index.less'
 import '../../../../../css/ManagementMenu.less'
-import {Row, Col,Icon,Upload,Button, Input,Alert,Form,Modal,} from 'antd';
+import {Row, Col,Icon,Upload,Button, Input,Alert,Form,Modal,message} from 'antd';
 
 let ContConf = React.createClass({
 getInitialState(){
@@ -15,6 +15,11 @@ getInitialState(){
  },
  //已添加的判断是否选中
 deleonselec(i){
+
+	if(this.props.model[0].length == 1){
+		message.warn('至少需要保留一个栏目');
+		return;
+	};
 	this.setState({
 		staue:i
 	})

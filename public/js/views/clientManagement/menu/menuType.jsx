@@ -9,6 +9,8 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import CONFIG from '../../../config/API'
+
+let disabledType = ['2','3','10','12'];
 let MenuType = React.createClass({
   getInitialState() {
     return {
@@ -22,11 +24,16 @@ let MenuType = React.createClass({
     this.props.fun('pack');
   },
   checkedFun(key,id){
-
+    
+    if(disabledType.indexOf(key) == -1){
       this.setState({
         checked : key
       })
       this.props.fun(id);
+    }else{
+      message.warn('模块开发中...');
+    }
+      
   },
   render() {
     var _this = this;
@@ -36,14 +43,14 @@ let MenuType = React.createClass({
     let style = {
       borderColor : '#1ba796'
     }
-
     if(data){
       for(let key in data){
-        html = <li onClick={this.checkedFun.bind(this,key,key)} key={key} style={key == this.state.checked ? style : {} }>{data[key]}</li>;
+        let disabledClass = disabledType.indexOf(key) != -1 ? 'navTypeLiDisable' : 'navTypeLi';
+        html = <li className={disabledClass}  onClick={this.checkedFun.bind(this,key,key)} key={key} style={key == this.state.checked ? style : {} }>{data[key]}</li>;
         chooseList.push(html);
       }
     }
-    
+
     return (
 
       <ul className="menuTypeUl clearfix">
