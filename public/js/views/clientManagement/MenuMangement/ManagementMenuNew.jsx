@@ -71,7 +71,8 @@ let MenuFormNew = React.createClass({
        chooseIconModalVisible : false, // 导航图标选择
        catVisible : false,//内容分类弹窗
        modelVisible : false,//模型分类弹窗
-       listVisible : false //选择列表样式
+       listVisible : false,//选择列表样式弹窗
+       navVisible : false //导航绑定弹窗
  
     };
   },
@@ -102,15 +103,14 @@ let MenuFormNew = React.createClass({
     	data : levedata
     })
   },
-   showModal(a,b,type) {
+   showModal(type,selected,unselected){
    	let modalType = type;
    	var model = [];
-   	var aa = 'listVisible';
-   	model.push(a,b);
+   	model.push(selected,unselected);
     this.setState({
     	model,
     	modalType,
-    	[aa] : true
+    	[type] : true
     })
 
   },
@@ -136,17 +136,14 @@ let MenuFormNew = React.createClass({
 		model: this.state.model
 	})
   },
-   handleOk() {
-    this.setState({ loading: true });
-    this.setState({ loading: false, visible: false });
+  handleOk() {
+    this.setState({ 
+    	[this.state.modalType]: false ,
+    });
   },
   handleCancel() {
     this.setState({ 
-    	visible: false ,
-    	catVisible : false,//内容分类弹窗
-        modelVisible : false,//模型分类弹窗
-        chooseIconModalVisible : false,//图片选择弹窗
-        listVisible : false //列表选择弹窗
+    	[this.state.modalType]: false ,
     });
   },
    handleSubmit(e) {
@@ -410,7 +407,7 @@ let MenuFormNew = React.createClass({
 										<span className='Details1'>图标要求 PNG格式 ，60x60</span>
 										<span className='Details2'>图标制作示例</span>
 										<div className='chosebtn'>
-											<Button type="primary" onClick={this.chooseIcon}>点击选择</Button>
+											<Button type="primary" onClick={this.showModal.bind(this,'chooseIconModalVisible')}>点击选择</Button>
 										</div>	 
 									</div>	
 
@@ -456,7 +453,7 @@ let MenuFormNew = React.createClass({
 									          labelCol={{ span:5}}
 			      							  wrapperCol = {{ span:18}}
 												>
-												<div className='Category wrapperColheight' onClick={this.showModal.bind(this,data.catalog_selected,data.catalog_unselected)}>{categorycont }</div>
+												<div className='Category wrapperColheight' onClick={this.showModal.bind(this,'catVisible',data.catalog_selected,data.catalog_unselected)}>{categorycont }</div>
 									</FormItem>	
 									<Modal ref="modal"
 							          visible={this.state.catVisible}
@@ -485,10 +482,10 @@ let MenuFormNew = React.createClass({
 									          labelCol={{ span: 5 }}
 			      							  wrapperCol = {{ span: 18 }}
 												>
-												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,data.model_selected,data.model_unselected)}>{categorymodel}</span>
+												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,'modelVisible',data.model_selected,data.model_unselected)}>{categorymodel}</span>
 									</FormItem>	
 									<Modal ref="modal"
-							          visible={this.state.visible}
+							          visible={this.state.modelVisible}
 							          width="755"
 							          title="配置模型分类" 
 							          onOk={this.handleOk} onCancel={this.handleCancel} onadd={this.handleaddALL} ondele={this.handledeleALL}
