@@ -5,6 +5,7 @@ import {Row, Col,Icon,Upload,Button, Input,Alert,Form,Modal,message} from 'antd'
 
 import ContConf from './ConfPopupWindow/ContConfPup'
 import MenuIconSet from './ConfPopupWindow/menuIconSet'
+import NavModelType from './ConfPopupWindow/navModelType'
 import CONFIG from '../../../config/API'
 
 const createForm = Form.create;
@@ -274,10 +275,8 @@ let MenuFormNew = React.createClass({
           });
       }
     },
-  	chooseIcon(){
-  		this.setState({
-  			chooseIconModalVisible : true
-  		})
+    listTypeFun(){
+    	alert(111111);
     },
 	render(){ 
 		let data = this.state.data;
@@ -540,7 +539,7 @@ let MenuFormNew = React.createClass({
 									          labelCol={{ span:5}}
 			      							  wrapperCol = {{ span:18}}
 												>
-												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,data.catalog_selected,data.catalog_unselected)}>默认样式</span>
+												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,'listVisible')}>默认样式</span>
 									</FormItem>	
 									<Modal ref="modal"
 							          visible={this.state.listVisible}
@@ -553,7 +552,7 @@ let MenuFormNew = React.createClass({
 							              确 定
 							            </Button>
 							          ]}>
-							          <NavModelType {...data} model = {this.state.model}/>
+							          <NavModelType {...data} fun={this.listTypeFun}/>
 							        </Modal>		
 								</Col>
 							</Row>

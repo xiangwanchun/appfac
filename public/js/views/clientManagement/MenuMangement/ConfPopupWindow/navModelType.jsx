@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import ReactDOM   from 'react-dom'
 
 import 'antd/style/index.less'
-import '../../../../css/base.less'
-import '../../../../css/clientManagement.less'
+import '../../../../../css/base.less'
+import '../../../../../css/clientManagement.less'
 import { Icon,Button,Row,Col,Upload,Radio,Form,Input,message} from 'antd'
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
-import CONFIG from '../../../config/API'
+import CONFIG from '../../../../config/API'
 
-let ModelType = React.createClass({
+let NavModelType = React.createClass({
   getInitialState() {
     return {
       current: 'base',
@@ -34,24 +34,24 @@ let ModelType = React.createClass({
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
-    let  name  = this.props.name;
-    let styles = this.props.styles[name];
-    let index = 'content_list_' + name;
-    let checked = this.props.data[index].id;
+    console.log('11111111');
+    console.log(this.props);
+    let list_style  = this.props.style_list;
+    let checked = this.props.style_list_selected.id;
     let chooseList = [];
     let html;
-    let pos = this.props.pos;
-    for(let key in styles){
-    html = <Col span="12" key={key}>
-          <div className="modelChoose">
-            <h2>{styles[key].name}</h2>
-            <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,styles[key].id)}>
-              <img src={CONFIG.DONAME + styles[key].img[pos]}/>
-              <Icon type="check-circle" style={{'display' : this.state.list_type == styles[key].id ? 'block' : 'none'}}/>
+    let span  = parseInt(24 / this.props.style_list_length);
+    for(let key in list_style){
+      html = <Col span={span} key={key}>
+            <div className="listStyleChoose">
+              <h2>{list_style[key].name}</h2>
+              <div style={bgColor} className="imgWrap" onClick={this.listTypefun.bind(this,list_style[key].id)}>
+                <img src={CONFIG.DONAME + list_style[key].img}/>
+                <Icon type="check-circle" style={{'display' : this.state.list_type == list_style[key].id ? 'block' : 'none'}}/>
+              </div>
             </div>
-          </div>
-        </Col>;
-    chooseList.push(html);
+          </Col>;
+      chooseList.push(html);
     }
     return (
       <div>
@@ -63,4 +63,4 @@ let ModelType = React.createClass({
   }
 });
 
-export default  ModelType;
+export default  NavModelType;
