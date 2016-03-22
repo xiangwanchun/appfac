@@ -275,10 +275,13 @@ let MenuFormNew = React.createClass({
           });
       }
     },
-    listTypeFun(){
-    	alert(111111);
+    listTypeFun(data){
+    	console.log(this.props);
+    	console.log(data);
+    	this.props.data.style_list_selected = data;
     },
 	render(){ 
+
 		let data = this.state.data;
 		let  levepage =data.pid==0 ? true : false;//判断当前为几级页面
 		let  levedata = this.state.levedata;
@@ -539,7 +542,7 @@ let MenuFormNew = React.createClass({
 									          labelCol={{ span:5}}
 			      							  wrapperCol = {{ span:18}}
 												>
-												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,'listVisible')}>默认样式</span>
+												<span className='Category wrapperColheight' onClick={this.showModal.bind(this,'listVisible')}>{data.style_list_selected ? data.style_list_selected.name : '默认样式'}</span>
 									</FormItem>	
 									<Modal ref="modal"
 							          visible={this.state.listVisible}

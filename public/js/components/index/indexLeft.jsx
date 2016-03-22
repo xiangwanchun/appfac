@@ -75,7 +75,7 @@ const IndexLeft = React.createClass({
             <h2 className="t_center">{propsData.name}</h2>
             <img src={domain + propsData.icon} title={propsData.name} />
             <p>上线时间:<span title={propsData.created_at}>{created_at}</span></p>
-            <p>下线时间:<span title='none'>none</span></p>
+            <p>下线时间:<span></span></p>
           </section>
           <section className="mt_20 ml_scanInstall">
             <h3>扫描安装</h3>
