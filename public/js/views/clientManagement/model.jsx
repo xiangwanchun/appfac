@@ -180,7 +180,7 @@ const Model = React.createClass({
             </div>
             
             <div style={{height:'90px'}} className="pointTo_2"> 
-              <PointTo lineWidth={this.state.pointToLineWidth.videoStyle} allWidth={this.state.pointToAllWidth.videoStyle}  button={'视屏样式 : '+ bgPics.content_list_video.name} fun={this.pointToFun} name="video" pos="right"/>
+              <PointTo lineWidth={this.state.pointToLineWidth.videoStyle} allWidth={this.state.pointToAllWidth.videoStyle}  button={'视频样式 : '+ bgPics.content_list_video.name} fun={this.pointToFun} name="video" pos="right"/>
               <div className="stylePic" style={bgPics.content_list_video.img}></div>
             </div>
             <div style={{height:'90px'}} className="pointTo_3"> 

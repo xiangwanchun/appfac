@@ -50,9 +50,9 @@ let Base = React.createClass({
                     "slogan": "这&lt;是一 个A“ PP‘的宣'传标语",
                     "statement": "这”是A&amp;P&lt;P的免&quot;责声'明"
                 },
-                "bundle_id": "bundle_id",
-                "android_sign": "android_sign",
-                "callback": "http://www.baidu.com"
+                "bundle_id": "",
+                "android_sign": "",
+                "callback": ""
             },
       subData : '',//提交给后台的数据
       data1 : { state: 'true', data: {ios: '', android: '', description: "开始打包"},'error' : {'code' : '2010'}}
@@ -304,6 +304,7 @@ let Base = React.createClass({
   },
   render() {
     let  app_col= this.state.data.app_collocation;
+    console.log(this.state.data)
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
 
     //文件上传处理
@@ -493,21 +494,21 @@ let Base = React.createClass({
                             label="iOS Boundle ID & Android 包名："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:9 }}>
-                            <Input id="control-input1" disabled defaultValue={this.state.data.bundle_id}/>
+                            <Input id="control-input1" disabled value={this.state.data.bundle_id}/>
                           </FormItem>
                           <FormItem
                             id="control-input2"
                             label="Android签名："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:9 }}>
-                            <Input id="control-input2" defaultValue={this.state.data.android_sign}  disabled />
+                            <Input id="control-input2" value={this.state.data.android_sign}  disabled />
                           </FormItem>
                           <FormItem
                             id="control-input3"
                             label="iOS & Android 回调地址："
                             labelCol={{ span:7}}
                             wrapperCol={{ span:9 }}>
-                            <Input id="control-input3"  defaultValue={this.state.data.callback}  disabled />
+                            <Input id="control-input3"  value={this.state.data.callback}  disabled />
                             <p className="desP">上述参数不可修改，用于在各平台申请时使用。</p>
                           </FormItem>
                     </div>

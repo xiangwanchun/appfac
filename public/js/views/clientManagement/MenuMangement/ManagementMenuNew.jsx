@@ -176,10 +176,6 @@ let MenuFormNew = React.createClass({
             "tip": data.tip,
             "_method" : 'put'
         }
-
-      console.log('==================');
-      console.log(data);
-      console.log(postData);
       if(postData.catid instanceof Array){
 
   		postData.catid = this.postDatafun(postData.catid);
@@ -195,6 +191,8 @@ let MenuFormNew = React.createClass({
   		postData.navigate_id = this.postDatafun(postData.navigate_id);
 
       }
+
+  	 postData.navigate_style = this.props.data.style_list_selected.id;
 
       $.ajax({
           url: '/factory/navigate/'+data.id,
@@ -233,7 +231,7 @@ let MenuFormNew = React.createClass({
 	}
 	return returnData;
   },
-  inputNum(name,Navname,rule, value, callback) {
+  inputNum(name,Navname,rule, value, callback) {//
       if(value){
       	var  levedata = this.state.levedata;
   			 levedata[Navname] = value
@@ -275,9 +273,7 @@ let MenuFormNew = React.createClass({
           });
       }
     },
-    listTypeFun(data){
-    	console.log(this.props);
-    	console.log(data);
+    listTypeFun(data){//设置导航列表类型
     	this.props.data.style_list_selected = data;
     },
 	render(){ 
