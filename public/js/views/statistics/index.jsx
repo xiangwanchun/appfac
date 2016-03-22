@@ -17,7 +17,7 @@ import CONFIG from '../../config/API'
 import echarts from 'echarts/echarts';
 import 'echarts/chart/line';
 // etc.
-var option = {
+/*var option = {
         tooltip : {
             trigger: 'axis'
         },
@@ -55,7 +55,89 @@ var option = {
               data:[120, 132, 101, 134, 90, 230, 210]
             }
         ]
-    };
+    };*/
+
+    var myDate = new Date(); //获取今天日期
+      myDate.setDate(myDate.getDate() - 6);
+      var dateArray = []; 
+      var dateTemp; 
+      var flag = 1; 
+      for (var i = 0; i < 7; i++) {
+          dateTemp = (myDate.getMonth()+1)+"-"+myDate.getDate();
+          dateArray.push(dateTemp);
+          myDate.setDate(myDate.getDate() + flag);
+      }
+
+      console.log(dateArray)
+
+    var option = {
+    title : {
+        text: '',
+        subtext: ''
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+    legend: {
+        data:['本周激活量','本周活跃数','本周点击数']
+    },
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : dateArray
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value}'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'激活量',
+            type:'line',
+            data:[10, 16, 5, 3, 20, 17, 23],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+        },
+        {
+            name:'活跃数',
+            type:'line',
+            data:[55, 80, 63, 59, 62, 51, 71],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+        },
+        {
+            name:'点击数',
+            type:'line',
+            data:[106, 167, 102, 111, 256, 301, 469],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+        }
+    ]
+};
 const Statistics = React.createClass({
   getInitialState() {
     return {
@@ -97,7 +179,7 @@ const Statistics = React.createClass({
             <Col span="20">
                 <div id="mainCon">
                     <ActivationVolume {...this.state.data.statistics} config={CONFIG}></ActivationVolume>
-                    <div id="demo"  style={{width:1000,height:600}}></div>
+                    <div id="demo"  style={{width:1130,height:600,marginLeft:-50,marginTop:20}}></div>
                 </div>
             </Col>
           </Row>
