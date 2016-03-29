@@ -15,7 +15,9 @@ const BootScreen = React.createClass({
       current: 'base',
       data : {
             "starting_img": "/upload/starting_img"
-        }
+        },
+      fileList : '',
+      multiple: true
     };
   },
   handleClick(e) {
@@ -23,7 +25,30 @@ const BootScreen = React.createClass({
   },
   //上传变换的时候
   uploadChange(name,info){
-    console.log(info)
+    let fileList = info.fileList;
+
+    // 1. 上传列表数量的限制
+    //    只显示最近上传的一个，旧的会被新的顶掉
+    fileList = fileList.slice(-2);
+
+    // 2. 读取远程路径并显示链接
+    fileList = fileList.map((file) => {
+      if (file.response) {
+        // 组件会将 file.url 作为链接进行展示
+        file.url = file.response.url;
+      }
+      return file;
+    });
+
+    // 3. 按照服务器返回信息筛选成功上传的文件
+    fileList = fileList.filter((file) => {
+      if (file.response) {
+        return file.response.status === 'success';
+      }
+      return true;
+    });
+
+    this.setState({ fileList });
       if (info.file.status !== 'uploading') {
         /*console.log(info.file, info.fileList);*/
       }
@@ -73,7 +98,6 @@ const BootScreen = React.createClass({
     const starting = {
               name: 'file',
               action: '/factory/upload',
-              listType:"text" ,
               onChange(info) {
                   _this.uploadChange('starting_img',info);              
               }

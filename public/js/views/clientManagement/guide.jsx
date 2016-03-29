@@ -7,20 +7,6 @@ import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Switch,Carousel} fro
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
-const props = {
-  name: 'file',
-  action: '/upload.do',
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} 上传成功。`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 上传失败。`);
-    }
-  }
-};
 
 const Guide = React.createClass({
   getInitialState() {
@@ -59,63 +45,35 @@ const Guide = React.createClass({
         }
      };
 
-    return (
-      <div className="mt_15">
-        <div className="block_header">
-          <span>引导图组</span>
-          <Switch defaultChecked={true} onChange={this.onChange} style={{float:'right',marginTop:'6px'}}/>
-        </div>
-        <Row style={{height:580}}>
-          <Col span="9">
-            <div className="guide_l">
-              <div className="carouselWrap">
-                <Carousel {...settings} >
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                </Carousel>
-              </div>
-            </div>
-          </Col>
-          <Col span="15">
-            <div className="guide_r mt_30">
-                <Row>
-                  <Col span="3">自定图组:</Col>
-                  <Col span="4" className="mr_10">
-                    <Upload {...props}>
-                      <Button type="primary">
-                         点击上传
-                      </Button>
-                    </Upload>
-                  </Col>
-                  <Col span="14">图标要求:png格式,1024x1024建议2到4张</Col>
-                  <Col span="21" offset="3">
-                      <div className="guide_r_con mt_20">
-                          <Row type="flex">
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list last_list">
-                                <Upload {...props}>
-                                  <Icon type="plus"/>
-                                </Upload>
-                            </Col>
-                          </Row>
-                      </div>
-                  </Col>
-                </Row>
+     const props = {
+              action: '/upload.do',
+              listType: 'picture-card',
+              defaultFileList: [{
+                uid: -1,
+                name: 'xxx.png',
+                status: 'done',
+                url: 'https://os.alipayobjects.com/rmsportal/NDbkJhpzmLxtPhB.png',
+                thumbUrl: 'https://os.alipayobjects.com/rmsportal/NDbkJhpzmLxtPhB.png',
+              }]
+            };
 
-            </div>  
-          </Col>
-        </Row>
-      </div>
+    return (
+
+
+
+        <div className="clearfix">
+          <Upload {...props}>
+            <Icon type="plus" />
+            <div className="ant-upload-text">上传照片</div>
+          </Upload>
+
+            <a href="https://os.alipayobjects.com/rmsportal/NDbkJhpzmLxtPhB.png" target="_blank" className="upload-example">
+            <img src="https://os.alipayobjects.com/rmsportal/NDbkJhpzmLxtPhB.png" />
+            <span>示例</span>
+          </a>
+        </div>
+
+        
     );
   }
 });

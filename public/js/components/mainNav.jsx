@@ -41,7 +41,9 @@ const MainNav = React.createClass({
                         <Menu.Item key="clientManagement">
                           <Link to="clientManagement">客户端管理</Link>
                         </Menu.Item>
-         
+                        <Menu.Item key="content">
+                          <Link to="content">内容</Link>
+                        </Menu.Item>
                         <Menu.Item key="interactive">
                           <Link to="interactive">应用</Link>
                         </Menu.Item>
@@ -60,6 +62,4 @@ const MainNav = React.createClass({
 
 export default  MainNav;
 
-               /*<Menu.Item key="content">
-                          <Link to="content">内容</Link>
-                        </Menu.Item>*/
+               

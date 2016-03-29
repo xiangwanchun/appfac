@@ -19,8 +19,6 @@ import Content from './views/content/index';
 import Statistics from './views/statistics/index';
 import CONFIG from './config/API'  
 
-
-
 // etc.
 const Main = React.createClass({
    render(){
@@ -32,8 +30,6 @@ const Main = React.createClass({
       )
   }
 })
-
-
 
 const MainRouter = React.createClass({
   getInitialState() {

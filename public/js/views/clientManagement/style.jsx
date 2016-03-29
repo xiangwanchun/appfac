@@ -30,9 +30,12 @@ const Style = React.createClass({
     return (
 
       <div className="contentBlocks mt_30">
-          <Tabs  defaultActiveKey="5" onChange={this.callback}>
+          <Tabs  defaultActiveKey="2" onChange={this.callback}>
               <TabPane tab="开屏画面"  key="1">
                 <BootScreen/>
+              </TabPane>
+              <TabPane tab="引导图组"  key="2">
+                <Guide/>
               </TabPane>
               <TabPane tab="总体样式"  key="3">
                 <AllStyle bgColor={this.state.bgColor}/>
@@ -70,6 +73,4 @@ const Style = React.createClass({
 export default  Style;
 
 
-              /*<TabPane tab="引导图组"  key="2">
-                <Guide/>
-              </TabPane>*/
+              
