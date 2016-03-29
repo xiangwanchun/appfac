@@ -16,8 +16,7 @@ const BootScreen = React.createClass({
       data : {
             "starting_img": "/upload/starting_img"
         },
-      fileList : '',
-      multiple: true
+      fileList : ''
     };
   },
   handleClick(e) {
@@ -47,8 +46,8 @@ const BootScreen = React.createClass({
       }
       return true;
     });
-
     this.setState({ fileList });
+
       if (info.file.status !== 'uploading') {
         /*console.log(info.file, info.fileList);*/
       }

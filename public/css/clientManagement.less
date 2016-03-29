@@ -184,7 +184,7 @@
 		background:#eee;
 		height:400px;
 		width:460px;
-		padding:0px 0 15px 16px;
+		padding:15px 0 15px 16px;
 	}
 	.guide_r_list{
 		float:left;
@@ -919,53 +919,25 @@ div#rMenu ul li{
 
 
 /* 配合样式可以做出上传按钮和示例效果 */
-.ant-upload-select-picture-card i {
-  font-size: 28px;
-  color: #999;
+.ant-upload-list-picture-card .ant-upload-list-item{
+	width:85px;
+	height:150px;
+	padding:0;
 }
 
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #666;
-
-  border-style:1px solid red;
+.ant-upload.ant-upload-select-picture-card{
+	width:85px;
+	height:150px;
+	line-height:150px;
+	border-radius:0;
+	padding:0;
+	border:2px solid @primary-color;
+	&:hover{
+		border-color:tint(@primary-color, 30%)
+	}
+	i{
+		color:@primary-color;
+		font-weight:bold;
+	}
 }
 
-.upload-example {
-  position: relative;
-  display: inline-block;
-  height: 96px;
-  width: 96px;
-  padding: 8px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  vertical-align: top;
-}
-
-.upload-example img {
-  height: 78px;
-  width: 78px;
-}
-
-.upload-example:before {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  content: ' ';
-  width: 78px;
-  height: 24px;
-  background-color: #808080;
-  opacity: .8;
-}
-
-.upload-example span {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  width: 78px;
-  height: 24px;
-  color: #fff;
-  line-height: 24px;
-  text-align: center;
-}
