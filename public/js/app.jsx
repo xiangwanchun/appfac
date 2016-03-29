@@ -17,7 +17,7 @@ import clientManagement from './views/clientManagement/index';
 import Interactive from './views/interactive/index';
 import Content from './views/content/index';
 import Statistics from './views/statistics/index';
-import CONFIG from './config/API'
+import CONFIG from './config/API'  
 
 
 
