@@ -5,23 +5,28 @@ import '../../../css/base.less'
 import '../../../css/clientManagement.less'
 import { Menu, Icon,Button,Tabs,Alert,Table,Row, Col,Upload,Switch,Carousel,Modal,message} from 'antd'
 import CONFIG from '../../config/API'
+import '../../plug/jquery.SuperSlide.2.1.1.js'
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+
 
 const Guide = React.createClass({
   getInitialState() {
     return {
       current: 'base',
       slickGoTo:2,
-      data : {},
-      fileList :  []
+      fileList :  [],
+      status : true, //是否首次加载
+      index : 0
     };
   },
   handSubmit(e) {
+    console.log(this.state.fileList);
 
       let guide_img = this.state.fileList.map((file) => {
-          return file.url;
+        let url = file.url.indexOf('com') != -1 ? file.url.split("com")[1] : file.url;
+        return url;
       });
 
      $.post(CONFIG.HOSTNAME+'/client/guide',{'guide_img' : guide_img},function(ajaxdata){
@@ -41,98 +46,93 @@ const Guide = React.createClass({
       }  
   }.bind(this));
   },
+  componentWillMount(){
+    this.setState({
+      index : this.state.index++
+    })
+  },
     //上传变换的时候
   uploadChange(name,info){
 
 /*    console.log(name + '===============');
     console.log(info);
     return;*/
-
+    console.log('1=======================1');
     console.log(info);
 
+      
 
-   /* if(name == 'single1'){
-        if (info.file.status !== 'uploading') {
-          //console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done'){
-          if(info.file.response.state){
-            message.success(`${info.file.name} 上传成功。`);
-            var data = this.state.data;
-            data[name] = info.file.response.data.src;
-            this.setState({
-                data
-            })
-          }else{
-            var errorsDes = typeof info.file.response.error.description;
-            Modal.error({
-              title: '文件上传错误',
-              content: `${info.file.name} ${errorsDes}`
-            });
-          }                  
-        }else if (info.file.status === 'error') {
+      if (info.file.status !== 'uploading') {
+        /*console.log(info.file, info.fileList);*/
+      }
+      if (info.file.status === 'done'){
+
+        let fileList = info.fileList;
+        // 1. 上传列表数量的限制
+        //    只显示最近上传的一个，旧的会被新的顶掉
+        fileList = fileList.slice(-4);
+        console.log(22222);
+        console.log(fileList);
+        // 2. 读取远程路径并显示链接
+        fileList = fileList.map((file) => {
+          if (file.response && file.response.state) {
+            // 组件会将 file.url 作为链接进行展示
+            file.url = CONFIG.DONAME + file.response.data.src;
+            return file;
+          }else if(!file.response && file.status == "done"){
+            return file;
+          }
+          return true;
+        });
+        console.log(fileList)
+
+        // 3. 按照服务器返回信息筛选成功上传的文件
+        fileList = fileList.filter((file) => {
+          if (file.response && file.response.state) {
+            return file.response.state  == true;
+          }
+          return true;
+        });
+
+
+        if(info.file.response.state){
+
+          message.success(`${info.file.name} 上传成功。`);
+          console.log(fileList);
+          this.setState({ fileList });
+
+        }else{
+
+          var errorsDes = info.file.response.error.description;
           Modal.error({
-              title: '文件上传错误',
-              content: `${info.file.name} 上传失败。`
-            });
-        }
-    }else{ } */
+            title: '文件上传错误',
+            content: `${info.file.name} ${errorsDes}`
+          });
 
+        }    
 
-      let fileList = info.fileList;
-      // 1. 上传列表数量的限制
-      //    只显示最近上传的一个，旧的会被新的顶掉
-      fileList = fileList.slice(-4);
+      }else if (info.file.status === 'error') {
 
-      // 2. 读取远程路径并显示链接
-      fileList = fileList.map((file) => {
-        if (file.response) {
-          // 组件会将 file.url 作为链接进行展示
-          file.url = file.response.data.src;
-        }
-        return file;
-      });
+        Modal.error({
+            title: '文件上传错误',
+            content: `${info.file.name} 上传失败。`
+          });
 
-      // 3. 按照服务器返回信息筛选成功上传的文件
-      fileList = fileList.filter((file) => {
+      }
 
-        if (file.response && file.response.state) {
-          return file.response.state  == true;
-        }
-
-        return true;
-
-      });
-
-      console.log('===========22222222222');
-      console.log(fileList);
-
-     this.setState({ fileList });
+ 
       
   },
   beforeChange(a,b){
 
   },
   render() {
+
+    if(this.state.status && !this.state.fileList.length){
+      return <div></div>
+    }
     var _this = this;
-    var settings = {
-       dots: true,
-       infinite: true,
-       autoplay:true,
-       speed: 500,
-       slidesToShow: 1,
-       slidesToScroll: 1,
-       slickGoTo: 3,
-       beforeChange(to,form){
-  
-          _this.setState({
-            slickGoTo: 3
-          });
-
-        }
-     };
-
-      const guide1 = {
+    let guide1 = {
               action: '/factory/upload',
               name: 'file',
               showUploadList: false,
@@ -142,7 +142,7 @@ const Guide = React.createClass({
               },
             };
 
-     const guide2 = {
+     let guide2 = {
               action: '/factory/upload',
               listType: 'picture-card',
               name: 'file',
@@ -151,6 +151,13 @@ const Guide = React.createClass({
               },
               defaultFileList: this.state.fileList
             };
+
+      let CarouselCon = this.state.fileList.map((file) => {
+        /*return <div className="CarouselList" key={file.uid} style={{backgroundImage:'url('+file.url+')'}}></div>;*/
+        return <li key={file.uid}><a href="#" target="_blank"><img src={file.url} /></a></li>
+      });
+
+    let sliderId = "slideBox_"+this.state.index;
 
     return (
 
@@ -162,13 +169,22 @@ const Guide = React.createClass({
         <Row style={{height:580}}>
           <Col span="9">
             <div className="guide_l">
-              <div className="carouselWrap">
-                <Carousel {...settings} >
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                  <div className="CarouselList"></div>
-                </Carousel>
+                  <div className="carouselWrap">
+
+                    <div id={sliderId} className="slideBox">
+                      <div className="hd">
+                        <ul></ul>
+                      </div>
+
+                      <div className="bd">
+                        <ul>
+                          {CarouselCon}
+                        </ul>
+                      </div>
+                      <a className="prev" href="javascript:void(0)"><Icon type="left"/></a>
+                      <a className="next" href="javascript:void(0)"><Icon type="right"/></a>
+                  </div>
+
               </div>
             </div>
           </Col>
@@ -228,29 +244,40 @@ const Guide = React.createClass({
         
     );
   },
+  componentDidUpdate(){
+    setTimeout(function(){
+      $("#slideBox_"+this.state.index).slide({mainCell:".bd ul",effect:"fade",autoPlay:true,interTime:5000});
+    }.bind(this),500)
+  },
   componentDidMount(){
-     
+    
     $.get(CONFIG.HOSTNAME+'/client/guide',function(ajaxdata){
           console.log(ajaxdata);
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
-            data = ajaxdata.data.meta;
+            var fileList = []
+            data = ajaxdata.data.meta.guide_img;
+             for( let key in data){
+                  fileList.push({
+                    uid: parseInt(key)+1,
+                    status: 'done',
+                    url: CONFIG.DONAME+data[key]
+                  })
+             }
 
-            /*fileList = data.map((file) => {
-                if (file.response) {
-                  // 组件会将 file.url 作为链接进行展示
-                  file.url = file.response.data.src;
-                }
-                return file;
-              });
             this.setState({
-              fileList
-            })*/
+              fileList,
+              status : !this.state.status
+            })
+
+            setTimeout(function(){
+                $("#slideBox_"+this.state.index).slide({mainCell:".bd ul",effect:"fade",autoPlay:true,interTime:5000});
+            }.bind(this),500);
+
           }  
       }.bind(this));
-
-      
+ 
   }
 });
 

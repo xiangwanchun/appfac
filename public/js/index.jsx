@@ -51,9 +51,8 @@ const Index = React.createClass({
   },
   componentDidMount(){
       let url = location.href.split('//')[1].split('.');
-      console.log(url);
       var urlparam = this.GetRequest();
-      urlparam.tenant_id= 'test' || url[0];     
+      urlparam.tenant_id= url[0];     
       $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
             let data = this.state.data;
             ajaxdata = JSON.parse(ajaxdata);

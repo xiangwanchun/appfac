@@ -46,7 +46,6 @@ addselec(i){
 },
 
 	render(){
-		console.log(1111);
 		
 		var ContCategory = this.props.model[0].map(function(e,i){
 			return 	<div className='ContBlock' key={e.id} style={i==this.state.staue?{display:'none'}:{display:'block'}} onClick={this.deleonselec.bind(this,i)}>
