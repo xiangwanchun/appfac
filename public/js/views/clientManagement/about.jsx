@@ -25,9 +25,9 @@ const About = React.createClass({
 
       <div className="contentBlocks mt_30">
           <Tabs  defaultActiveKey="2" onChange={this.callback}>
-              {/*<TabPane tab="关于我们"  key="1">
+              <TabPane tab="关于我们"  key="1">
                  
-              </TabPane>*/}
+              </TabPane>
               <TabPane tab="免责声明"  key="2">
                   <Disclaimer config={CONFIG}/>
               </TabPane>

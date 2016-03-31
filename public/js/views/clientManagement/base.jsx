@@ -55,7 +55,8 @@ let Base = React.createClass({
                 "callback": ""
             },
       subData : '',//提交给后台的数据
-      data1 : { state: 'true', data: {ios: '', android: '', description: "开始打包"},'error' : {'code' : '2010'}}
+      data1 : { state: 'true', data: {ios: '', android: '', description: "开始打包"},'error' : {'code' : '2010'}},
+      isFirst : true //判断是否是首次加载
     }
     
   },
@@ -289,18 +290,22 @@ let Base = React.createClass({
   componentDidMount(){
      
      $.get(CONFIG.HOSTNAME+'/client/base',function(ajaxdata){
-          /*console.log(ajaxdata);*/
+
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
             data = ajaxdata.data.meta;
             this.setState({
-              data
+              data,
+              nameNum : data.app_collocation.name.length
             })
+            setTimeout(function(){
+                 $('#name').val(data.app_collocation.name);
+            }, 300)
+           
           }  
       }.bind(this));
-
-      
+ 
   },
   render() {
     let  app_col= this.state.data.app_collocation;
@@ -358,6 +363,7 @@ let Base = React.createClass({
     });*/
 
     const url = CONFIG.DONAME + app_col.icon;
+    console.log(app_col.name);
     return (
       <div className="contentBlocks mt_30">
         <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
@@ -389,7 +395,7 @@ let Base = React.createClass({
                               label="APP名称："
                               labelCol={{ span: 4}}
                               wrapperCol={{ span:8}}>
-                              <Input  defaultValue={app_col.name} {...nameProps}  placeholder={app_col.name}/>
+                              <Input  {...nameProps}/>
                             </FormItem>
                             <span className="inputNum" style={{right:330}}><i style={{"color" : this.state.nameNum > 6 ? '#ff5d3d' : ''}}>{this.state.nameNum}</i>/6</span>
                           </div>
@@ -416,7 +422,7 @@ let Base = React.createClass({
                             </Col>
                           </Row>
 
-                          {/*<FormItem
+                          <FormItem
                             label="IOS上架配置："
                             labelCol={{ span: 4 }}
                             wrapperCol={{ span: 20 }}
@@ -481,7 +487,7 @@ let Base = React.createClass({
                                   <a className="ant-form-text primary-color">证书制作参考</a>
                                 </Col>
                               </Row> 
-                          </FormItem>    */  }                    
+                          </FormItem>                  
                     </div>
                   </div>
                   <section>

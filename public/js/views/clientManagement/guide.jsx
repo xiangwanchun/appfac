@@ -192,14 +192,14 @@ const Guide = React.createClass({
             <div className="guide_r mt_30">
                 <Row>
                   <Col span="3">自定图组:</Col>
-                  <Col span="4" className="mr_10">
+          {/*        <Col span="4" className="mr_10">
                     <Upload {...guide1} data={{"type" :'guide'}}>
                       <Button type="primary">
                          点击上传
                       </Button>
                     </Upload>
-                  </Col>
-                  <Col span="14">图标要求:png格式,1024x1024建议2到4张</Col>
+                  </Col>*/}
+                  <Col span="14">图片要求:png格式,1024x1024建议2到5张</Col>
                   <Col span="21" offset="3">
                       <div className="guide_r_con mt_20">
 
@@ -208,23 +208,7 @@ const Guide = React.createClass({
                               <Icon type="plus" />
                             </Upload>
                           </div>
-
-                          {/*<Row type="flex">
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list">
-                              <img src="../images/phone_1.png"/>
-                            </Col>
-                            <Col span="5" className="guide_r_list last_list">
-                                <Upload {...props}>
-                                  <Icon type="plus"/>
-                                </Upload>
-                            </Col>
-                          </Row>*/}
+                          
                       </div>
                   </Col>
                 </Row>
