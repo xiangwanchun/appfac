@@ -61,8 +61,6 @@ const IndexLeft = React.createClass({
       })
   },
   render() {
-    console.log('=====')
-    console.log(this.props);
     let propsData = this.props.app;
     let domain  = this.props.config.DONAME + '';
     let created_at = propsData.created_at.substring(0,19).replace(/-/g,'/');

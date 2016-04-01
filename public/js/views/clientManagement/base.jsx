@@ -309,7 +309,6 @@ let Base = React.createClass({
   },
   render() {
     let  app_col= this.state.data.app_collocation;
-    console.log(this.state.data)
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
 
     //文件上传处理

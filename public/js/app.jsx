@@ -55,7 +55,7 @@ const MainRouter = React.createClass({
       urlparam.tenant_id = url[0];   
       urlparam.rand = Math.random(); 
 
-      $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
+      $.get(CONFIG.HOSTNAME,urlparam,function(ajaxdata){
             let data = _this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){

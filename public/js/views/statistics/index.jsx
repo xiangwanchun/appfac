@@ -191,7 +191,7 @@ const Statistics = React.createClass({
       console.log(url);
       var urlparam = this.GetRequest();
       urlparam.tenant_id= 'test' || url[0];     
-      $.get(CONFIG.HOSTNAME, urlparam,function(ajaxdata){
+      $.get(CONFIG.HOSTNAME+'/home', urlparam,function(ajaxdata){
             let data = this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){
