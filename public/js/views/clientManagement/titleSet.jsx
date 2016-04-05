@@ -45,7 +45,6 @@ let TitleSet = React.createClass({
   },
   //上传变换的时候
   uploadChange(name,info){
-    console.log(info)
       if (info.file.status !== 'uploading') {
         /*console.log(info.file, info.fileList);*/
       }
@@ -54,10 +53,6 @@ let TitleSet = React.createClass({
           message.success(`${info.file.name} 上传成功。`);
           var data = this.state.data;
           this.props.titleFun({type:2,content:info.file.response.data.src})
-          /*data[name] = info.file.response.data.src;
-          this.setState({
-              data
-          })*/
         }else{
           var errorsDes =  info.file.response.error.description ;
           errorsDes = errorsDes instanceof Array ? errorsDes[0] : errorsDes

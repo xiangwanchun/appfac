@@ -22,7 +22,6 @@ const Guide = React.createClass({
     };
   },
   handSubmit(e) {
-    console.log(this.state.fileList);
 
       let guide_img = this.state.fileList.map((file) => {
         let url = file.url.indexOf('com') != -1 ? file.url.split("com")[1] : file.url;
