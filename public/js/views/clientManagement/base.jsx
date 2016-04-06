@@ -463,7 +463,7 @@ let Base = React.createClass({
                               <a className="ant-form-text primary-color">证书制作参考</a>
                             </Col>
                           </Row>                                  
-                         <FormItem
+                         {/*<FormItem
                             label="IOS推送证书上传："
                             labelCol={{ span: 5}}
                             wrapperCol={{ span: 18 }} 
@@ -486,7 +486,7 @@ let Base = React.createClass({
                                   <a className="ant-form-text primary-color">证书制作参考</a>
                                 </Col>
                               </Row> 
-                          </FormItem>                  
+                          </FormItem> */ }                
                     </div>
                   </div>
                   <section>

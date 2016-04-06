@@ -10,6 +10,7 @@ import ActivationVolume from './components/index/activationVolume'
 import UpdataTip from './components/index/updataTip'
 import IndexLeft from './components/index/indexLeft'
 import QuickEntry from './components/index/QuickEntry'
+import GuidePage from './views/guidePage/index'
 import CONFIG from './config/API'
 
 import {Tabs} from 'antd';
@@ -83,6 +84,21 @@ const Index = React.createClass({
   },
   render() {
       return (
+          <div className="appcenter mt_30">
+            <GuidePage></GuidePage> 
+          </div>
+        )
+              
+     
+  }
+
+});
+
+export default  Index;
+
+
+
+ /*return (
         <div>
           <div className="appcenter mt_30">
             <Row>
@@ -91,7 +107,7 @@ const Index = React.createClass({
               </Col>
               <Col span="19">
                   <div id="mainCon">
-                      {/*<UpdataTip></UpdataTip>*/}
+                      <UpdataTip></UpdataTip>
                       <ActivationVolume {...this.state.data.statistics} config={CONFIG}></ActivationVolume>
                       <QuickEntry></QuickEntry>   
                   </div>
@@ -99,9 +115,4 @@ const Index = React.createClass({
             </Row>
           </div>
         </div>
-      );
-  }
-
-});
-
-export default  Index;
+      );*/
