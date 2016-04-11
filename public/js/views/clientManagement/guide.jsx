@@ -28,7 +28,7 @@ const Guide = React.createClass({
         return url;
       });
 
-     $.post(CONFIG.HOSTNAME+'/client/guide',{'guide_img' : guide_img},function(ajaxdata){
+     $.post(CONFIG.HOSTNAME+'/client/guide',{'guide_img' : guide_img,tenantid : tenantid[0]},function(ajaxdata){
       /*console.log(ajaxdata);*/
       let data = this.state.data;
       ajaxdata = JSON.parse(ajaxdata);
@@ -203,7 +203,7 @@ const Guide = React.createClass({
                       <div className="guide_r_con mt_20">
 
                           <div className="clearfix">
-                            <Upload {...guide2} data={{"type" :'guide'}}>
+                            <Upload {...guide2} data={{"type" :'guide',tenantid : tenantid[0]}}>
                               <Icon type="plus" />
                             </Upload>
                           </div>
@@ -234,7 +234,7 @@ const Guide = React.createClass({
   },
   componentDidMount(){
     
-    $.get(CONFIG.HOSTNAME+'/client/guide',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/client/guide',{tenantid : tenantid[0]},function(ajaxdata){
           console.log(ajaxdata);
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

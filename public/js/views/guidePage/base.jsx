@@ -61,6 +61,7 @@ let Base = React.createClass({
   ajaxfun(timer){
       var subData = this.state.subData;
       subData.rand =  Math.random(); 
+      subData.tenantid = tenantid[0];
       $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
 
       ajaxdata = JSON.parse(ajaxdata);

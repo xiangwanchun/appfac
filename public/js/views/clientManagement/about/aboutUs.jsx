@@ -81,7 +81,7 @@ const AboutUs = React.createClass({
     //处理数据content_list_title 如果是json处理成逗号分隔
     this.setState({ loading: true });
     let data = this.state.data;
-    
+    data.tenantid = tenantid[0];
     $.post(CONFIG.HOSTNAME+'/client/slogan',data,function(ajaxdata){
       ajaxdata = JSON.parse(ajaxdata);
       this.setState({ loading: false });

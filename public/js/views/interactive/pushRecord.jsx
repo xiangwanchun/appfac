@@ -84,7 +84,7 @@ let PushRecord = React.createClass({
       return e && e.fileList;
   },
   componentDidMount(){
-    $.get(CONFIG.HOSTNAME+'/push',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/push',{'tenantid':tenantid[0]},function(ajaxdata){
           ajaxdata = JSON.parse(ajaxdata);
           var tableData = {
               key: '',

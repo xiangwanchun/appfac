@@ -60,11 +60,10 @@ let MenuType = React.createClass({
     );
   },
   componentDidMount(){
-    $.get(CONFIG.HOSTNAME+'/content/type',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/content/type',{'tenantid':tenantid[0]},function(ajaxdata){
          
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
-           console.log(ajaxdata);
           if(ajaxdata.state){
             data = ajaxdata.data.category;
             this.setState({

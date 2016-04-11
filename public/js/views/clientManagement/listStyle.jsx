@@ -73,7 +73,7 @@ const ListStyle = React.createClass({
           pointToAllWidth:  {'sliderNum':135,'listType':130}
         })
       }.bind(this),1000)
-     $.get(CONFIG.HOSTNAME+'/client/list',function(ajaxdata){
+     $.get(CONFIG.HOSTNAME+'/client/list',{tenantid : tenantid[0]},function(ajaxdata){
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
@@ -85,7 +85,9 @@ const ListStyle = React.createClass({
       }.bind(this));
   },
   ajaxhandSubmit(){
-    $.post(CONFIG.HOSTNAME+'/client/list',this.state.data,function(ajaxdata){
+    let data = this.state.data;
+    data.tenantid = tenantid[0];
+    $.post(CONFIG.HOSTNAME+'/client/list',data,function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

@@ -61,7 +61,7 @@ const DefPicSet = React.createClass({
 
     return (
       <div className="t_center">
-          <Upload {...defPic} data={{"type" :'default'}}>
+          <Upload {...defPic} data={{"type" :'default',tenantid : tenantid[0]}}>
             <Button type="primary" size="large">
               <Icon type="upload" /> 点击上传默认图
             </Button>

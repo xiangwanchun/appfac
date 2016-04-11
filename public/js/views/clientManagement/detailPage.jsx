@@ -63,7 +63,7 @@ const DetailPage = React.createClass({
     //处理数据content_list_title 如果是json处理成逗号分隔
     this.setState({ loading: true });
     let data = this.state.data;
-     
+    data.tenantid = tenantid[0];
     $.post(CONFIG.HOSTNAME+'/client/show',data,function(ajaxdata){
       ajaxdata = JSON.parse(ajaxdata);
       this.setState({ loading: false });
@@ -124,7 +124,7 @@ const DetailPage = React.createClass({
         })
       }.bind(this),1000)
     var _this = this;
-    $.get(CONFIG.HOSTNAME+'/client/show',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/client/show',{tenantid : tenantid[0]},function(ajaxdata){
         let data = this.state.data;
         ajaxdata = JSON.parse(ajaxdata);
         if(ajaxdata.state){

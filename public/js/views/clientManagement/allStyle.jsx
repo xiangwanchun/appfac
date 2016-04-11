@@ -84,7 +84,7 @@ const AllStyle = React.createClass({
   componentDidMount() {
     var _this = this;
 
-    $.get(CONFIG.HOSTNAME+'/client/frame',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/client/frame',{'tenantid':tenantid[0]},function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
@@ -216,11 +216,13 @@ const AllStyle = React.createClass({
   //向后台提交数据
   handleSubmitAjax(){
     //处理数据content_list_title 如果是json处理成逗号分隔
-      this.setState({ loading: true });
-     let data = this.state.data;
+    this.setState({ loading: true });
+    let data = this.state.data;
      if(typeof data.content_list_title == 'object' ){
         data.content_list_title = data.content_list_title.type+','+data.content_list_title.content;
      }
+
+     data.tenantid = tenantid[0];
      
     $.post(CONFIG.HOSTNAME+'/client/frame',data,function(ajaxdata){
       ajaxdata = JSON.parse(ajaxdata);

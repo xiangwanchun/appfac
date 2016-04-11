@@ -50,7 +50,7 @@ const BootScreen = React.createClass({
       }
   },
   handSubmit(){
-    $.post(CONFIG.HOSTNAME+'/client/starting',{starting_img : this.state.data.starting_img},function(ajaxdata){
+    $.post(CONFIG.HOSTNAME+'/client/starting',{starting_img : this.state.data.starting_img,tenantid : tenantid[0]},function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
@@ -117,7 +117,7 @@ const BootScreen = React.createClass({
   },
   componentDidMount(){
      
-     $.get(CONFIG.HOSTNAME+'/client/starting',function(ajaxdata){
+     $.get(CONFIG.HOSTNAME+'/client/starting',{tenantid : tenantid[0]},function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

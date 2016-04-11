@@ -125,10 +125,13 @@ let Push = React.createClass({
   ajaxhandleSubmit(e){
     this.handleSubmit(e);
     setTimeout(function(){
-      if( this.state.status ){
 
-        $.post(CONFIG.HOSTNAME+'/push',this.state.data,function(ajaxdata){
-         /* ajaxdata = JSON.parse(ajaxdata);*/
+      if( this.state.status ){
+        let data = this.state.data;
+        data.tenantid = tenantid[0];
+
+        $.post(CONFIG.HOSTNAME+'/push',data,function(ajaxdata){
+          ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
             Modal.success({
               title: '成功信息',
@@ -142,7 +145,8 @@ let Push = React.createClass({
           } 
         }.bind(this));
 
-        }
+      }
+
       }.bind(this), 500)
 
     

@@ -19,8 +19,6 @@ let NavModelType = React.createClass({
     };
   },
   componentWillReceiveProps(nextProps) {
-    console.log('============')
-    console.log(nextProps)
     this.setState({
       list_type : nextProps.style_list_selected.id
     })
@@ -36,11 +34,8 @@ let NavModelType = React.createClass({
     var bgColor = {
       backgroundColor:_this.props.bgColor
     }
-    console.log('11111111');
-    console.log(this.props);
     let list_style  = this.props.style_list;
     let checked = this.props.style_list_selected.id;
-    console.log(checked)
     let chooseList = [];
     let html;
     let span = '24';

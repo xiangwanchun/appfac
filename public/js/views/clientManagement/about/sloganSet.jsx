@@ -34,11 +34,11 @@ let SloganSet = React.createClass({
     this.props.fun(type);
   },
   render() {
-
     var _this = this;
     var bgColor = {
       backgroundColor:'red'
     }
+    
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
     const nameProps = getFieldProps('slogan', {
       rules: [

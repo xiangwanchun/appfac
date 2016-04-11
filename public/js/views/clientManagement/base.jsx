@@ -84,7 +84,8 @@ let Base = React.createClass({
   ajaxfun(timer){
       var subData = this.state.subData;
       subData.rand =  Math.random(); 
-      $.post(CONFIG.HOSTNAME+'/client/base',this.state.subData,function(ajaxdata){
+      subData.tenantid = tenantid[0];
+      $.post(CONFIG.HOSTNAME+'/client/base',subData,function(ajaxdata){
 
       ajaxdata = JSON.parse(ajaxdata);
       
@@ -285,11 +286,10 @@ let Base = React.createClass({
             title: '文件上传错误',
             content: `${info.file.name} 上传失败。`
           });
-      }
+      };
   },
   componentDidMount(){
-     
-     $.get(CONFIG.HOSTNAME+'/client/base',function(ajaxdata){
+     $.get(CONFIG.HOSTNAME+'/client/base',{'tenantid':tenantid[0]},function(ajaxdata){
 
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

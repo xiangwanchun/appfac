@@ -25,7 +25,7 @@ const Main = React.createClass({
    render(){
       return (
         <div className="main">
-            <MainNav states="1"></MainNav>
+            <MainNav states="2"></MainNav>
             {this.props.children}
         </div>
       )
@@ -43,7 +43,8 @@ const MainRouter = React.createClass({
   componentDidMount(){
     var _this = this ;
     $(function(){
-      let url = location.href.split('//')[1].split('.');   
+      let url = location.href.split('//')[1].split('.'); 
+      window.tenantid = url;
       var urlparam = _this.GetRequest();
       if(!urlparam){
         Modal.error({
@@ -52,7 +53,7 @@ const MainRouter = React.createClass({
           });
         return;
       }
-      urlparam.tenant_id = url[0];   
+      urlparam.tenantid = url[0];   
       urlparam.rand = Math.random(); 
 
       $.get(CONFIG.HOSTNAME,urlparam,function(ajaxdata){
@@ -100,7 +101,7 @@ const MainRouter = React.createClass({
           <div>
              <Router history={browserHistory}>
                 <Route path="/" component={Main}>
-                  <IndexRoute name="index" component={ this.state.data.status == 1  ?  GuidePage : Index }/>
+                  <IndexRoute name="index" component={ this.state.data.status != 1  ?  GuidePage : Index }/>
                   <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
                       <Route path=":name" component={clientManagement}/>
                   </Route>

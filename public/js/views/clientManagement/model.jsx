@@ -118,7 +118,8 @@ const Model = React.createClass({
         break;
       }
       subData[key] = data[key].id ;
-    }    
+    } 
+    subData.tenantid = tenantid[0]; 
     $.post(CONFIG.HOSTNAME+'/client/model',subData,function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
@@ -233,7 +234,7 @@ const Model = React.createClass({
           pointToAllWidth:  {'specialStyle':340,'videoStyle':315,'linkStyle':310,'graphicStyle':290,'liveStyle':330,'atlasStyle':290}
         })
       }.bind(this),1000);
-     $.get(CONFIG.HOSTNAME+'/client/model',function(ajaxdata){
+     $.get(CONFIG.HOSTNAME+'/client/model',{'tenantid':tenantid[0]},function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

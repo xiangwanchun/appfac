@@ -174,7 +174,8 @@ let MenuFormNew = React.createClass({
             "pid": data.pid,
             "sname": data.sname,
             "tip": data.tip,
-            "_method" : 'put'
+            "_method" : 'put',
+            'tenantid':tenantid[0]
         }
       if(postData.catid instanceof Array){
 

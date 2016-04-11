@@ -118,7 +118,7 @@ let MenuIconSet = React.createClass({
                           <span className='Details1'>图标要求 PNG格式 ，60x60</span>
                           <span className='Details2'>图标制作示例</span>
                           <div className='chosebtn'>
-                            <Upload {...menuIconUn} data={{"type" :'icon'}} >
+                            <Upload {...menuIconUn} data={{"type" :'icon','tenantid':tenantid[0]}} >
                                         <Button type="primary">
                                            点击上传
                                         </Button>

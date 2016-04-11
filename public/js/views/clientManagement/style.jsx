@@ -54,7 +54,7 @@ const Style = React.createClass({
     );
   },
   componentDidMount(){
-     $.get(CONFIG.HOSTNAME+'/client/frame',function(ajaxdata){
+     $.get(CONFIG.HOSTNAME+'/client/frame',{'tenantid':tenantid[0]},function(ajaxdata){
           /*console.log(ajaxdata);*/
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);

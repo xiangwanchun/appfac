@@ -38,7 +38,9 @@ let Disclaimer = React.createClass({
     })
   },
   ajaxhandleSubmit(e){
-      $.post(this.props.config.HOSTNAME+'/client/statement',this.state.data,function(ajaxdata){
+      let data = this.state.data;
+      data.tenantid = tenantid[0]; 
+      $.post(this.props.config.HOSTNAME+'/client/statement',data,function(ajaxdata){
         ajaxdata = JSON.parse(ajaxdata);
         if(ajaxdata.state){
           Modal.success({
@@ -76,7 +78,7 @@ let Disclaimer = React.createClass({
   },
   componentDidMount(){
 
-    $.get(this.props.config.HOSTNAME+'/client/statement',function(ajaxdata){
+    $.get(this.props.config.HOSTNAME+'/client/statement',{'tenantid':tenantid[0]},function(ajaxdata){
           let data = this.state.data;
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){

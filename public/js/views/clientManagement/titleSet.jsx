@@ -122,7 +122,7 @@ let TitleSet = React.createClass({
                 </RadioGroup>
                 <div className="mt_15 titleInputWrap">
                      <p className="picDes">自定义图标要求:PNG格式,600x72</p>
-                    <Upload {...titlePic} data={{"type" :'title'}}>
+                    <Upload {...titlePic} data={{"type" :'title','tenantid':tenantid[0]}}>
                       <Button type="primary">
                         <Icon type="upload" /> 点击上传
                       </Button>

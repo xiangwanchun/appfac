@@ -277,7 +277,7 @@ const ClientManagementMenu = React.createClass({
     this.setState({
       navigateVisible : false
     }) 
-    $.get(CONFIG.HOSTNAME+'/navigate/'+treeNode.nid,function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/navigate/'+treeNode.nid,{tenantid : tenantid[0]},function(ajaxdata){
        
           let navigateData = this.state.navigateData;
           ajaxdata = JSON.parse(ajaxdata);
@@ -320,6 +320,7 @@ const ClientManagementMenu = React.createClass({
               $.ajax({
                   type: "delete",
                   url: CONFIG.HOSTNAME+'/navigate/'+nodes[0].nid,
+                  data : {tenantid : tenantid[0]},
                   success: function(ajaxdata){
                     ajaxdata = JSON.parse(ajaxdata);
                     if(ajaxdata.state){
@@ -344,6 +345,7 @@ const ClientManagementMenu = React.createClass({
               $.ajax({
                   type: "delete",
                   url: CONFIG.HOSTNAME+'/navigate/'+nodes[0].nid,
+                  data : {tenantid : tenantid[0]},
                   success: function(ajaxdata){
                     ajaxdata = JSON.parse(ajaxdata);
                     if(ajaxdata.state){
@@ -376,7 +378,7 @@ const ClientManagementMenu = React.createClass({
     if (zTree.getSelectedNodes()[0]) {
 
       if(curTreeNode.level == '0'){
-        $.post(CONFIG.HOSTNAME+'/navigate',{category : this.state.modelId,pid:curTreeNode.nid},function(ajaxdata){
+        $.post(CONFIG.HOSTNAME+'/navigate',{category : this.state.modelId,pid:curTreeNode.nid,tenantid : tenantid[0]},function(ajaxdata){
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){
               newNode.name = ajaxdata.data.meta.name;
@@ -398,7 +400,7 @@ const ClientManagementMenu = React.createClass({
 
     } else {  
       
-      $.post(CONFIG.HOSTNAME+'/navigate',{category :this.state.modelId},function(ajaxdata){
+      $.post(CONFIG.HOSTNAME+'/navigate',{category :this.state.modelId,tenantid : tenantid[0]},function(ajaxdata){
             ajaxdata = JSON.parse(ajaxdata);
             if(ajaxdata.state){
               newNode.name = ajaxdata.data.meta.name;
@@ -454,7 +456,7 @@ const ClientManagementMenu = React.createClass({
     );
   },
   componentDidMount(){
-    $.get(CONFIG.HOSTNAME+'/navigate',function(ajaxdata){
+    $.get(CONFIG.HOSTNAME+'/navigate',{tenantid : tenantid[0]},function(ajaxdata){
 
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
