@@ -11,12 +11,13 @@ import MainNav from './components/mainNav'
 import LeftNav from './components/leftNav'
 import VersionHistory from './views/clientManagement/VersionHistory'
 import { Router, Route, Link, browserHistory,RouteHandler,IndexRoute} from 'react-router'
-import Index from './index';
-import About from './views/clientManagement/about';
-import clientManagement from './views/clientManagement/index';
-import Interactive from './views/interactive/index';
-import Content from './views/content/index';
-import Statistics from './views/statistics/index';
+import Index from './index'
+import About from './views/clientManagement/about'
+import clientManagement from './views/clientManagement/index'
+import Interactive from './views/interactive/index'
+import Content from './views/content/index'
+import Statistics from './views/statistics/index'
+import GuidePage from './views/guidePage/index'
 import CONFIG from './config/API'  
 
 // etc.
@@ -24,8 +25,8 @@ const Main = React.createClass({
    render(){
       return (
         <div className="main">
-            <MainNav></MainNav>
-             {this.props.children}
+            <MainNav states="1"></MainNav>
+            {this.props.children}
         </div>
       )
   }
@@ -41,7 +42,6 @@ const MainRouter = React.createClass({
   },
   componentDidMount(){
     var _this = this ;
-
     $(function(){
       let url = location.href.split('//')[1].split('.');   
       var urlparam = _this.GetRequest();
@@ -58,8 +58,10 @@ const MainRouter = React.createClass({
       $.get(CONFIG.HOSTNAME,urlparam,function(ajaxdata){
             let data = _this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
+            data = ajaxdata.data;
             if(ajaxdata.state){
               _this.setState({
+                data,
                 states : '1'
               })
             }else{
@@ -73,9 +75,8 @@ const MainRouter = React.createClass({
             }  
       });
     })
- 
   },//获取url中get参数的值
- GetRequest() {
+  GetRequest() {
     if(location.href.indexOf('?') == -1){
       return;
     }
@@ -99,7 +100,7 @@ const MainRouter = React.createClass({
           <div>
              <Router history={browserHistory}>
                 <Route path="/" component={Main}>
-                  <IndexRoute name="index" component={Index}/>
+                  <IndexRoute name="index" component={ this.state.data.status == 1  ?  GuidePage : Index }/>
                   <Route path="clientmanagement" name="clientmanagement" component={clientManagement}>
                       <Route path=":name" component={clientManagement}/>
                   </Route>

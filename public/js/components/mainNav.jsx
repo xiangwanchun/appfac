@@ -24,6 +24,9 @@ const MainNav = React.createClass({
     });
   },
   render() {
+    let  status = this.props.states;
+    console.log('333333333333')
+    console.log(status);
     return (
         <header id="topHeader">
           <nav  className="mainNav">         
@@ -34,7 +37,7 @@ const MainNav = React.createClass({
                     </div>
                 </Col>
                 <Col span="20">
-                  <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} theme={this.state.theme} mode="horizontal">
+                  {status  == '2' ? <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} theme={this.state.theme} mode="horizontal">
                         <Menu.Item key="index">                          
                           <Link to="/">首页</Link>
                         </Menu.Item>
@@ -50,7 +53,7 @@ const MainNav = React.createClass({
                         <Menu.Item key="statistics">
                           <Link to="statistics">统计</Link>
                         </Menu.Item>         
-                  </Menu>
+                  </Menu> : <div className="creatApp">创建您的APP</div>}
                 </Col>
             </Row>
           </nav>
