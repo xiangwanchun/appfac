@@ -6,6 +6,7 @@ import '../../../css/push.less'
 
 import { Form,message, Input, Button, Row, Col, Upload, Icon,Tooltip,DatePicker,Radio,Modal} from 'antd';
 import CONFIG from '../../config/API'
+import PushConTable from './pushConTable'
 const createForm = Form.create;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -43,6 +44,7 @@ let Push = React.createClass({
     return {
       current: 'base',
       visible: false,
+      pushConVisible : false,
       is_member : '',
       menberType : '0',
       //弹窗名
@@ -51,10 +53,10 @@ let Push = React.createClass({
       modalCon : '',
       //判断是哪个箭头函数触发的
       allPointToType : '',
-      titleNum:0,
+      titleNum : 0,
       status : false,
       data : {
-              "destination":"3","timing":"1","time":" ","title":" ",'content': " "
+              "destination":"3","timing":"1","time":" ","title":" ",'content': " ",'conType' : '1'
             }
 
     }
@@ -78,6 +80,8 @@ let Push = React.createClass({
   },
   pushHandleClick(customData,e){
     data = this.state.data;
+    let pushConVisible = false;
+
     if(typeof customData.type != 'undefined' && customData.type == 'input'){//普通表单
       data[customData.name] = e.target.value ;  
     }else{//按钮切换处理
@@ -85,17 +89,34 @@ let Push = React.createClass({
       if(customData.name == 'timing' &&  customData.val == '1'){
         data.time = '' ;
       }
+      if(customData.name == 'conType' && customData.val == '2'){
+        pushConVisible =  true ;
+      }
     }
 
     this.setState({
+      pushConVisible,
       data
     })
+  },
+  conTypeHandleClick(type){
+
   },
   normFile(e) {
       if (Array.isArray(e)) {
         return e;
       }
       return e && e.fileList;
+  },
+  handleOk() {
+    this.setState({
+      pushConVisible: false
+    });
+  },
+  handleCancel(e) {
+    this.setState({
+      pushConVisible: false
+    });
   },
   handleSubmit(e) {
     e.preventDefault();
@@ -108,15 +129,13 @@ let Push = React.createClass({
 
       data = this.state.data;
       let time = values.time && data.timing == '2' ? values.time.format('yyyy-MM-dd hh:mm:ss') : '';
-      console.log('222222');
       if(!values.time && data.timing == '2'){
-           message.warn('请选择定时发布时间');
-          return;
+        message.warn('请选择定时发布时间');
+        return;
       }
       data.title = values.title;
       data.content = values.content;
       data.time = time;
-      console.log(data);
       this.setState({
         'status' : true
       })
@@ -159,6 +178,9 @@ let Push = React.createClass({
         })
       }
       callback();
+  },
+  pushConTable(){
+      alert(1111)
   },
   render() {
     console.log(this.state.data);
@@ -227,9 +249,9 @@ let Push = React.createClass({
                   wrapperCol={{ span: 20}}
                 >
                   <div className="IconBtn">
-                    <RadioGroup  defaultValue="apple">
-                      <RadioButton value="apple">手动输入</RadioButton>
-                      <RadioButton value="android">链接内容</RadioButton>
+                    <RadioGroup  defaultValue={data.conType}>
+                      <RadioButton value="1" onClick={this.pushHandleClick.bind(this,{'name':'conType','val':'1'})}>手动输入</RadioButton>
+                      <RadioButton value="2" onClick={this.pushHandleClick.bind(this,{'name':'conType','val':'2'})} >链接内容</RadioButton>
                     </RadioGroup>
                   </div>
                 </FormItem>
@@ -280,6 +302,12 @@ let Push = React.createClass({
             </div>
           </div>
         </Form>
+
+        <Modal title="推送内容选择" visible={this.state.pushConVisible}
+          onOk={this.handleOk} onCancel={this.handleCancel} width="900" maskClosable="false">
+          <PushConTable fun={this.pushConTable}/>
+        </Modal>
+
       </div>
     );
   }
