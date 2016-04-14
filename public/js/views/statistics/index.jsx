@@ -68,7 +68,6 @@ import 'echarts/chart/line';
           myDate.setDate(myDate.getDate() + flag);
       }
 
-      console.log(dateArray)
 
     var option = {
     title : {

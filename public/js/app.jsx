@@ -57,8 +57,10 @@ const MainRouter = React.createClass({
       urlparam.rand = Math.random(); 
 
       $.get(CONFIG.HOSTNAME,urlparam,function(ajaxdata){
+            console.log(ajaxdata);
             let data = _this.state.data;
             ajaxdata = JSON.parse(ajaxdata);
+
             data = ajaxdata.data;
             if(ajaxdata.state){
               _this.setState({
@@ -67,8 +69,8 @@ const MainRouter = React.createClass({
               })
             }else{
               Modal.error({
-                title: '登陆失败',
-                content: `请检查用户信息`
+                title: '错误提示',
+                content: `${ajaxdata.error.description}`
               });
               _this.setState({
                 states : '0'

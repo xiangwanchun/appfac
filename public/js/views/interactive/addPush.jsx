@@ -54,7 +54,7 @@ let Push = React.createClass({
       //判断是哪个箭头函数触发的
       allPointToType : '',
       titleNum : 0,
-      status : false,
+      status : false,  //判断表单是否验证通过
       data : {
               "destination":"3","timing":"1","time":" ","title":" ",'content': " ",'conType' : '1'
             }
@@ -64,7 +64,7 @@ let Push = React.createClass({
   getValidateStatus(field) {
     const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
 
-    if (isFieldValidating(field)) {
+    if (isFieldValidating(field)){
       return 'validating';
     } else if (!!getFieldError(field)) {
       return 'error';
@@ -127,7 +127,7 @@ let Push = React.createClass({
         return;
       }
 
-      data = this.state.data;
+      let data = this.state.data;
       let time = values.time && data.timing == '2' ? values.time.format('yyyy-MM-dd hh:mm:ss') : '';
       if(!values.time && data.timing == '2'){
         message.warn('请选择定时发布时间');
@@ -136,7 +136,11 @@ let Push = React.createClass({
       data.title = values.title;
       data.content = values.content;
       data.time = time;
+      if(data.conType == 1){
+         delete data["cid"]; 
+      }
       this.setState({
+        data,
         'status' : true
       })
     });
@@ -148,7 +152,8 @@ let Push = React.createClass({
       if( this.state.status ){
         let data = this.state.data;
         data.tenantid = tenantid[0];
-
+        console.log(data)
+        return;
         $.post(CONFIG.HOSTNAME+'/push',data,function(ajaxdata){
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
@@ -179,8 +184,22 @@ let Push = React.createClass({
       }
       callback();
   },
-  pushConTable(){
-      alert(1111)
+  pushConTable(con){
+    let data = this.state.data;
+    data.cid = con.key;
+    console.log(con);
+    data.title = con.title;
+    data.content = con.content;
+    this.setState({
+      titleNum : con.title.length,
+      data,
+      pushConVisible : false
+    })
+
+    this.props.form.setFieldsValue({
+      title: con.title,
+      content : con.content
+    });
   },
   render() {
     console.log(this.state.data);
@@ -312,6 +331,7 @@ let Push = React.createClass({
     );
   }
 });
+
 
 Push = createForm()(Push);
 export default  Push;
