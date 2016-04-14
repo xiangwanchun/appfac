@@ -152,8 +152,8 @@ let Push = React.createClass({
       if( this.state.status ){
         let data = this.state.data;
         data.tenantid = tenantid[0];
-        console.log(data)
-        return;
+      /*  console.log(data)
+        return;*/
         $.post(CONFIG.HOSTNAME+'/push',data,function(ajaxdata){
           ajaxdata = JSON.parse(ajaxdata);
           if(ajaxdata.state){
