@@ -9,7 +9,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 
 let DetailPageType = React.createClass({
-  getInitialState() {
+  getInitialState(){
     return {
       current: 'base',
       index : 0,
@@ -35,7 +35,7 @@ let DetailPageType = React.createClass({
             <div className="userChoose_1">
               <h2>使用样式一</h2>
               <div style={bgColor} className="imgWrap" onClick={this.detailPageTypefun.bind(this,'1')}>
-                <img src="images/page_1.png"/>
+                <img src="images/page_2.png"/>
                 <Icon type="check-circle" style={{'display' : this.state.detailPage_type == '1' ? 'block' : 'none'}}/>
               </div>
             </div>
@@ -44,7 +44,7 @@ let DetailPageType = React.createClass({
             <div className="userChoose_2">
               <h2>使用样式二</h2>
               <div style={bgColor} className="imgWrap" onClick={this.detailPageTypefun.bind(this,'2')}>
-                <img src="images/page_2.png"/>
+                <img src="images/page_1.png"/>
                 <Icon type="check-circle" style={{'display' : this.state.detailPage_type == '2' ? 'block' : 'none'}}/>
               </div>
             </div>

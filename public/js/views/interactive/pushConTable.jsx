@@ -37,10 +37,12 @@ let PushConTable = React.createClass({
       ModalText: '对话框的内容',
       visible: false,
       data: [],
+      navData : [],
       loading: false,
       pagination : {current : 1,showQuickJumper : true},
       start_date : '',
-      end_date : ''
+      end_date : '',
+      navigate_id : ''
     };
   },
   handleTableChange(pagination, filters, sorter) {
@@ -49,7 +51,7 @@ let PushConTable = React.createClass({
     this.setState({
       pagination: pager,
     });
-    this.ajaxfun('/push/content',{page:pagination.current,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date});
+    /*this.ajaxfun('/push/content',{page:pagination.current,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date,navigate_id:this.state.navigate_id});*/
   },
   handleInputChange(e) {
     this.setState({
@@ -62,7 +64,7 @@ let PushConTable = React.createClass({
     });
   },
   handleSearch() {//搜索
-      this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date});
+      this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date,navigate_id:this.state.navigate_id});
   },
   handleSelectChange(value) {
     console.log('selected ' + value);
@@ -70,8 +72,11 @@ let PushConTable = React.createClass({
   pushFun(record){//推送按钮触发函数
     this.props.fun(record);
   },
-  handleChange(val){
-    console.log(val);
+  handleChange(id){
+    this.setState({
+      navigate_id:id
+    });
+    /*this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date,navigate_id:id});*/
   },
   dataOnChange(value) {
 
@@ -80,7 +85,7 @@ let PushConTable = React.createClass({
       end_date:value[1].format('yyyy-MM-dd')
     });
 
-    this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:value[0].format('yyyy-MM-dd'),end_date:value[1].format('yyyy-MM-dd') });
+    /*this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:value[0].format('yyyy-MM-dd'),end_date:value[1].format('yyyy-MM-dd'),navigate_id:this.state.navigate_id});*/
   },
   normFile(e) {
     if (Array.isArray(e)) {
@@ -88,8 +93,12 @@ let PushConTable = React.createClass({
     }
     return e && e.fileList;
   },
-  ajaxfun(url,data){
-    data.tenantid = tenantid[0];
+  ajaxfun(url){
+    this.setState({
+      loading: !this.state.loading
+    });
+    let data = {page:1,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date,navigate_id:this.state.navigate_id,tenantid : tenantid[0]}
+
     $.get(CONFIG.HOSTNAME+url,data,function(ajaxdata){
         ajaxdata = JSON.parse(ajaxdata);
         let tableData = {
@@ -101,25 +110,28 @@ let PushConTable = React.createClass({
         }
         let data = [];
         if(ajaxdata.state){
-            let ajaxdataCon = ajaxdata.data.meta;
-            ajaxdataCon.forEach(function(key,i){
-              let  tableData = {};
-              tableData.key = key.id;
-              tableData.title = key.title;
-              tableData.content = key.summary;
-              tableData.time = key.publish_date;
-              data.push(tableData);
-            });
-            let page = ajaxdata.data.paging;
-            let pagination = {
-                current : parseInt(page.currentPage),
-                pageSize : 5,
-                total : parseInt(page.total)
-            }
-            this.setState({
-              data,
-              pagination
-            })
+          this.setState({
+            loading: !this.state.loading
+          });
+          let ajaxdataCon = ajaxdata.data.meta;
+          ajaxdataCon.forEach(function(key,i){
+            let  tableData = {};
+            tableData.key = key.id;
+            tableData.title = key.title;
+            tableData.content = key.summary;
+            tableData.time = key.publish_date;
+            data.push(tableData);
+          });
+          let page = ajaxdata.data.paging;
+          let pagination = {
+              current : parseInt(page.currentPage),
+              pageSize : 5,
+              total : parseInt(page.total)
+          }
+          this.setState({
+            data,
+            pagination
+          })
         
       }
     }.bind(this));
@@ -162,6 +174,10 @@ let PushConTable = React.createClass({
           }
         }];
     const data = this.state.data;
+
+    const navList = this.state.navData.map(function(key,i){
+      return <Option value={key.id} key={i}>{key.name}</Option>
+    })
     return (
       <div>
         <Row style={{ marginTop: 24,width:850}} type="flex" justify="start" >
@@ -187,21 +203,30 @@ let PushConTable = React.createClass({
             </Row>
           </Col>
           <Col span="5">
-              <Select defaultValue="lucy" style={{ width: 160 }} onChange={this.handleChange} size="large">
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="disabled" disabled>Disabled</Option>
-                <Option value="yiminghe">yiminghe</Option>
+              <Select  style={{ width: 160 }} onChange={this.handleChange} size="large" placeholder="导航选择">
+                {navList}
               </Select>
           </Col>
         </Row>
-          <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange} className="mt_20"/>
+          <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange}  loading={this.state.loading} className="mt_20"/>
       </div>
 
     );
   },
   componentDidMount(){
     this.ajaxfun('/push/content',{page:1,perPage:5});
+
+    $.get(CONFIG.HOSTNAME+'/navigate',{'tag' : 'equ',tenantid : tenantid[0]},function(ajaxdata){
+      ajaxdata = JSON.parse(ajaxdata);
+      let navData = ajaxdata.data.navigate;
+      console.log(navData)
+      if(ajaxdata.state){
+        this.setState({
+          navData
+        })
+      }
+
+    }.bind(this));
   }
 });
 
