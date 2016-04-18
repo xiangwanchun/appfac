@@ -9,6 +9,7 @@ import CONFIG from '../../config/API'
 let PushRecord = React.createClass({
   getInitialState() {
     return {
+      loading: false,
       data: [{
               key: '',
               title: '',
@@ -87,7 +88,7 @@ let PushRecord = React.createClass({
                 title: '状态',
                 key: 'status',
                 render(text,record){
-                  console.log('1111111');
+                  console.log('2222222222222222222222');
                   console.log(record);
                   if(record.data){
       
@@ -151,11 +152,14 @@ let PushRecord = React.createClass({
               }];
     return (
       <div className="mt_30">
-          <Table columns={columns} dataSource={this.state.data} />
+          <Table columns={columns} dataSource={this.state.data} loading={this.state.loading}/>
       </div>
     );
   },
   componentDidMount(){
+    this.setState({
+      loading: !this.state.loading
+    });
     $.get(CONFIG.HOSTNAME+'/push',{'tenantid':tenantid[0]},function(ajaxdata){
           ajaxdata = JSON.parse(ajaxdata);
           console.log(ajaxdata);
@@ -168,6 +172,9 @@ let PushRecord = React.createClass({
           }
           var data = [];
           if(ajaxdata.state){
+              this.setState({
+                loading: !this.state.loading
+              });
               var ajaxdata = ajaxdata.data.data;
               ajaxdata.forEach(function(key,i){
                 var  tableData = {};

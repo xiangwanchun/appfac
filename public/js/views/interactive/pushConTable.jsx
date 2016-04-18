@@ -208,7 +208,7 @@ let PushConTable = React.createClass({
               </Select>
           </Col>
         </Row>
-          <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange}  loading={this.state.loading} className="mt_20"/>
+        <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange}  loading={this.state.loading} className="mt_20"/>
       </div>
 
     );
