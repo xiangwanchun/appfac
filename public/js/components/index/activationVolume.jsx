@@ -12,6 +12,14 @@ const ActivationVolume = React.createClass({
       current: 'index'
     };
   },
+  getDefaultProps(){  
+    return {
+        activation_today : 0,
+        startup_difference : 0,
+        hit_difference : 0,
+        activation_all_difference : 0
+    }; 
+  }, 
   render() {
     let propsData = this.props;
     return (

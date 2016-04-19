@@ -13,7 +13,28 @@ import echarts from 'echarts/echarts';
 import 'echarts/chart/line';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const RangePicker = DatePicker.RangePicker;
+const MonthPicker = DatePicker.MonthPicker;
+Date.prototype.format = function(format) {
+       var date = {
+              "M+": this.getMonth() + 1,
+              "d+": this.getDate(),
+              "h+": this.getHours(),
+              "m+": this.getMinutes(),
+              "s+": this.getSeconds(),
+              "q+": Math.floor((this.getMonth() + 3) / 3),
+              "S+": this.getMilliseconds()
+       };
+       if (/(y+)/i.test(format)) {
+              format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+       }
+       for (var k in date) {
+              if (new RegExp("(" + k + ")").test(format)) {
+                     format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                            ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+              }
+       }
+       return format;
+}
 
 var myDate = new Date(); //获取今天日期
   myDate.setDate(myDate.getDate() - 6);
@@ -35,16 +56,18 @@ const Statistics = React.createClass({
       tableData : [],
       data: {
           "statistics": {
-              "activation": '',
-              "activation_today": '',
-              "active_today": '',
-              "hit_today": ''
+              "activation": 0,
+              "activation_today": 0,
+              "active_today": 0,
+              "hit_today": 0
           }
       },
       pagination : {current : 1,showQuickJumper : true},
       chartData : [],
-      status : false,
-      postData : { tag : 'week',month:'',page:'',perPage:''},
+      chartStatus : false,//图表上按钮点击时是否更新数据
+      paginationStatus : false,//分页点击时是否更新数据
+      postData : { tag : 'week',month:'',page:'',perPage:''},//请求参数
+      index : 0
     }
   },
   GetRequest() {
@@ -63,36 +86,53 @@ const Statistics = React.createClass({
     }
     return theRequest;
   },
-  tagChange(e) {
+  chartChange(e) {
+      this.tagChange({type:'tag',val:e.target.value},{tag:this.state.postData.tag},{page:1,perPage:7,tag:this.state.postData.tag});
+  },
+  tagChange(data,chartSubData,listSubData){//图表上方标签切换调用函数
+    let postData = this.state.postData;
+
+    //切换提交数据的tag类型
+    if(data.type == 'month'){
+      postData.month = data.val;
+      postData.tag = 'month';
+    }else if(data.type == 'tag'){
+      postData.month = '';
+      postData.tag = data.val;
+    }
+    
     this.setState({
-      tag:e.target.value
+      postData
     })
-    this.ajaxfun('/statistics/index',{tag:e.target.value});
-  },
-  dataChange(value){
-     console.log('From: ', value[0], ', to: ', value[1]);
-  },
-  Change(value){
 
-    /*this.setState({
-      start_date:value[0].format('yyyy-MM-dd'),
-      end_date:value[1].format('yyyy-MM-dd')
-    });*/
-
-    /*this.ajaxfun('/push/content',{page:1,perPage:5,title:this.state.value,start_date:value[0].format('yyyy-MM-dd'),end_date:value[1].format('yyyy-MM-dd'),navigate_id:this.state.navigate_id});*/
+    setTimeout(function(){
+      //图表数据
+      this.ajaxfun('/statistics/index',chartSubData);
+      //请求详细表格数据
+      this.ajaxfun('/statistics/list',listSubData);
+    }.bind(this), 300)
   },
-  handleTableChange(pagination, filters, sorter) {
-    /*const pager = this.state.pagination;
+  disabledDate(current) {
+    // can not select days after today
+    return current && current.getTime() > Date.now();
+  },
+  dataChange(data){  
+    let month = data.format('yyyy-MM');
+    console.log('From: ', month);
+    this.tagChange({type:'month',val:month},{month},{month});
+  },
+  handleTableChange(pagination, filters, sorter) {//表格分页切换时
+    const pager = this.state.pagination;
     pager.current = parseInt(pagination.current);
     this.setState({
-      pagination: pager,
-    });*/
-    /*this.ajaxfun('/push/content',{page:pagination.current,perPage:5,title:this.state.value,start_date:this.state.start_date,end_date:this.state.end_date,navigate_id:this.state.navigate_id});*/
+      paginationStatus : true,
+      pagination: pager
+    });
+    this.ajaxfun('/statistics/list',{page:pager.current,perPage:7,tag:this.state.postData.tag});
   },
-  ajaxfun(url,parameter,callback){
+  ajaxfun(url,parameter,callback){//ajax请求
     this.setState({
-      loading: true,
-      status : false
+      loading: true
     });
     let data = parameter || {};
     data.tenantid = tenantid[0];
@@ -121,49 +161,53 @@ const Statistics = React.createClass({
             data.push(tableData);
           });
 
-          console.log('========================================');
-          console.log(data);
-
           let page = ajaxdata.data.paging;
           let pagination,chartData=this.state.chartData,tableData=this.state.tableData;
+          let  chartStatus = false;
+          let paginationStatus = false;
 
           if(page){
             pagination = {
               current : parseInt(page.currentPage),
-              pageSize : 5,
+              pageSize : parseInt(page.perPage),
               total : parseInt(page.total)
             } 
             tableData = data;
+            paginationStatus = true;
           }else{
             pagination = this.state.pagination;
             chartData = data;
+            chartStatus = true;
           }
           
           this.setState({
             tableData,
             chartData,
+            chartStatus,
             pagination,
-            status : true,
-            loading: !this.state.loading
+            paginationStatus,
+            loading: false
           })
         
       }
     }.bind(this));
   },
+  shouldComponentUpdate(nextProps, nextState){
+    return nextState.chartStatus || nextState.paginationStatus;
+  },
   render(){
       var name = this.props.params ? this.props.params.name : '';
-      console.log(this.state.chartData);
       const columns = [{
                           title: '时间',
                           dataIndex: 'day'
                         }, {
-                          title: '当日激活量',
+                          title: '激活量',
                           dataIndex: 'activation'
                         }, {
-                          title: '当日活跃数',
+                          title: '活跃数',
                           dataIndex: 'startup'
                         }, {
-                          title: '当日点击量',
+                          title: '点击量',
                           dataIndex: 'hit'
                         }];
 
@@ -198,7 +242,7 @@ const Statistics = React.createClass({
                                 ]
                             },
                     legend: {
-                        data:['本周激活量','本周活跃数','本周点击数']
+                        data:['激活量','活跃数','点击数']
                     },
                     xAxis : [
                         {
@@ -252,8 +296,6 @@ const Statistics = React.createClass({
                     ]
                 };
     let data = this.state.tableData;
-    console.log('12222222222')
-    console.log(data);
       return (
         <div className="appcenter mt_30">
           <Row>
@@ -270,24 +312,26 @@ const Statistics = React.createClass({
                           时间
                         </Col>
                         <Col span="4">
-                          <RadioGroup onChange={this.tagChange} defaultValue="week" size="large" style={{height:'50px'}}>
+                          <RadioGroup onChange={this.chartChange} value={this.state.postData.tag} size="large" style={{height:'50px'}}>
                             <RadioButton value="week">周</RadioButton>
                             <RadioButton value="month">月</RadioButton>
                             <RadioButton value="year">年</RadioButton>
                           </RadioGroup>
                         </Col>
                         <Col span="8">
-                          <RangePicker style={{ width: 184 }} onChange={this.dataChange} />
+                          <MonthPicker style={{ width: 184 }} onChange={this.dataChange}  value={this.state.postData.month} disabledDate={this.disabledDate}/>
                         </Col>
                       </Row>
                     </div>
 
-                    <div id="charts"  style={{width:1130,height:600,marginLeft:-50,marginTop:20}}></div>
+                    <div id={"charts_"+this.state.index}  style={{width:1130,height:600,marginLeft:-50,marginTop:20}}></div>
 
                     <div className="detailedData">
                         详细数据
                     </div>
-                    <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange}  loading={this.state.loading} className="mt_20"/>
+                    <div style={{backgroundColor:'#fff'}}>
+                      <Table columns={columns} dataSource={data} pagination={this.state.pagination} onChange={this.handleTableChange}  loading={this.state.loading} className="mt_20"/>
+                    </div>
                 </div>
             </Col>
           </Row>
@@ -295,12 +339,22 @@ const Statistics = React.createClass({
       )
   },
   componentDidUpdate(){
-    console.log('=1')
-    if(this.state.status){
+    if(this.state.chartStatus){
       // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('charts'));
+      let echartsId = 'charts_'+this.state.index;
+      var myChart = echarts.init(document.getElementById(echartsId));
       // 绘制图表
       myChart.setOption(option); 
+      this.setState({
+        loading: false,
+        chartStatus : false,
+        index : ++this.state.index
+      });
+    }else if(this.state.paginationStatus){
+      this.setState({
+        loading: false,
+        paginationStatus : false
+      });
     }
       
   },
@@ -318,8 +372,9 @@ const Statistics = React.createClass({
               })
             }
       }.bind(this));
+      //图表数据
+      this.ajaxfun('/statistics/index',{tag:this.state.postData.tag});
       //请求详细表格数据
-      this.ajaxfun('/statistics/index',{page:1,perPage:7,tag:this.state.postData.tag});
       this.ajaxfun('/statistics/list',{page:1,perPage:7,tag:this.state.postData.tag});
   }
 })
